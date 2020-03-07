@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,7 +58,7 @@ public class TourListActivity extends AppCompatActivity {
     private void initUI() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-            actionBar.setTitle("Tour List Activity");
+            actionBar.setTitle("Tour List");
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_white_24dp);
         }
@@ -72,7 +73,9 @@ public class TourListActivity extends AppCompatActivity {
         menuAdapter = new MenuAdapter(this, DataSet.getTourList(), new MenuAdapter.MenuClickListener() {
             @Override
             public void onClick(Menu menu) {
-                Toast.makeText(TourListActivity.this, menu.getTitle(), Toast.LENGTH_SHORT).show();
+                Intent packageTourIntent = new Intent(TourListActivity.this, PackageTourActivity.class);
+                packageTourIntent.putExtra(PackageTourActivity.PACKAGE_TOUR, DataSet.getPackageTour());
+                startActivity(packageTourIntent);
             }
         });
         recyclerView.setAdapter(menuAdapter);

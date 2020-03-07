@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Travel Tour</string>
+    <string name="price_for_package">Price For Package</string>
+    <string name="brief_itinerary">Brief Itinerary</string>
+    <string name="package_include">Package Include</string>
+    <string name="package_not_include">Package Not Include</string>
 </resources>
