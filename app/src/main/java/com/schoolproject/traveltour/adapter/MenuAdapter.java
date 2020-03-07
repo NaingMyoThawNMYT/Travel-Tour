@@ -48,6 +48,11 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
         }
     }
 
+    public void setDataSet(List<Menu> dataSet) {
+        this.dataSet = dataSet;
+        this.notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return dataSet == null ? 0 : dataSet.size();

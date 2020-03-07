@@ -1,10 +1,11 @@
 package com.schoolproject.traveltour.activity;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.MenuAdapter;
@@ -23,11 +24,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUI() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle("Popular Trip");
+        }
+
         rv = findViewById(R.id.main_rv);
         menuAdapter = new MenuAdapter(this, DataSet.getMenuList(), new MenuAdapter.MenuClickListener() {
             @Override
             public void onClick(Menu menu) {
-                Toast.makeText(MainActivity.this, menu.getTitle(), Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, TourListActivity.class));
             }
         });
         rv.setAdapter(menuAdapter);
