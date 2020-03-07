@@ -1,4 +1,4 @@
-package com.qbayar.traveltour;
+package com.schoolproject.traveltour;
 
 import org.junit.Test;
 
