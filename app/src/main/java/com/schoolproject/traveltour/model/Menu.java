@@ -1,9 +1,14 @@
 package com.schoolproject.traveltour.model;
 
-public class Menu {
+import java.io.Serializable;
+
+public class Menu implements Serializable {
     private String imageUrl;
     private String title;
     private String description;
+
+    Menu() {
+    }
 
     public Menu(String imageUrl, String title, String description) {
         this.imageUrl = imageUrl;

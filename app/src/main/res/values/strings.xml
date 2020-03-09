@@ -4,4 +4,13 @@
     <string name="brief_itinerary">Brief Itinerary</string>
     <string name="package_include">Package Include</string>
     <string name="package_not_include">Package Not Include</string>
+    <string name="choice_of_accommodations">Choice of Accommodations</string>
+    <string name="highlights">Highlights</string>
+    <string name="room_types">Room Types</string>
+    <string name="amenities">Amenities</string>
+    <string name="dining">Dining</string>
+    <string name="activities">Activities</string>
+    <string name="honeymoon_benefits">Honeymoon Benefits</string>
+    <string name="benefits">Benefits</string>
+    <string name="price_of_tour">Price of Tour</string>
 </resources>

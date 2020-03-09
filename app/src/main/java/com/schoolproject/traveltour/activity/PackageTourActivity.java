@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
+import com.schoolproject.traveltour.utils.DataSet;
 
 public class PackageTourActivity extends AppCompatActivity {
     public static final String PACKAGE_TOUR = "package_tour";
@@ -59,51 +60,32 @@ public class PackageTourActivity extends AppCompatActivity {
 
         int padding = (int) getResources().getDimension(R.dimen.medium_padding);
 
-        TextView packageTourTitle = new TextView(this);
-        packageTourTitle.setPadding(padding, padding, 0, 0);
-        packageTourTitle.setText(packageTour.getTitle());
-        packageTourTitle.setTextColor(Color.BLACK);
-        packageTourTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.title));
-        packageTourTitle.setTypeface(Typeface.DEFAULT_BOLD);
-        parent.addView(packageTourTitle);
-
-        CardView cv = (CardView) LayoutInflater.from(this)
-                .inflate(R.layout.image_view, parent, false);
-        View view = cv.findViewById(R.id.background);
-        view.setBackgroundResource(getResources().getIdentifier(packageTour.getImageUrl(), "raw", getPackageName()));
-        parent.addView(cv);
-
-        if (packageTour.getPrice() != null && !packageTour.getPrice().isEmpty()) {
-            TextView tvPrice = (TextView) LayoutInflater.from(this)
-                    .inflate(R.layout.title1, parent, false);
-            tvPrice.setText(R.string.price_for_package);
-            tvPrice.setPadding(padding, padding * 2, padding, 0);
-            parent.addView(tvPrice);
-
-            for (TitleAndDescription titleAndDescription : packageTour.getPrice()) {
-                if (!TextUtils.isEmpty(titleAndDescription.getTitle())) {
-                    TextView title = new TextView(this);
-                    title.setPadding(padding, padding, 0, 0);
-                    title.setText(titleAndDescription.getTitle());
-                    title.setTypeface(Typeface.DEFAULT_BOLD);
-                    parent.addView(title);
-                }
-
-                if (!TextUtils.isEmpty(titleAndDescription.getDescription())) {
-                    TextView description = new TextView(this);
-                    description.setPadding(padding * 3, padding, 0, 0);
-                    description.setText(titleAndDescription.getDescription());
-                    parent.addView(description);
-                }
-            }
+        if (!TextUtils.isEmpty(packageTour.getTitle())) {
+            TextView packageTourTitle = new TextView(this);
+            packageTourTitle.setPadding(padding, padding, 0, 0);
+            packageTourTitle.setText(packageTour.getTitle());
+            packageTourTitle.setTextColor(Color.BLACK);
+            packageTourTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.title));
+            packageTourTitle.setTypeface(Typeface.DEFAULT_BOLD);
+            parent.addView(packageTourTitle);
         }
 
+        if (!TextUtils.isEmpty(packageTour.getImageUrl())) {
+            CardView cv = (CardView) LayoutInflater.from(this)
+                    .inflate(R.layout.image_view, parent, false);
+            View view = cv.findViewById(R.id.background);
+            view.setBackgroundResource(getResources().getIdentifier(packageTour.getImageUrl(), "raw", getPackageName()));
+            parent.addView(cv);
+        }
+
+        DataSet.setUpListTitleAndDescriptionValuesInParent(this, parent, packageTour.getPrice(), getString(R.string.price_for_package), padding);
+
         if (packageTour.getBrief() != null && !packageTour.getBrief().isEmpty()) {
-            TextView tvPrice = (TextView) LayoutInflater.from(this)
+            TextView briefTitle = (TextView) LayoutInflater.from(this)
                     .inflate(R.layout.title1, parent, false);
-            tvPrice.setText(R.string.brief_itinerary);
-            tvPrice.setPadding(padding, padding * 2, padding, 0);
-            parent.addView(tvPrice);
+            briefTitle.setText(R.string.brief_itinerary);
+            briefTitle.setPadding(padding, padding * 2, padding, 0);
+            parent.addView(briefTitle);
 
             for (TitleAndDescription titleAndDescription : packageTour.getBrief()) {
                 if (!TextUtils.isEmpty(titleAndDescription.getTitle())) {
@@ -134,39 +116,14 @@ public class PackageTourActivity extends AppCompatActivity {
                 }
             }
         }
-
-        if (packageTour.getInclude() != null && !packageTour.getInclude().isEmpty()) {
-            TextView tvPrice = (TextView) LayoutInflater.from(this)
-                    .inflate(R.layout.title1, parent, false);
-            tvPrice.setText(R.string.package_include);
-            tvPrice.setPadding(padding, padding * 2, padding, 0);
-            parent.addView(tvPrice);
-
-            for (String str : packageTour.getInclude()) {
-                if (!TextUtils.isEmpty(str)) {
-                    TextView title = new TextView(this);
-                    title.setPadding(padding * 3, padding, 0, 0);
-                    title.setText(String.format("*  %s", str));
-                    parent.addView(title);
-                }
-            }
-        }
-
-        if (packageTour.getNotInclude() != null && !packageTour.getNotInclude().isEmpty()) {
-            TextView tvPrice = (TextView) LayoutInflater.from(this)
-                    .inflate(R.layout.title1, parent, false);
-            tvPrice.setText(R.string.package_not_include);
-            tvPrice.setPadding(padding, padding * 2, padding, 0);
-            parent.addView(tvPrice);
-
-            for (String str : packageTour.getNotInclude()) {
-                if (!TextUtils.isEmpty(str)) {
-                    TextView title = new TextView(this);
-                    title.setPadding(padding * 3, padding, 0, 0);
-                    title.setText(String.format("*  %s", str));
-                    parent.addView(title);
-                }
-            }
-        }
+        DataSet.setUpListStringValuesInParent(this, parent, packageTour.getInclude(), getString(R.string.package_include), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, packageTour.getNotInclude(), getString(R.string.package_not_include), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, packageTour.getChoice(), getString(R.string.choice_of_accommodations), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, packageTour.getHighLight(), getString(R.string.highlights), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, packageTour.getRoomType(), getString(R.string.room_types), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, packageTour.getAmenity(), getString(R.string.amenities), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, packageTour.getDining(), getString(R.string.dining), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, packageTour.getActivity(), getString(R.string.activities), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, packageTour.getHoneyMoonBenefit(), getString(R.string.honeymoon_benefits), padding);
     }
 }

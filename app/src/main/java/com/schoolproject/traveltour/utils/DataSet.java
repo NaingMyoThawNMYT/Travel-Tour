@@ -1,6 +1,15 @@
 package com.schoolproject.traveltour.utils;
 
+import android.content.Context;
+import android.graphics.Typeface;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.Menu;
+import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 
@@ -8,13 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataSet {
-    private static List<Menu> menuList;
-    private static List<Menu> tourList;
     public static final String[] TOUR_LIST = new String[]{"Package Tour", "Optional Tour", "Sightseeing Tour"};
-    private static PackageTour packageTour;
 
     public static List<Menu> getMenuList() {
-        menuList = new ArrayList<>();
+        List<Menu> menuList = new ArrayList<>();
         menuList.add(new Menu("maldives", "Maldives", null));
         menuList.add(new Menu("vietnam", "Vietnam", null));
         menuList.add(new Menu("myanmar", "Myanmar", null));
@@ -23,7 +29,7 @@ public class DataSet {
     }
 
     public static List<Menu> getTourList() {
-        tourList = new ArrayList<>();
+        List<Menu> tourList = new ArrayList<>();
         tourList.add(new Menu("maldives", "Maldives", null));
         tourList.add(new Menu("vietnam", "Vietnam", null));
         tourList.add(new Menu("myanmar", "Myanmar", null));
@@ -33,7 +39,7 @@ public class DataSet {
 
     public static PackageTour getPackageTour() {
         List<TitleAndDescription> list;
-        packageTour = new PackageTour();
+        PackageTour packageTour = new PackageTour();
         packageTour.setTitle("3 Days Yangon Stopover");
         packageTour.setImageUrl("myanmar");
 
@@ -60,5 +66,79 @@ public class DataSet {
         packageTour.setNotInclude(stringList);
 
         return packageTour;
+    }
+
+
+    public static OptionalTour getOptionalTour() {
+        OptionalTour optionalTour = new OptionalTour();
+        optionalTour.setTitle("Trekking in Pindaya");
+        optionalTour.setTitleNote("Leave your footprints in Myanmar and take memories back!");
+        optionalTour.setImageUrl("vietnam");
+        optionalTour.setDescription("The easy way is to set the size programatically like that :" +
+                "graphView.setLayoutParams(new LayoutParams(width, height));" +
+                "This is fine if you know the exact size of the view. However, if you want a more flexible approach, you can override the onMeasure() method to measure the view more precisely depending on the space available and layout constraints (wrap_content, match_parent, or a fixed size)." +
+                "You can find an example on how to override onMeasure() by looking at the android docs and the LabelView sample in your SDK directory.");
+
+        List<String> stringList = new ArrayList<>();
+        stringList.add("Benefit 1");
+        stringList.add("Benefit 2");
+        stringList.add("Benefit 3");
+        optionalTour.setBenefits(stringList);
+
+        List<TitleAndDescription> list = new ArrayList<>();
+        list.add(new TitleAndDescription("Price of Tour", "One person for MMK 380000(All included)"));
+        optionalTour.setPrices(list);
+
+        return optionalTour;
+    }
+
+    public static void setUpListTitleAndDescriptionValuesInParent(Context context,
+                                                                  LinearLayout parent,
+                                                                  List<TitleAndDescription> list,
+                                                                  String titleStr,
+                                                                  int padding) {
+        if (list != null && !list.isEmpty()) {
+            TextView header = (TextView) LayoutInflater.from(context)
+                    .inflate(R.layout.title1, parent, false);
+            header.setText(titleStr);
+            header.setPadding(padding, padding * 2, padding, 0);
+            parent.addView(header);
+
+            for (TitleAndDescription titleAndDescription : list) {
+                if (!TextUtils.isEmpty(titleAndDescription.getTitle())) {
+                    TextView title = new TextView(context);
+                    title.setPadding(padding, padding, 0, 0);
+                    title.setText(titleAndDescription.getTitle());
+                    title.setTypeface(Typeface.DEFAULT_BOLD);
+                    parent.addView(title);
+                }
+
+                if (!TextUtils.isEmpty(titleAndDescription.getDescription())) {
+                    TextView description = new TextView(context);
+                    description.setPadding(padding * 3, padding, 0, 0);
+                    description.setText(titleAndDescription.getDescription());
+                    parent.addView(description);
+                }
+            }
+        }
+    }
+
+    public static void setUpListStringValuesInParent(Context context, LinearLayout parent, List<String> list, String titleStr, int padding) {
+        if (list != null && !list.isEmpty()) {
+            TextView title = (TextView) LayoutInflater.from(context)
+                    .inflate(R.layout.title1, parent, false);
+            title.setText(titleStr);
+            title.setPadding(padding, padding * 2, padding, 0);
+            parent.addView(title);
+
+            for (String str : list) {
+                if (!TextUtils.isEmpty(str)) {
+                    TextView textView = new TextView(context);
+                    textView.setPadding(padding * 3, padding, 0, 0);
+                    textView.setText(String.format("*  %s", str));
+                    parent.addView(textView);
+                }
+            }
+        }
     }
 }

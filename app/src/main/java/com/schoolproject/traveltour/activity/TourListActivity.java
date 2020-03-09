@@ -31,21 +31,6 @@ public class TourListActivity extends AppCompatActivity {
         initListener();
     }
 
-    private void initListener() {
-        tourListSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(TourListActivity.this, DataSet.TOUR_LIST[position], Toast.LENGTH_SHORT).show();
-                menuAdapter.setDataSet(DataSet.getTourList());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
@@ -73,11 +58,38 @@ public class TourListActivity extends AppCompatActivity {
         menuAdapter = new MenuAdapter(this, DataSet.getTourList(), new MenuAdapter.MenuClickListener() {
             @Override
             public void onClick(Menu menu) {
-                Intent packageTourIntent = new Intent(TourListActivity.this, PackageTourActivity.class);
-                packageTourIntent.putExtra(PackageTourActivity.PACKAGE_TOUR, DataSet.getPackageTour());
-                startActivity(packageTourIntent);
+                if (tourListSpinner.getSelectedItemPosition() == 0) {
+                    goToPackageTour();
+                } else {
+                    goToOptionalTour();
+                }
             }
         });
         recyclerView.setAdapter(menuAdapter);
+    }
+
+    private void initListener() {
+        tourListSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                menuAdapter.setDataSet(DataSet.getTourList());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    private void goToPackageTour() {
+        Intent packageTourIntent = new Intent(TourListActivity.this, PackageTourActivity.class);
+        packageTourIntent.putExtra(PackageTourActivity.PACKAGE_TOUR, DataSet.getPackageTour());
+        startActivity(packageTourIntent);
+    }
+
+    private void goToOptionalTour() {
+        Intent optionalTourIntent = new Intent(TourListActivity.this, OptionalTourActivity.class);
+        optionalTourIntent.putExtra(OptionalTourActivity.OPTIONAL_TOUR, DataSet.getOptionalTour());
+        startActivity(optionalTourIntent);
     }
 }
