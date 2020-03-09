@@ -77,10 +77,10 @@ public class SightseeingActivity extends AppCompatActivity {
         }
 
         DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getItinerary(), getString(R.string.itinerary), padding);
-        DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getNoteList(), "", padding, Typeface.ITALIC);
+        DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getNoteList(), "Note Title", padding, Typeface.ITALIC);
         DataSet.setUpListTitleAndDescriptionValuesInParent(this, parent, sightSeeingTour.getPrice(), getString(R.string.price_of_tour), padding);
-        DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getInclude(), getString(R.string.service_include), padding);
-        DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getInclude(), getString(R.string.package_exclude), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getInclude(), getString(R.string.services_include), padding);
+        DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getExclude(), getString(R.string.package_excludes), padding);
         DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getThingsToNote(), getString(R.string.thing_to_note), padding);
     }
 }

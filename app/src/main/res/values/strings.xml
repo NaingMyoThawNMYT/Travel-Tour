@@ -14,7 +14,7 @@
     <string name="benefits">Benefits</string>
     <string name="price_of_tour">Price of Tour</string>
     <string name="itinerary">Itinerary</string>
-    <string name="service_include">Our Services Include</string>
-    <string name="package_exclude">Packages Exclude</string>
+    <string name="services_include">Our Services Include</string>
+    <string name="package_excludes">Package Excludes</string>
     <string name="thing_to_note">Things To Note</string>
 </resources>

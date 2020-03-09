@@ -139,7 +139,7 @@ public class DataSet {
 
         stringList = new ArrayList<>();
         stringList.add("Tour timing:7AM - 8PM Bangkok Time");
-        sightSeeingTour.setExclude(stringList);
+        sightSeeingTour.setThingsToNote(stringList);
 
         return sightSeeingTour;
     }
