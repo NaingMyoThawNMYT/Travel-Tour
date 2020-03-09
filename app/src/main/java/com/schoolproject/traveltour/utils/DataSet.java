@@ -11,6 +11,7 @@ import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.PackageTour;
+import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 
 import java.util.ArrayList;
@@ -68,7 +69,6 @@ public class DataSet {
         return packageTour;
     }
 
-
     public static OptionalTour getOptionalTour() {
         OptionalTour optionalTour = new OptionalTour();
         optionalTour.setTitle("Trekking in Pindaya");
@@ -92,17 +92,71 @@ public class DataSet {
         return optionalTour;
     }
 
+    public static SightSeeingTour getSightSeeingTour() {
+        SightSeeingTour sightSeeingTour = new SightSeeingTour();
+        sightSeeingTour.setTitle("Sightseeing Tour- Dream World");
+        sightSeeingTour.setImageUrl("maldives");
+        sightSeeingTour.setDescription("The easy way is to set the size programatically like that :" +
+                "graphView.setLayoutParams(new LayoutParams(width, height));" +
+                "This is fine if you know the exact size of the view. However, if you want a more flexible approach, you can override the onMeasure() method to measure the view more precisely depending on the space available and layout constraints (wrap_content, match_parent, or a fixed size)." +
+                "You can find an example on how to override onMeasure() by looking at the android docs and the LabelView sample in your SDK directory.");
+
+        List<String> stringList = new ArrayList<>();
+        stringList.add("Hotel pick up");
+        stringList.add("Dream World");
+        stringList.add("Lunch");
+        stringList.add("Return to hotel");
+        sightSeeingTour.setItinerary(stringList);
+
+        stringList = new ArrayList<>();
+        stringList.add("Kindly check the availability with us first, and let us know where you stay");
+        stringList.add("You may check flight and accommodation with us too");
+        sightSeeingTour.setNoteList(stringList);
+
+        List<TitleAndDescription> list = new ArrayList<>();
+        list.add(new TitleAndDescription("Adult (About 9 years old)", "SGD $88/person"));
+        list.add(new TitleAndDescription("Child (6~9 years old)", "SGD $70.4/person"));
+        list.add(new TitleAndDescription("Child (3~5 years old)", "SGD $44/person"));
+        list.add(new TitleAndDescription("Infant (under 3 years old)", "Free of charge"));
+        sightSeeingTour.setPrice(list);
+
+        stringList = new ArrayList<>();
+        stringList.add("Sightseeing with professional English speaking local tour guide");
+        stringList.add("Private air-con vehicle with drivers for transfers and excursions as mentioned in program");
+        stringList.add("Entrance fees and zone fees for the visits mentioned in the program");
+        stringList.add("Drinking water and towel during excursion");
+        stringList.add("Meals included lunch as mentioned in the program");
+        sightSeeingTour.setInclude(stringList);
+
+        stringList = new ArrayList<>();
+        stringList.add("Accommodations");
+        stringList.add("Flight Tickets");
+        stringList.add("Person Insurance");
+        stringList.add("Porterage Fee");
+        stringList.add("Visa Fee");
+        stringList.add("All expense of purely personal nature");
+        sightSeeingTour.setExclude(stringList);
+
+        stringList = new ArrayList<>();
+        stringList.add("Tour timing:7AM - 8PM Bangkok Time");
+        sightSeeingTour.setExclude(stringList);
+
+        return sightSeeingTour;
+    }
+
     public static void setUpListTitleAndDescriptionValuesInParent(Context context,
                                                                   LinearLayout parent,
                                                                   List<TitleAndDescription> list,
                                                                   String titleStr,
                                                                   int padding) {
         if (list != null && !list.isEmpty()) {
-            TextView header = (TextView) LayoutInflater.from(context)
-                    .inflate(R.layout.title1, parent, false);
-            header.setText(titleStr);
-            header.setPadding(padding, padding * 2, padding, 0);
-            parent.addView(header);
+            if (!TextUtils.isEmpty(titleStr)) {
+                TextView header = (TextView) LayoutInflater.from(context)
+                        .inflate(R.layout.title1, parent, false);
+                header.setText(titleStr);
+                header.setPadding(padding, padding * 2, padding, 0);
+                parent.addView(header);
+            }
 
             for (TitleAndDescription titleAndDescription : list) {
                 if (!TextUtils.isEmpty(titleAndDescription.getTitle())) {
@@ -124,18 +178,27 @@ public class DataSet {
     }
 
     public static void setUpListStringValuesInParent(Context context, LinearLayout parent, List<String> list, String titleStr, int padding) {
+        setUpListStringValuesInParent(context, parent, list, titleStr, padding, 0);
+    }
+
+    public static void setUpListStringValuesInParent(Context context, LinearLayout parent, List<String> list, String titleStr, int padding, int textStyle) {
         if (list != null && !list.isEmpty()) {
-            TextView title = (TextView) LayoutInflater.from(context)
-                    .inflate(R.layout.title1, parent, false);
-            title.setText(titleStr);
-            title.setPadding(padding, padding * 2, padding, 0);
-            parent.addView(title);
+            if (!TextUtils.isEmpty(titleStr)) {
+                TextView title = (TextView) LayoutInflater.from(context)
+                        .inflate(R.layout.title1, parent, false);
+                title.setText(titleStr);
+                title.setPadding(padding, padding * 2, padding, 0);
+                parent.addView(title);
+            }
 
             for (String str : list) {
                 if (!TextUtils.isEmpty(str)) {
                     TextView textView = new TextView(context);
                     textView.setPadding(padding * 3, padding, 0, 0);
                     textView.setText(String.format("*  %s", str));
+                    if (textStyle != 0) {
+                        textView.setTypeface(Typeface.defaultFromStyle(textStyle));
+                    }
                     parent.addView(textView);
                 }
             }

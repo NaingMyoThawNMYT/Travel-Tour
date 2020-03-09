@@ -58,10 +58,12 @@ public class TourListActivity extends AppCompatActivity {
         menuAdapter = new MenuAdapter(this, DataSet.getTourList(), new MenuAdapter.MenuClickListener() {
             @Override
             public void onClick(Menu menu) {
-                if (tourListSpinner.getSelectedItemPosition() == 0) {
-                    goToPackageTour();
-                } else {
+                if (tourListSpinner.getSelectedItemPosition() == 1) {
                     goToOptionalTour();
+                } else if (tourListSpinner.getSelectedItemPosition() == 2) {
+                    goToSightseeingTour();
+                } else {
+                    goToPackageTour();
                 }
             }
         });
@@ -91,5 +93,11 @@ public class TourListActivity extends AppCompatActivity {
         Intent optionalTourIntent = new Intent(TourListActivity.this, OptionalTourActivity.class);
         optionalTourIntent.putExtra(OptionalTourActivity.OPTIONAL_TOUR, DataSet.getOptionalTour());
         startActivity(optionalTourIntent);
+    }
+
+    private void goToSightseeingTour() {
+        Intent sightseeingTourIntent = new Intent(TourListActivity.this, SightseeingActivity.class);
+        sightseeingTourIntent.putExtra(SightseeingActivity.SIGHTSEEING_TOUR, DataSet.getSightSeeingTour());
+        startActivity(sightseeingTourIntent);
     }
 }
