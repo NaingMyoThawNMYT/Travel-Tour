@@ -1,5 +1,6 @@
 package com.schoolproject.traveltour.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -107,5 +108,12 @@ public class PackageTourActivity extends MainTourActivity {
         DataSet.setUpListStringValuesInParent(this, parent, packageTour.getDining(), getString(R.string.dining), padding);
         DataSet.setUpListStringValuesInParent(this, parent, packageTour.getActivity(), getString(R.string.activities), padding);
         DataSet.setUpListStringValuesInParent(this, parent, packageTour.getHoneyMoonBenefit(), getString(R.string.honeymoon_benefits), padding);
+    }
+
+    @Override
+    void goToBookingActivity() {
+        Intent i = new Intent(this, BookingActivity.class);
+        i.putExtra(BookingActivity.PACKAGE_TOUR, true);
+        startActivity(i);
     }
 }

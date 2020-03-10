@@ -1,5 +1,6 @@
 package com.schoolproject.traveltour.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -64,5 +65,12 @@ public class SightseeingTourActivity extends MainTourActivity {
         DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getInclude(), getString(R.string.services_include), padding);
         DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getExclude(), getString(R.string.package_excludes), padding);
         DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getThingsToNote(), getString(R.string.thing_to_note), padding);
+    }
+
+    @Override
+    void goToBookingActivity() {
+        Intent i = new Intent(this, BookingActivity.class);
+        i.putExtra(BookingActivity.SIGHTSEEING_TOUR, true);
+        startActivity(i);
     }
 }
