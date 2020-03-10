@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.MenuAdapter;
@@ -96,8 +95,8 @@ public class TourListActivity extends AppCompatActivity {
     }
 
     private void goToSightseeingTour() {
-        Intent sightseeingTourIntent = new Intent(TourListActivity.this, SightseeingActivity.class);
-        sightseeingTourIntent.putExtra(SightseeingActivity.SIGHTSEEING_TOUR, DataSet.getSightSeeingTour());
+        Intent sightseeingTourIntent = new Intent(TourListActivity.this, SightseeingTourActivity.class);
+        sightseeingTourIntent.putExtra(SightseeingTourActivity.SIGHTSEEING_TOUR, DataSet.getSightSeeingTour());
         startActivity(sightseeingTourIntent);
     }
 }

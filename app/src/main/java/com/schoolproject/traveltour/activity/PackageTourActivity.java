@@ -1,9 +1,5 @@
 package com.schoolproject.traveltour.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
@@ -11,47 +7,33 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.cardview.widget.CardView;
 
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 import com.schoolproject.traveltour.utils.DataSet;
 
-public class PackageTourActivity extends AppCompatActivity {
+public class PackageTourActivity extends MainTourActivity {
     public static final String PACKAGE_TOUR = "package_tour";
     private PackageTour packageTour;
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_simple);
+
+        setHomeBackButtonAndToolbarTitle("Package Tour");
 
         Bundle bundle = getIntent().getExtras();
         if (bundle == null || !bundle.containsKey(PACKAGE_TOUR)) {
             Toast.makeText(this, "Nothing to show!", Toast.LENGTH_SHORT).show();
             finish();
             return;
-        }
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setTitle("Package Tour");
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_white_24dp);
         }
 
         packageTour = (PackageTour) bundle.get(PACKAGE_TOUR);
