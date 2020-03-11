@@ -23,4 +23,12 @@
     <string name="phone">Phone</string>
     <string name="passport_no">Passport No</string>
     <string name="name">Name</string>
+    <string name="done">Done</string>
+    <string name="invoice_no">Invoice No</string>
+    <string name="invoice_date">Invoice Date</string>
+    <string name="tour">Tour</string>
+    <string name="customer">Customer</string>
+    <string name="price">Price</string>
+    <string name="type">Type</string>
+    <string name="invoice">Invoice</string>
 </resources>

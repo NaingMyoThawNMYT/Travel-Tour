@@ -1,6 +1,8 @@
 package com.schoolproject.traveltour.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.schoolproject.traveltour.R;
@@ -34,5 +36,13 @@ public class BookingActivity extends BaseSecondActivity {
             Toast.makeText(this, "Sightseeing Tour", Toast.LENGTH_SHORT).show();
             // TODO: 10-Mar-20 book for sightseeing tour
         }
+
+        // TODO: 11-Mar-20 this is simple and will be delete in later
+        findViewById(R.id.btn_book_now).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(BookingActivity.this, InvoiceActivity.class));
+            }
+        });
     }
 }

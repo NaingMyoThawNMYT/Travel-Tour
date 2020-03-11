@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="100dp">
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
+                android:text="@string/invoice_no" />
+
+            <TextView
+                android:id="@+id/tv_no"
+                style="@style/InvoiceValueTextTheme" />
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
+                android:text="@string/invoice_date" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                style="@style/InvoiceValueTextTheme"
+                android:layout_marginBottom="8dp" />
+
+            <include layout="@layout/vertical_divider" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/tour" />
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
+                android:text="@string/type" />
+
+            <TextView
+                android:id="@+id/tv_type"
+                style="@style/InvoiceValueTextTheme" />
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
+                android:text="@string/name" />
+
+            <TextView
+                android:id="@+id/tv_tour_name"
+                style="@style/InvoiceValueTextTheme" />
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
+                android:text="@string/price" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_marginBottom="8dp"
+                style="@style/InvoiceValueTextTheme" />
+
+            <include layout="@layout/vertical_divider" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/customer" />
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
+                android:text="@string/name" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                style="@style/InvoiceValueTextTheme" />
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
+                android:text="@string/phone" />
+
+            <TextView
+                android:id="@+id/tv_phone"
+                style="@style/InvoiceValueTextTheme" />
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
+                android:text="@string/address" />
+
+            <TextView
+                android:id="@+id/tv_address"
+                style="@style/InvoiceValueTextTheme" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_book_now"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:background="@drawable/rounded_btn_bg"
+        android:text="@string/done"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
