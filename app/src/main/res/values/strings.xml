@@ -18,4 +18,9 @@
     <string name="package_excludes">Package Excludes</string>
     <string name="thing_to_note">Things To Note</string>
     <string name="book_now">Book Now</string>
+    <string name="address">Address</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="passport_no">Passport No</string>
+    <string name="name">Name</string>
 </resources>
