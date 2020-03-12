@@ -35,7 +35,7 @@ public abstract class MainTourActivity extends BaseSecondActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_bookmark) {
+        if (item.getItemId() == R.id.action_wishlist) {
             bookmark = !bookmark;
 
             item.setIcon(getResources().getDrawable(bookmark
