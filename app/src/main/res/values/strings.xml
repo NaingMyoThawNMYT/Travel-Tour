@@ -33,4 +33,9 @@
     <string name="invoice">Invoice</string>
     <string name="add_to_wishlist">Add to wishlist</string>
     <string name="wishlist">Wishlist</string>
+    <string name="choose_country">Choose Country</string>
+    <string name="maldives">Maldives</string>
+    <string name="vietnam">Vietnam</string>
+    <string name="myanmar">Myanmar</string>
+    <string name="hong_kong">Hong Kong</string>
 </resources>
