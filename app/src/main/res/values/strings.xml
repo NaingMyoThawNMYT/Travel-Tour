@@ -38,4 +38,8 @@
     <string name="vietnam">Vietnam</string>
     <string name="myanmar">Myanmar</string>
     <string name="hong_kong">Hong Kong</string>
+    <string name="choose_tour_type">Choose Tour Type</string>
+    <string name="package_tour">Package Tour</string>
+    <string name="optional_tour">Optional Tour</string>
+    <string name="sightseeing_tour">Sightseeing Tour</string>
 </resources>

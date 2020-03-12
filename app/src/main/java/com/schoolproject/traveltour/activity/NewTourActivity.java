@@ -11,14 +11,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.enums.Country;
+import com.schoolproject.traveltour.utils.DataSet;
 
-public class NewTourActivity extends AppCompatActivity {
+public class NewTourActivity extends BaseSecondActivity {
     private Country selectedCountry;
+    private String selectedTourType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_tour);
+
+        setHomeBackButtonAndToolbarTitle("New Tour");
 
         showCountryChooserDialog();
     }
@@ -56,6 +60,32 @@ public class NewTourActivity extends AppCompatActivity {
     }
 
     private void showTourTypeChooserDialog() {
-        Toast.makeText(this, "Show tour type chooser dialog", Toast.LENGTH_SHORT).show();
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_tour_type_chooser);
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+
+        RadioGroup rdgCountry = dialog.findViewById(R.id.rdg_tour_type);
+        rdgCountry.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.rdb_package_tour) {
+                    selectedTourType = DataSet.TOUR_LIST[0];
+                } else if (checkedId == R.id.rdb_optional_tour) {
+                    selectedTourType = DataSet.TOUR_LIST[1];
+                } else if (checkedId == R.id.rdb_sightseeing_tour) {
+                    selectedTourType = DataSet.TOUR_LIST[2];
+                }
+
+                Toast.makeText(NewTourActivity.this, "Show Editor", Toast.LENGTH_SHORT).show();
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 }
