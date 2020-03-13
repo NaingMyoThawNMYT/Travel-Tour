@@ -7,21 +7,18 @@ import android.view.Window;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.utils.DataSet;
 
-public class NewTourActivity extends BaseSecondActivity {
+public class NewPackageTourActivity extends BaseSecondActivity {
     private Country selectedCountry;
     private String selectedTourType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_tour);
-
+        setContentView(R.layout.activity_new_package_tour);
         setHomeBackButtonAndToolbarTitle("New Tour");
 
         showCountryChooserDialog();
@@ -80,7 +77,7 @@ public class NewTourActivity extends BaseSecondActivity {
                     selectedTourType = DataSet.TOUR_LIST[2];
                 }
 
-                Toast.makeText(NewTourActivity.this, "Show Editor", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NewPackageTourActivity.this, "Show Editor", Toast.LENGTH_SHORT).show();
 
                 dialog.dismiss();
             }
