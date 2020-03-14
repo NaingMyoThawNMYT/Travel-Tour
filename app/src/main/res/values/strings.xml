@@ -43,4 +43,10 @@
     <string name="optional_tour">Optional Tour</string>
     <string name="sightseeing_tour">Sightseeing Tour</string>
     <string name="tour_title">Tour Title</string>
+    <string name="add_price">Add Price</string>
+    <string name="add_itinerary">Add Itinerary</string>
+    <string name="add_include">Add Include</string>
+    <string name="add_not_include">Add Not Include</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
 </resources>

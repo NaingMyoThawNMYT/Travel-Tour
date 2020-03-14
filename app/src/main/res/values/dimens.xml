@@ -3,4 +3,5 @@
     <dimen name="medium_padding">8dp</dimen>
     <dimen name="title">20sp</dimen>
     <dimen name="title_note">16sp</dimen>
+    <dimen name="layout_padding">6dp</dimen>
 </resources>

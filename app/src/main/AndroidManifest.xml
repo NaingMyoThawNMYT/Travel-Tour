@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.TitleAndDescriptionActivity" />
         <activity android:name=".activity.NewPackageTourActivity" />
         <activity android:name=".activity.WishlistActivity" />
         <activity android:name=".activity.InvoiceActivity" />
