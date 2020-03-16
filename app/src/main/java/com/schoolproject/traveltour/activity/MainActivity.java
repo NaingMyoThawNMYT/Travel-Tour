@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, NewPackageTourActivity.class));
+                startActivity(new Intent(MainActivity.this, NewOptionalTourActivity.class));
             }
         });
 

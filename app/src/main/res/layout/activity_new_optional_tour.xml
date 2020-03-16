@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.NewPackageTourActivity">
+    tools:context=".activity.NewOptionalTourActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,10 +17,23 @@
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_name"
+                android:id="@+id/edt_tour_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/tour_title"
+                android:imeOptions="actionNext" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_tour_sub_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sub_title"
                 android:imeOptions="actionNext" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -33,7 +46,7 @@
             app:cardCornerRadius="6dp"
             app:cardUseCompatPadding="true">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="160dp">
 
@@ -47,32 +60,34 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_add_circle_black_24dp"
-                    android:tint="@android:color/darker_gray"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:tint="@android:color/darker_gray" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_tour_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/description"
+                android:imeOptions="actionNext" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <include
+            android:id="@+id/benefits"
+            layout="@layout/layout_new_field" />
+
         <include
             android:id="@+id/price"
-            layout="@layout/layout_new_field" />
-
-        <include
-            android:id="@+id/itinerary"
-            layout="@layout/layout_new_field" />
-
-        <include
-            android:id="@+id/package_include"
-            layout="@layout/layout_new_field" />
-
-        <include
-            android:id="@+id/package_not_include"
             layout="@layout/layout_new_field" />
 
     </LinearLayout>

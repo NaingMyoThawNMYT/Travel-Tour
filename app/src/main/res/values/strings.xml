@@ -49,4 +49,6 @@
     <string name="add_not_include">Add Not Include</string>
     <string name="title">Title</string>
     <string name="description">Description</string>
+    <string name="sub_title">Sub Title</string>
+    <string name="add_benefits">Add Benefits</string>
 </resources>
