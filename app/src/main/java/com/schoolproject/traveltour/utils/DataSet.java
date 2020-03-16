@@ -159,21 +159,31 @@ public class DataSet {
             }
 
             for (TitleAndDescription titleAndDescription : list) {
-                if (!TextUtils.isEmpty(titleAndDescription.getTitle())) {
-                    TextView title = new TextView(context);
-                    title.setPadding(padding, padding, 0, 0);
-                    title.setText(titleAndDescription.getTitle());
-                    title.setTypeface(Typeface.DEFAULT_BOLD);
-                    parent.addView(title);
-                }
-
-                if (!TextUtils.isEmpty(titleAndDescription.getDescription())) {
-                    TextView description = new TextView(context);
-                    description.setPadding(padding * 3, padding, 0, 0);
-                    description.setText(titleAndDescription.getDescription());
-                    parent.addView(description);
-                }
+                setUpTitleAndDescriptionValuesInParent(context,
+                        parent,
+                        titleAndDescription,
+                        padding);
             }
+        }
+    }
+
+    public static void setUpTitleAndDescriptionValuesInParent(Context context,
+                                                              LinearLayout parent,
+                                                              TitleAndDescription titleAndDescription,
+                                                              int padding) {
+        if (!TextUtils.isEmpty(titleAndDescription.getTitle())) {
+            TextView title = new TextView(context);
+            title.setPadding(padding, padding, 0, 0);
+            title.setText(titleAndDescription.getTitle());
+            title.setTypeface(Typeface.DEFAULT_BOLD);
+            parent.addView(title);
+        }
+
+        if (!TextUtils.isEmpty(titleAndDescription.getDescription())) {
+            TextView description = new TextView(context);
+            description.setPadding(padding * 3, padding, 0, 0);
+            description.setText(titleAndDescription.getDescription());
+            parent.addView(description);
         }
     }
 
@@ -181,7 +191,12 @@ public class DataSet {
         setUpListStringValuesInParent(context, parent, list, titleStr, padding, 0);
     }
 
-    public static void setUpListStringValuesInParent(Context context, LinearLayout parent, List<String> list, String titleStr, int padding, int textStyle) {
+    public static void setUpListStringValuesInParent(Context context,
+                                                     LinearLayout parent,
+                                                     List<String> list,
+                                                     String titleStr,
+                                                     int padding,
+                                                     int textStyle) {
         if (list != null && !list.isEmpty()) {
             if (!TextUtils.isEmpty(titleStr)) {
                 TextView title = (TextView) LayoutInflater.from(context)
@@ -193,15 +208,27 @@ public class DataSet {
 
             for (String str : list) {
                 if (!TextUtils.isEmpty(str)) {
-                    TextView textView = new TextView(context);
-                    textView.setPadding(padding * 3, padding, 0, 0);
-                    textView.setText(String.format("*  %s", str));
-                    if (textStyle != 0) {
-                        textView.setTypeface(Typeface.defaultFromStyle(textStyle));
-                    }
-                    parent.addView(textView);
+                    setUpStringValuesInParent(context,
+                            parent,
+                            str,
+                            padding,
+                            textStyle);
                 }
             }
         }
+    }
+
+    public static void setUpStringValuesInParent(Context context,
+                                                 LinearLayout parent,
+                                                 String string,
+                                                 int padding,
+                                                 int textStyle) {
+        TextView textView = new TextView(context);
+        textView.setPadding(padding * 3, padding, 0, 0);
+        textView.setText(String.format("*  %s", string));
+        if (textStyle != 0) {
+            textView.setTypeface(Typeface.defaultFromStyle(textStyle));
+        }
+        parent.addView(textView);
     }
 }

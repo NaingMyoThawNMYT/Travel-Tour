@@ -30,6 +30,7 @@ public class NewPackageTourActivity extends BaseSecondActivity {
     private static final int REQUEST_CODE_PACKAGE_INCLUDE = 103;
     private static final int REQUEST_CODE_PACKAGE_NOT_INCLUDE = 104;
     private static final int REQUEST_CODE_IMAGE_PICKER = 105;
+    private int padding;
     private Country selectedCountry;
     private String selectedTourType;
     private PackageTour newPackageTour;
@@ -46,6 +47,7 @@ public class NewPackageTourActivity extends BaseSecondActivity {
         setHomeBackButtonAndToolbarTitle("New Tour");
 
         newPackageTour = new PackageTour();
+        padding = (int) getResources().getDimension(R.dimen.medium_padding);
 
         initUI();
         initListener();
@@ -66,14 +68,24 @@ public class NewPackageTourActivity extends BaseSecondActivity {
                     if (newPackageTour.getPrice() == null) {
                         newPackageTour.setPrice(new ArrayList<TitleAndDescription>());
                     }
-                    newPackageTour.getPrice().add(new TitleAndDescription(title, description));
+                    TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
+                    newPackageTour.getPrice().add(titleAndDescription);
+                    DataSet.setUpTitleAndDescriptionValuesInParent(this,
+                            layoutPrice,
+                            titleAndDescription,
+                            padding);
                     break;
                 }
                 case REQUEST_CODE_ITINERARY: {
                     if (newPackageTour.getBrief() == null) {
                         newPackageTour.setBrief(new ArrayList<TitleAndDescription>());
                     }
-                    newPackageTour.getBrief().add(new TitleAndDescription(title, description));
+                    TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
+                    newPackageTour.getBrief().add(titleAndDescription);
+                    DataSet.setUpTitleAndDescriptionValuesInParent(this,
+                            layoutItinerary,
+                            titleAndDescription,
+                            padding);
                     break;
                 }
                 case REQUEST_CODE_PACKAGE_INCLUDE: {
@@ -81,6 +93,11 @@ public class NewPackageTourActivity extends BaseSecondActivity {
                         newPackageTour.setInclude(new ArrayList<String>());
                     }
                     newPackageTour.getInclude().add(description);
+                    DataSet.setUpStringValuesInParent(this,
+                            layoutPackageInclude,
+                            description,
+                            padding,
+                            0);
                     break;
                 }
                 case REQUEST_CODE_PACKAGE_NOT_INCLUDE: {
@@ -88,6 +105,11 @@ public class NewPackageTourActivity extends BaseSecondActivity {
                         newPackageTour.setNotInclude(new ArrayList<String>());
                     }
                     newPackageTour.getNotInclude().add(description);
+                    DataSet.setUpStringValuesInParent(this,
+                            layoutPackageNotInclude,
+                            description,
+                            padding,
+                            0);
                     break;
                 }
                 case REQUEST_CODE_IMAGE_PICKER: {

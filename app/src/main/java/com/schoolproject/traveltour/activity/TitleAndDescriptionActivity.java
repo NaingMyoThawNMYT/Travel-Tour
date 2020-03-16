@@ -7,9 +7,9 @@ import android.widget.EditText;
 import com.schoolproject.traveltour.R;
 
 public class TitleAndDescriptionActivity extends BaseSecondActivity {
-    public static final String ACTIVITY_TITLE = "title";
+    public static final String ACTIVITY_TITLE = "activity_title";
     public static final String EDIT_TEXT_TITLE = "title";
-    public static final String EDIT_TEXT_DESCRIPTION = "title";
+    public static final String EDIT_TEXT_DESCRIPTION = "description";
     private EditText title, description;
 
     @Override
