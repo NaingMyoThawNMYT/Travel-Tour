@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 import com.schoolproject.traveltour.utils.DataSet;
+import com.schoolproject.traveltour.utils.ImageChooserUtil;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,7 @@ public class NewPackageTourActivity extends BaseSecondActivity {
     private static final int REQUEST_CODE_ITINERARY = 102;
     private static final int REQUEST_CODE_PACKAGE_INCLUDE = 103;
     private static final int REQUEST_CODE_PACKAGE_NOT_INCLUDE = 104;
+    private static final int REQUEST_CODE_IMAGE_PICKER = 105;
     private Country selectedCountry;
     private String selectedTourType;
     private PackageTour newPackageTour;
@@ -34,6 +37,7 @@ public class NewPackageTourActivity extends BaseSecondActivity {
     private TextView tvPriceTitle, tvItineraryTitle, tvPackageIncludeTitle, tvPackageNotIncludeTitle;
     private LinearLayout layoutPrice, layoutItinerary, layoutPackageInclude, layoutPackageNotInclude;
     private Button btnAddPrice, btnAddItinerary, btnAddPackageInclude, btnAddPackageNotInclude;
+    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,12 @@ public class NewPackageTourActivity extends BaseSecondActivity {
                     newPackageTour.getNotInclude().add(description);
                     break;
                 }
+                case REQUEST_CODE_IMAGE_PICKER: {
+                    imageView.setImageBitmap(ImageChooserUtil.getBitmapFromIntent(
+                            NewPackageTourActivity.this,
+                            data));
+                    break;
+                }
             }
         }
     }
@@ -122,6 +132,8 @@ public class NewPackageTourActivity extends BaseSecondActivity {
 
         tvPackageNotIncludeTitle.setText(R.string.package_not_include);
         btnAddPackageNotInclude.setText(R.string.add_not_include);
+
+        imageView = findViewById(R.id.img_background);
     }
 
     private void initListener() {
@@ -150,6 +162,13 @@ public class NewPackageTourActivity extends BaseSecondActivity {
             @Override
             public void onClick(View v) {
                 goToTitleAndDescriptionActivity(getString(R.string.add_not_include), REQUEST_CODE_PACKAGE_NOT_INCLUDE);
+            }
+        });
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ImageChooserUtil.showImageChooser(NewPackageTourActivity.this, REQUEST_CODE_IMAGE_PICKER);
             }
         });
     }
