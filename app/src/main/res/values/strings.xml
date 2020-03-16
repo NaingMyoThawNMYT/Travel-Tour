@@ -51,4 +51,9 @@
     <string name="description">Description</string>
     <string name="sub_title">Sub Title</string>
     <string name="add_benefits">Add Benefits</string>
+    <string name="add_note">Add Note</string>
+    <string name="note">Note</string>
+    <string name="our_services_include">Our Services Include</string>
+    <string name="add_service">Add Service</string>
+    <string name="things_to_note">Things To Note</string>
 </resources>
