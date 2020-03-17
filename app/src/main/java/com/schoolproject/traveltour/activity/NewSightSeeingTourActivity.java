@@ -129,6 +129,11 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
         }
     }
 
+    @Override
+    void saveNewTour() {
+        // TODO: 17-Mar-20 save to firebase
+    }
+
     private void initUI() {
         View itinerary = findViewById(R.id.itinerary);
         tvItineraryTitle = itinerary.findViewById(R.id.tv_title);

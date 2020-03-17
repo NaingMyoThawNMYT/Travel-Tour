@@ -3,11 +3,10 @@ package com.schoolproject.traveltour.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.schoolproject.traveltour.R;
 
-public class BaseNewTourActivity extends BaseSecondActivity {
+public abstract class BaseNewTourActivity extends BaseSecondActivity {
     public int padding;
 
     @Override
@@ -26,7 +25,7 @@ public class BaseNewTourActivity extends BaseSecondActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
-            Toast.makeText(this, "Save", Toast.LENGTH_SHORT).show();
+            saveNewTour();
             return true;
         }
 
@@ -38,4 +37,6 @@ public class BaseNewTourActivity extends BaseSecondActivity {
         intent.putExtra(TitleAndDescriptionActivity.ACTIVITY_TITLE, title);
         startActivityForResult(intent, requestCode);
     }
+
+    abstract void saveNewTour();
 }

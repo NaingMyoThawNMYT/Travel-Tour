@@ -4,16 +4,16 @@ import java.io.Serializable;
 import java.util.List;
 
 public class OptionalTour extends Menu implements Serializable {
-    private String titleNote;
+    private String subTitle;
     private List<String> benefits;
     private List<TitleAndDescription> prices;
 
-    public String getTitleNote() {
-        return titleNote;
+    public String getSubTitle() {
+        return subTitle;
     }
 
-    public void setTitleNote(String titleNote) {
-        this.titleNote = titleNote;
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
     }
 
     public List<String> getBenefits() {

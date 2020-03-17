@@ -72,7 +72,7 @@ public class DataSet {
     public static OptionalTour getOptionalTour() {
         OptionalTour optionalTour = new OptionalTour();
         optionalTour.setTitle("Trekking in Pindaya");
-        optionalTour.setTitleNote("Leave your footprints in Myanmar and take memories back!");
+        optionalTour.setSubTitle("Leave your footprints in Myanmar and take memories back!");
         optionalTour.setImageUrl("vietnam");
         optionalTour.setDescription("The easy way is to set the size programatically like that :" +
                 "graphView.setLayoutParams(new LayoutParams(width, height));" +

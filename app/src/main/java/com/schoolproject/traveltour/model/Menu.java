@@ -3,9 +3,11 @@ package com.schoolproject.traveltour.model;
 import java.io.Serializable;
 
 public class Menu implements Serializable {
+    // TODO: 17-Mar-20 delete imageUrl later. It is just for demo.
     private String imageUrl;
     private String title;
     private String description;
+    private String base64ImageStr;
 
     Menu() {
     }
@@ -38,5 +40,13 @@ public class Menu implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getBase64ImageStr() {
+        return base64ImageStr;
+    }
+
+    public void setBase64ImageStr(String base64ImageStr) {
+        this.base64ImageStr = base64ImageStr;
     }
 }

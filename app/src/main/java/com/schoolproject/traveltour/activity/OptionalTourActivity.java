@@ -51,10 +51,10 @@ public class OptionalTourActivity extends MainTourActivity {
             parent.addView(packageTourTitle);
         }
 
-        if (!TextUtils.isEmpty(optionalTour.getTitleNote())) {
+        if (!TextUtils.isEmpty(optionalTour.getSubTitle())) {
             TextView titleNote = new TextView(this);
             titleNote.setPadding(padding, padding, 0, 0);
-            titleNote.setText(optionalTour.getTitleNote());
+            titleNote.setText(optionalTour.getSubTitle());
             titleNote.setTextSize(TypedValue.COMPLEX_UNIT_PX, getResources().getDimension(R.dimen.title_note));
             titleNote.setTypeface(Typeface.DEFAULT_BOLD);
             parent.addView(titleNote);

@@ -1,6 +1,8 @@
 package com.schoolproject.traveltour.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,22 +12,25 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
+import com.schoolproject.traveltour.utils.BitmapUtil;
 import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 import com.schoolproject.traveltour.utils.ImageChooserUtil;
+import com.schoolproject.traveltour.utils.UiUtil;
 
 import java.util.ArrayList;
 
 public class NewOptionalTourActivity extends BaseNewTourActivity {
     private OptionalTour optionalTour;
 
-    private TextView tvBenefitsTitle, tvPriceTitle;
     private LinearLayout layoutBenefits, layoutPrice;
     private Button btnAddBenefits, btnAddPrice;
     private ImageView imageView;
+    private TextInputEditText edtTourTitle, edtTourSubTitle, edtTourDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +86,20 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         }
     }
 
+    @Override
+    void saveNewTour() {
+        optionalTour.setTitle(UiUtil.getString(edtTourTitle));
+        optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));
+        Bitmap bm = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        optionalTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
+        optionalTour.setDescription(UiUtil.getString(edtTourDescription));
+
+        // TODO: 17-Mar-20 save to firebase
+    }
+
     private void initUI() {
         View benefits = findViewById(R.id.benefits);
-        tvBenefitsTitle = benefits.findViewById(R.id.tv_title);
+        TextView tvBenefitsTitle = benefits.findViewById(R.id.tv_title);
         layoutBenefits = benefits.findViewById(R.id.layout);
         btnAddBenefits = benefits.findViewById(R.id.btn_add);
 
@@ -91,7 +107,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         btnAddBenefits.setText(R.string.add_benefits);
 
         View price = findViewById(R.id.price);
-        tvPriceTitle = price.findViewById(R.id.tv_title);
+        TextView tvPriceTitle = price.findViewById(R.id.tv_title);
         layoutPrice = price.findViewById(R.id.layout);
         btnAddPrice = price.findViewById(R.id.btn_add);
 
@@ -99,6 +115,10 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         btnAddPrice.setText(R.string.add_price);
 
         imageView = findViewById(R.id.img_background);
+
+        edtTourTitle = findViewById(R.id.edt_tour_name);
+        edtTourSubTitle = findViewById(R.id.edt_tour_sub_title);
+        edtTourDescription = findViewById(R.id.edt_tour_description);
     }
 
     private void initListener() {

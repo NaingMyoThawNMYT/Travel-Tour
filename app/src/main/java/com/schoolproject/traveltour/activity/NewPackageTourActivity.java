@@ -120,6 +120,11 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         }
     }
 
+    @Override
+    void saveNewTour() {
+        // TODO: 17-Mar-20 save to firebase
+    }
+
     private void initUI() {
         View price = findViewById(R.id.price);
         tvPriceTitle = price.findViewById(R.id.tv_title);
