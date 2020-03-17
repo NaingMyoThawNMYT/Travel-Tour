@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.OptionalTour;
@@ -20,9 +19,8 @@ import com.schoolproject.traveltour.utils.ImageChooserUtil;
 
 import java.util.ArrayList;
 
-public class NewOptionalTourActivity extends AppCompatActivity {
+public class NewOptionalTourActivity extends BaseNewTourActivity {
     private OptionalTour optionalTour;
-    private int padding;
 
     private TextView tvBenefitsTitle, tvPriceTitle;
     private LinearLayout layoutBenefits, layoutPrice;
@@ -35,7 +33,6 @@ public class NewOptionalTourActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_optional_tour);
 
         optionalTour = new OptionalTour();
-        padding = (int) getResources().getDimension(R.dimen.medium_padding);
 
         initUI();
         initListener();
@@ -125,11 +122,5 @@ public class NewOptionalTourActivity extends AppCompatActivity {
                 ImageChooserUtil.showImageChooser(NewOptionalTourActivity.this, Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
-    }
-
-    private void goToTitleAndDescriptionActivity(String title, int requestCode) {
-        Intent intent = new Intent(this, TitleAndDescriptionActivity.class);
-        intent.putExtra(TitleAndDescriptionActivity.ACTIVITY_TITLE, title);
-        startActivityForResult(intent, requestCode);
     }
 }

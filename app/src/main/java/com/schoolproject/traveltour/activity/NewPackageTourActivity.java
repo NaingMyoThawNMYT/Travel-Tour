@@ -24,13 +24,12 @@ import com.schoolproject.traveltour.utils.ImageChooserUtil;
 
 import java.util.ArrayList;
 
-public class NewPackageTourActivity extends BaseSecondActivity {
+public class NewPackageTourActivity extends BaseNewTourActivity {
     private static final int REQUEST_CODE_PRICE = 101;
     private static final int REQUEST_CODE_ITINERARY = 102;
     private static final int REQUEST_CODE_PACKAGE_INCLUDE = 103;
     private static final int REQUEST_CODE_PACKAGE_NOT_INCLUDE = 104;
     private static final int REQUEST_CODE_IMAGE_PICKER = 105;
-    private int padding;
     private Country selectedCountry;
     private String selectedTourType;
     private PackageTour newPackageTour;
@@ -47,7 +46,6 @@ public class NewPackageTourActivity extends BaseSecondActivity {
         setHomeBackButtonAndToolbarTitle("New Tour");
 
         newPackageTour = new PackageTour();
-        padding = (int) getResources().getDimension(R.dimen.medium_padding);
 
         initUI();
         initListener();
@@ -255,11 +253,5 @@ public class NewPackageTourActivity extends BaseSecondActivity {
         });
 
         dialog.show();
-    }
-
-    private void goToTitleAndDescriptionActivity(String title, int requestCode) {
-        Intent intent = new Intent(NewPackageTourActivity.this, TitleAndDescriptionActivity.class);
-        intent.putExtra(TitleAndDescriptionActivity.ACTIVITY_TITLE, title);
-        startActivityForResult(intent, requestCode);
     }
 }

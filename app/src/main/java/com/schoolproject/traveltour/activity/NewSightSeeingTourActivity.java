@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.SightSeeingTour;
@@ -20,8 +19,7 @@ import com.schoolproject.traveltour.utils.ImageChooserUtil;
 
 import java.util.ArrayList;
 
-public class NewSightSeeingTourActivity extends AppCompatActivity {
-    private int padding;
+public class NewSightSeeingTourActivity extends BaseNewTourActivity {
     private SightSeeingTour sightSeeingTour;
 
     private TextView tvItineraryTitle, tvNoteTitle, tvPriceTitle, tvServicesTitle, tvExcludesTitle, tvThingsToNoteTitle;
@@ -35,7 +33,6 @@ public class NewSightSeeingTourActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_sight_seeing_tour);
 
         sightSeeingTour = new SightSeeingTour();
-        padding = (int) getResources().getDimension(R.dimen.medium_padding);
 
         initUI();
         initListener();
@@ -233,11 +230,5 @@ public class NewSightSeeingTourActivity extends AppCompatActivity {
                 ImageChooserUtil.showImageChooser(NewSightSeeingTourActivity.this, Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
-    }
-
-    private void goToTitleAndDescriptionActivity(String title, int requestCode) {
-        Intent intent = new Intent(this, TitleAndDescriptionActivity.class);
-        intent.putExtra(TitleAndDescriptionActivity.ACTIVITY_TITLE, title);
-        startActivityForResult(intent, requestCode);
     }
 }
