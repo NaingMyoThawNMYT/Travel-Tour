@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "279089859540",
+    "firebase_url": "https://travel-and-tour-b1d05.firebaseio.com",
+    "project_id": "travel-and-tour-b1d05",
+    "storage_bucket": "travel-and-tour-b1d05.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:279089859540:android:4c1d2100582a3a98b1a441",
+        "android_client_info": {
+          "package_name": "com.schoolproject.traveltour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "279089859540-vh5m3nu3vk6dak7gdrfms812n2j88cee.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCs-XeIXqm4HDTYJqyzDuKgw7J6RU3t1Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "279089859540-vh5m3nu3vk6dak7gdrfms812n2j88cee.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
