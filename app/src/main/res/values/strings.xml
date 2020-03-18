@@ -57,4 +57,8 @@
     <string name="add_service">Add Service</string>
     <string name="things_to_note">Things To Note</string>
     <string name="save">Save</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="or">or</string>
+    <string name="sign_up">Sign Up</string>
 </resources>

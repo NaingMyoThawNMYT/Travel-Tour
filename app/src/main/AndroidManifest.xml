@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.MainActivity" />
         <activity android:name=".activity.NewSightSeeingTourActivity" />
         <activity android:name=".activity.NewOptionalTourActivity" />
         <activity android:name=".activity.TitleAndDescriptionActivity" />
@@ -20,7 +21,7 @@
         <activity android:name=".activity.OptionalTourActivity" />
         <activity android:name=".activity.PackageTourActivity" />
         <activity android:name=".activity.TourListActivity" />
-        <activity android:name=".activity.MainActivity">
+        <activity android:name=".activity.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
