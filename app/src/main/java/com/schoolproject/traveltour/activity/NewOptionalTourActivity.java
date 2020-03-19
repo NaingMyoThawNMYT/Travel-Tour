@@ -1,18 +1,26 @@
 package com.schoolproject.traveltour.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
@@ -25,7 +33,11 @@ import com.schoolproject.traveltour.utils.UiUtil;
 import java.util.ArrayList;
 
 public class NewOptionalTourActivity extends BaseNewTourActivity {
+    private DatabaseReference myRef;
+
     private OptionalTour optionalTour;
+
+    private ProgressDialog progressDialog;
 
     private LinearLayout layoutBenefits, layoutPrice;
     private Button btnAddBenefits, btnAddPrice;
@@ -38,6 +50,11 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         setContentView(R.layout.activity_new_optional_tour);
 
         optionalTour = new OptionalTour();
+        progressDialog = new ProgressDialog(this);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
+                .child(Constants.TABLE_NAME_OPTIONAL_TOUR);
 
         initUI();
         initListener();
@@ -88,13 +105,44 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
 
     @Override
     void saveNewTour() {
+        final String id = myRef.push().getKey();
+        if (TextUtils.isEmpty(id)) {
+            showFailToSaveToast();
+            return;
+        }
+
+        optionalTour.setId(id);
         optionalTour.setTitle(UiUtil.getString(edtTourTitle));
         optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));
-        Bitmap bm = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        optionalTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
+        BitmapDrawable bd = ((BitmapDrawable) imageView.getDrawable());
+        if (bd != null) {
+            Bitmap bm = bd.getBitmap();
+            optionalTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
+        }
         optionalTour.setDescription(UiUtil.getString(edtTourDescription));
 
-        // TODO: 17-Mar-20 save to firebase
+        // Saving to firebase
+        progressDialog.setMessage("Saving...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        myRef.child(optionalTour.getId())
+                .setValue(optionalTour).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+                if (task.isSuccessful()) {
+                    finish();
+                } else {
+                    showFailToSaveToast();
+                }
+            }
+        });
+    }
+
+    private void showFailToSaveToast() {
+        Toast.makeText(this,
+                "Fail to save! Try again!",
+                Toast.LENGTH_SHORT).show();
     }
 
     private void initUI() {

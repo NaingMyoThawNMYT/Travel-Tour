@@ -1,21 +1,30 @@
 package com.schoolproject.traveltour.model;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class Menu implements Serializable {
-    // TODO: 17-Mar-20 delete imageUrl later. It is just for demo.
     private String imageUrl;
+    private String id;
     private String title;
     private String description;
     private String base64ImageStr;
 
-    Menu() {
+    public Menu() {
     }
 
     public Menu(String imageUrl, String title, String description) {
         this.imageUrl = imageUrl;
         this.title = title;
         this.description = description;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getImageUrl() {
@@ -48,5 +57,11 @@ public class Menu implements Serializable {
 
     public void setBase64ImageStr(String base64ImageStr) {
         this.base64ImageStr = base64ImageStr;
+    }
+
+    public void parse(Map<String, Object> map) {
+        title = (String) map.get("title");
+        description = (String) map.get("description");
+        base64ImageStr = (String) map.get("base64ImageStr");
     }
 }

@@ -1,31 +1,77 @@
 package com.schoolproject.traveltour.activity;
 
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.MenuAdapter;
 import com.schoolproject.traveltour.model.Menu;
+import com.schoolproject.traveltour.model.OptionalTour;
+import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class TourListActivity extends AppCompatActivity {
     private AppCompatSpinner tourListSpinner;
-    private RecyclerView recyclerView;
     private MenuAdapter menuAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
+                .child(Constants.TABLE_NAME_OPTIONAL_TOUR);
+
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                progressDialog.dismiss();
+                List<Menu> dataSet = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    OptionalTour optionalTour = new OptionalTour();
+                    optionalTour.parse((Map<String, Object>) snapshot.getValue());
+                    dataSet.add(optionalTour);
+                }
+
+                Toast.makeText(TourListActivity.this,
+                        "Success " + dataSet.size(),
+                        Toast.LENGTH_SHORT).show();
+
+                menuAdapter.setDataSet(dataSet);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                progressDialog.dismiss();
+            }
+        });
+
         initUI();
         initListener();
     }
@@ -47,7 +93,7 @@ public class TourListActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_white_24dp);
         }
         tourListSpinner = findViewById(R.id.tour_spinner);
-        recyclerView = findViewById(R.id.main_rv);
+        RecyclerView recyclerView = findViewById(R.id.main_rv);
 
         findViewById(R.id.tour_spinner_layout).setVisibility(View.VISIBLE);
 
@@ -73,7 +119,7 @@ public class TourListActivity extends AppCompatActivity {
         tourListSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                menuAdapter.setDataSet(DataSet.getTourList());
+//                menuAdapter.setDataSet(DataSet.getTourList());
             }
 
             @Override

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.Menu;
+import com.schoolproject.traveltour.utils.BitmapUtil;
 
 import java.util.List;
 
@@ -37,7 +39,13 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Menu menu = dataSet.get(holder.getAdapterPosition());
 
-        holder.view.setBackgroundResource(mContext.getResources().getIdentifier(menu.getImageUrl(), "raw", mContext.getPackageName()));
+        if (!TextUtils.isEmpty(menu.getBase64ImageStr())) {
+            holder.imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(menu.getBase64ImageStr()));
+        } else if (!TextUtils.isEmpty(menu.getImageUrl())) {
+            holder.imageView.setImageResource(mContext.getResources().getIdentifier(menu.getImageUrl(),
+                    "raw",
+                    mContext.getPackageName()));
+        }
         holder.title.setText(menu.getTitle());
 
         if (!TextUtils.isEmpty(menu.getDescription())) {
@@ -59,14 +67,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        private View view;
+        private ImageView imageView;
         private TextView title;
         private TextView description;
 
         ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            view = itemView.findViewById(R.id.background);
+            imageView = itemView.findViewById(R.id.img_background);
             title = itemView.findViewById(R.id.title);
             description = itemView.findViewById(R.id.description);
 

@@ -22,6 +22,8 @@ import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.utils.UiUtil;
 
 public class SignInActivity extends AppCompatActivity {
+    public static boolean isAdmin;
+
     private FirebaseAuth mAuth;
 
     private ProgressDialog progressDialog;
@@ -48,7 +50,7 @@ public class SignInActivity extends AppCompatActivity {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = UiUtil.getString(edtEmail);
+                final String email = UiUtil.getString(edtEmail);
                 final String password = UiUtil.getString(edtPassword);
 
                 if (TextUtils.isEmpty(email)) {
@@ -62,6 +64,8 @@ public class SignInActivity extends AppCompatActivity {
                     edtPassword.setError("Enter password");
                     return;
                 }
+
+                isAdmin = email.equals("admin@gmail.com");
 
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);

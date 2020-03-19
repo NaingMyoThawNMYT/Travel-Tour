@@ -3,9 +3,7 @@ package com.schoolproject.traveltour.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class PackageTour implements Serializable {
-    private String title;
-    private String imageUrl;
+public class PackageTour extends Menu implements Serializable {
     private List<TitleAndDescription> price;
     private List<TitleAndDescription> brief;
     private List<String> include;
@@ -17,22 +15,6 @@ public class PackageTour implements Serializable {
     private List<String> dining;
     private List<String> activity;
     private List<String> honeyMoonBenefit;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public List<TitleAndDescription> getPrice() {
         return price;

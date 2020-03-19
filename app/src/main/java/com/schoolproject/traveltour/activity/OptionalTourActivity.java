@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +16,7 @@ import androidx.cardview.widget.CardView;
 
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.OptionalTour;
+import com.schoolproject.traveltour.utils.BitmapUtil;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class OptionalTourActivity extends MainTourActivity {
@@ -63,8 +64,8 @@ public class OptionalTourActivity extends MainTourActivity {
         if (!TextUtils.isEmpty(optionalTour.getImageUrl())) {
             CardView cv = (CardView) LayoutInflater.from(this)
                     .inflate(R.layout.image_view, parent, false);
-            View view = cv.findViewById(R.id.background);
-            view.setBackgroundResource(getResources().getIdentifier(optionalTour.getImageUrl(), "raw", getPackageName()));
+            ImageView imageView = cv.findViewById(R.id.img_background);
+            imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(optionalTour.getBase64ImageStr()));
             parent.addView(cv);
         }
 
