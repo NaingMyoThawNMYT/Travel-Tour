@@ -21,7 +21,6 @@ import com.schoolproject.traveltour.utils.DataSet;
 
 public class SightseeingTourActivity extends MainTourActivity {
     public static final String SIGHTSEEING_TOUR = "sightseeing_tour";
-    private SightSeeingTour sightSeeingTour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +35,11 @@ public class SightseeingTourActivity extends MainTourActivity {
             return;
         }
 
-        sightSeeingTour = (SightSeeingTour) bundle.get(SIGHTSEEING_TOUR);
+        SightSeeingTour sightSeeingTour = (SightSeeingTour) bundle.get(SIGHTSEEING_TOUR);
+        if (sightSeeingTour == null) {
+            Toast.makeText(this, "Nothing to show!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         LinearLayout parent = findViewById(R.id.parent);
 
