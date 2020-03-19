@@ -15,12 +15,17 @@ import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.utils.BitmapUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     private Context mContext;
     private List<Menu> dataSet;
     private MenuClickListener menuClickListener;
+
+    public MenuAdapter(Context mContext, MenuClickListener menuClickListener) {
+        this(mContext, new ArrayList<Menu>(), menuClickListener);
+    }
 
     public MenuAdapter(Context mContext, List<Menu> dataSet, MenuClickListener menuClickListener) {
         this.mContext = mContext;

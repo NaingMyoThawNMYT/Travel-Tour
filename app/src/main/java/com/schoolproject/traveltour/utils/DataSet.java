@@ -2,12 +2,15 @@ package com.schoolproject.traveltour.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.activity.MainActivity;
+import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.PackageTour;
@@ -230,5 +233,12 @@ public class DataSet {
             textView.setTypeface(Typeface.defaultFromStyle(textStyle));
         }
         parent.addView(textView);
+    }
+
+    public static Country getCountryParam(Bundle b) {
+        if (b == null || !b.containsKey(MainActivity.PARAM_COUNTRY)) {
+            return null;
+        }
+        return (Country) b.get(MainActivity.PARAM_COUNTRY);
     }
 }

@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.MenuAdapter;
+import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.utils.Constants;
@@ -40,8 +41,17 @@ public class TourListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Bundle b = getIntent().getExtras();
+        Country country = DataSet.getCountryParam(b);
+        if (country == null) {
+            Toast.makeText(this, "There is no selected country!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
+                .child(country.getCode())
                 .child(Constants.TABLE_NAME_OPTIONAL_TOUR);
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -100,7 +110,7 @@ public class TourListActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, DataSet.TOUR_LIST);
         tourListSpinner.setAdapter(adapter);
 
-        menuAdapter = new MenuAdapter(this, DataSet.getTourList(), new MenuAdapter.MenuClickListener() {
+        menuAdapter = new MenuAdapter(this, new MenuAdapter.MenuClickListener() {
             @Override
             public void onClick(Menu menu) {
                 if (tourListSpinner.getSelectedItemPosition() == 1) {

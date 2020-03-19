@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 import com.schoolproject.traveltour.utils.BitmapUtil;
@@ -49,11 +50,20 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_optional_tour);
 
+        Bundle b = getIntent().getExtras();
+        Country country = DataSet.getCountryParam(b);
+        if (country == null) {
+            showErrorToast();
+            finish();
+            return;
+        }
+
         optionalTour = new OptionalTour();
         progressDialog = new ProgressDialog(this);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
+                .child(country.getCode())
                 .child(Constants.TABLE_NAME_OPTIONAL_TOUR);
 
         initUI();
@@ -190,5 +200,9 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                 ImageChooserUtil.showImageChooser(NewOptionalTourActivity.this, Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
+    }
+
+    private void showErrorToast() {
+        Toast.makeText(this, "Please choose country first!", Toast.LENGTH_SHORT).show();
     }
 }
