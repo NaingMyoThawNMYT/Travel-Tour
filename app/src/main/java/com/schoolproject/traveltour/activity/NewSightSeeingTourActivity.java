@@ -1,28 +1,36 @@
 package com.schoolproject.traveltour.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
+import com.schoolproject.traveltour.utils.BitmapUtil;
 import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 import com.schoolproject.traveltour.utils.ImageChooserUtil;
+import com.schoolproject.traveltour.utils.UiUtil;
 
 import java.util.ArrayList;
 
 public class NewSightSeeingTourActivity extends BaseNewTourActivity {
     private SightSeeingTour sightSeeingTour;
 
-    private TextView tvItineraryTitle, tvNoteTitle, tvPriceTitle, tvServicesTitle, tvExcludesTitle, tvThingsToNoteTitle;
     private LinearLayout layoutItinerary, layoutNote, layoutPrice, layoutServices, layoutExcludes, layoutThingsToNote;
     private Button btnAddItinerary, btnAddNote, btnAddPrice, btnAddServices, btnAddExcludes, btnAddThingsToNote;
     private ImageView imageView;
@@ -32,7 +40,20 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_sight_seeing_tour);
 
+        Bundle b = getIntent().getExtras();
+        Country country = DataSet.getCountryParam(b);
+        if (country == null) {
+            showErrorToast();
+            finish();
+            return;
+        }
+
         sightSeeingTour = new SightSeeingTour();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
+                .child(country.getCode())
+                .child(Constants.TABLE_NAME_SIGHTSEEING_TOUR);
 
         initUI();
         initListener();
@@ -120,9 +141,11 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
                     break;
                 }
                 case Constants.REQUEST_CODE_IMAGE_PICKER: {
-                    imageView.setImageBitmap(ImageChooserUtil.getBitmapFromIntent(
+                    Bitmap bm = ImageChooserUtil.getBitmapFromIntent(
                             this,
-                            data));
+                            data);
+                    imageView.setImageBitmap(bm);
+                    sightSeeingTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
                     break;
                 }
             }
@@ -131,12 +154,36 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
 
     @Override
     void saveNewTour() {
-        // TODO: 17-Mar-20 save to firebase
+        final String id = myRef.push().getKey();
+        if (TextUtils.isEmpty(id)) {
+            showFailToSaveToast();
+            return;
+        }
+
+        sightSeeingTour.setId(id);
+        sightSeeingTour.setTitle(UiUtil.getString(edtTourTitle));
+
+        // Saving to firebase
+        progressDialog.show();
+        myRef.child(sightSeeingTour.getId())
+                .setValue(sightSeeingTour).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+                if (task.isSuccessful()) {
+                    finish();
+                } else {
+                    showFailToSaveToast();
+                }
+            }
+        });
     }
 
     private void initUI() {
+        edtTourTitle = findViewById(R.id.edt_name);
+
         View itinerary = findViewById(R.id.itinerary);
-        tvItineraryTitle = itinerary.findViewById(R.id.tv_title);
+        TextView tvItineraryTitle = itinerary.findViewById(R.id.tv_title);
         layoutItinerary = itinerary.findViewById(R.id.layout);
         btnAddItinerary = itinerary.findViewById(R.id.btn_add);
 
@@ -144,7 +191,7 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
         btnAddItinerary.setText(R.string.add_itinerary);
 
         View note = findViewById(R.id.note);
-        tvNoteTitle = note.findViewById(R.id.tv_title);
+        TextView tvNoteTitle = note.findViewById(R.id.tv_title);
         layoutNote = note.findViewById(R.id.layout);
         btnAddNote = note.findViewById(R.id.btn_add);
 
@@ -152,7 +199,7 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
         btnAddNote.setText(R.string.add_note);
 
         View price = findViewById(R.id.price);
-        tvPriceTitle = price.findViewById(R.id.tv_title);
+        TextView tvPriceTitle = price.findViewById(R.id.tv_title);
         layoutPrice = price.findViewById(R.id.layout);
         btnAddPrice = price.findViewById(R.id.btn_add);
 
@@ -160,7 +207,7 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
         btnAddPrice.setText(R.string.add_price);
 
         View services = findViewById(R.id.services);
-        tvServicesTitle = services.findViewById(R.id.tv_title);
+        TextView tvServicesTitle = services.findViewById(R.id.tv_title);
         layoutServices = services.findViewById(R.id.layout);
         btnAddServices = services.findViewById(R.id.btn_add);
 
@@ -168,15 +215,15 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
         btnAddServices.setText(R.string.add_service);
 
         View excludes = findViewById(R.id.excludes);
-        tvExcludesTitle = excludes.findViewById(R.id.tv_title);
+        TextView tvExcludesTitle = excludes.findViewById(R.id.tv_title);
         layoutExcludes = excludes.findViewById(R.id.layout);
         btnAddExcludes = excludes.findViewById(R.id.btn_add);
 
-        tvExcludesTitle.setText(R.string.our_services_include);
+        tvExcludesTitle.setText(R.string.package_excludes);
         btnAddExcludes.setText(R.string.add_service);
 
         View thingsToNote = findViewById(R.id.things_to_note);
-        tvThingsToNoteTitle = thingsToNote.findViewById(R.id.tv_title);
+        TextView tvThingsToNoteTitle = thingsToNote.findViewById(R.id.tv_title);
         layoutThingsToNote = thingsToNote.findViewById(R.id.layout);
         btnAddThingsToNote = thingsToNote.findViewById(R.id.btn_add);
 
