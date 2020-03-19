@@ -33,6 +33,32 @@ import java.util.List;
 import java.util.Map;
 
 public class TourListActivity extends AppCompatActivity {
+    private DatabaseReference packageRef, optionalRef, sightseeingRef;
+    private ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            progressDialog.dismiss();
+            List<Menu> dataSet = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                OptionalTour optionalTour = new OptionalTour();
+                optionalTour.parse((Map<String, Object>) snapshot.getValue());
+                dataSet.add(optionalTour);
+            }
+
+            Toast.makeText(TourListActivity.this,
+                    "Success " + dataSet.size(),
+                    Toast.LENGTH_SHORT).show();
+
+            menuAdapter.setDataSet(dataSet);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            progressDialog.dismiss();
+        }
+    };
+
+    private ProgressDialog progressDialog;
     private AppCompatSpinner tourListSpinner;
     private MenuAdapter menuAdapter;
 
@@ -51,36 +77,14 @@ public class TourListActivity extends AppCompatActivity {
 
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
-                .child(country.getCode())
-                .child(Constants.TABLE_NAME_OPTIONAL_TOUR);
+                .child(country.getCode());
+        packageRef = myRef.child(Constants.TABLE_NAME_PACKAGE_TOUR);
+        optionalRef = myRef.child(Constants.TABLE_NAME_OPTIONAL_TOUR);
+        sightseeingRef = myRef.child(Constants.TABLE_NAME_SIGHTSEEING_TOUR);
 
-        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
-        progressDialog.show();
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                progressDialog.dismiss();
-                List<Menu> dataSet = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    OptionalTour optionalTour = new OptionalTour();
-                    optionalTour.parse((Map<String, Object>) snapshot.getValue());
-                    dataSet.add(optionalTour);
-                }
-
-                Toast.makeText(TourListActivity.this,
-                        "Success " + dataSet.size(),
-                        Toast.LENGTH_SHORT).show();
-
-                menuAdapter.setDataSet(dataSet);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                progressDialog.dismiss();
-            }
-        });
 
         initUI();
         initListener();
@@ -129,7 +133,27 @@ public class TourListActivity extends AppCompatActivity {
         tourListSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-//                menuAdapter.setDataSet(DataSet.getTourList());
+                progressDialog.show();
+                switch (position) {
+                    case 0: {
+                        packageRef.addValueEventListener(valueEventListener);
+                        optionalRef.removeEventListener(valueEventListener);
+                        sightseeingRef.removeEventListener(valueEventListener);
+                        break;
+                    }
+                    case 1: {
+                        packageRef.removeEventListener(valueEventListener);
+                        optionalRef.addValueEventListener(valueEventListener);
+                        sightseeingRef.removeEventListener(valueEventListener);
+                        break;
+                    }
+                    case 2: {
+                        packageRef.removeEventListener(valueEventListener);
+                        optionalRef.removeEventListener(valueEventListener);
+                        sightseeingRef.addValueEventListener(valueEventListener);
+                        break;
+                    }
+                }
             }
 
             @Override

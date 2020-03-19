@@ -11,5 +11,7 @@ public class Constants {
     public static final int REQUEST_CODE_THINGS_TO_NOTE = 107;
 
     public static final String TABLE_NAME_COUNTRY = "table_country";
+    public static final String TABLE_NAME_PACKAGE_TOUR = "table_package_tour";
     public static final String TABLE_NAME_OPTIONAL_TOUR = "table_optional_tour";
+    public static final String TABLE_NAME_SIGHTSEEING_TOUR = "table_sightseeing_tour";
 }
