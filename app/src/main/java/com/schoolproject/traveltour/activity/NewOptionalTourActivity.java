@@ -1,9 +1,7 @@
 package com.schoolproject.traveltour.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -11,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +16,6 @@ import androidx.annotation.Nullable;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.enums.Country;
@@ -34,16 +30,12 @@ import com.schoolproject.traveltour.utils.UiUtil;
 import java.util.ArrayList;
 
 public class NewOptionalTourActivity extends BaseNewTourActivity {
-    private DatabaseReference myRef;
-
     private OptionalTour optionalTour;
-
-    private ProgressDialog progressDialog;
 
     private LinearLayout layoutBenefits, layoutPrice;
     private Button btnAddBenefits, btnAddPrice;
     private ImageView imageView;
-    private TextInputEditText edtTourTitle, edtTourSubTitle, edtTourDescription;
+    private TextInputEditText edtTourSubTitle, edtTourDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,7 +51,6 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         }
 
         optionalTour = new OptionalTour();
-        progressDialog = new ProgressDialog(this);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
@@ -104,9 +95,11 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                     break;
                 }
                 case Constants.REQUEST_CODE_IMAGE_PICKER: {
-                    imageView.setImageBitmap(ImageChooserUtil.getBitmapFromIntent(
+                    Bitmap bm = ImageChooserUtil.getBitmapFromIntent(
                             this,
-                            data));
+                            data);
+                    imageView.setImageBitmap(bm);
+                    optionalTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
                     break;
                 }
             }
@@ -124,16 +117,9 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         optionalTour.setId(id);
         optionalTour.setTitle(UiUtil.getString(edtTourTitle));
         optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));
-        BitmapDrawable bd = ((BitmapDrawable) imageView.getDrawable());
-        if (bd != null) {
-            Bitmap bm = bd.getBitmap();
-            optionalTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
-        }
         optionalTour.setDescription(UiUtil.getString(edtTourDescription));
 
         // Saving to firebase
-        progressDialog.setMessage("Saving...");
-        progressDialog.setCancelable(false);
         progressDialog.show();
         myRef.child(optionalTour.getId())
                 .setValue(optionalTour).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -147,12 +133,6 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                 }
             }
         });
-    }
-
-    private void showFailToSaveToast() {
-        Toast.makeText(this,
-                "Fail to save! Try again!",
-                Toast.LENGTH_SHORT).show();
     }
 
     private void initUI() {
@@ -200,9 +180,5 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                 ImageChooserUtil.showImageChooser(NewOptionalTourActivity.this, Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
-    }
-
-    private void showErrorToast() {
-        Toast.makeText(this, "Please choose country first!", Toast.LENGTH_SHORT).show();
     }
 }

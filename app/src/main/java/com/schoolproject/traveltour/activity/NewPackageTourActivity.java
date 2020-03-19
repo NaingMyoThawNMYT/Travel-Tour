@@ -1,20 +1,30 @@
 package com.schoolproject.traveltour.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
+import com.schoolproject.traveltour.utils.BitmapUtil;
+import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 import com.schoolproject.traveltour.utils.ImageChooserUtil;
+import com.schoolproject.traveltour.utils.UiUtil;
 
 import java.util.ArrayList;
 
@@ -36,7 +46,20 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         setContentView(R.layout.activity_new_package_tour);
         setHomeBackButtonAndToolbarTitle("New Tour");
 
+        Bundle b = getIntent().getExtras();
+        Country country = DataSet.getCountryParam(b);
+        if (country == null) {
+            showErrorToast();
+            finish();
+            return;
+        }
+
         newPackageTour = new PackageTour();
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
+                .child(country.getCode())
+                .child(Constants.TABLE_NAME_PACKAGE_TOUR);
 
         initUI();
         initListener();
@@ -100,9 +123,11 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                     break;
                 }
                 case REQUEST_CODE_IMAGE_PICKER: {
-                    imageView.setImageBitmap(ImageChooserUtil.getBitmapFromIntent(
-                            NewPackageTourActivity.this,
-                            data));
+                    Bitmap bm = ImageChooserUtil.getBitmapFromIntent(
+                            this,
+                            data);
+                    imageView.setImageBitmap(bm);
+                    newPackageTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
                     break;
                 }
             }
@@ -111,10 +136,34 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
 
     @Override
     void saveNewTour() {
-        // TODO: 17-Mar-20 save to firebase
+        final String id = myRef.push().getKey();
+        if (TextUtils.isEmpty(id)) {
+            showFailToSaveToast();
+            return;
+        }
+
+        newPackageTour.setId(id);
+        newPackageTour.setTitle(UiUtil.getString(edtTourTitle));
+
+        // Saving to firebase
+        progressDialog.show();
+        myRef.child(newPackageTour.getId())
+                .setValue(newPackageTour).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                progressDialog.dismiss();
+                if (task.isSuccessful()) {
+                    finish();
+                } else {
+                    showFailToSaveToast();
+                }
+            }
+        });
     }
 
     private void initUI() {
+        edtTourTitle = findViewById(R.id.edt_name);
+
         View price = findViewById(R.id.price);
         TextView tvPriceTitle = price.findViewById(R.id.tv_title);
         layoutPrice = price.findViewById(R.id.layout);
