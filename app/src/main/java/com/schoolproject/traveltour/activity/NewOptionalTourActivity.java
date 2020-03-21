@@ -100,12 +100,18 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                     if (optionalTour.getPrices() == null) {
                         optionalTour.setPrices(new ArrayList<TitleAndDescription>());
                     }
-                    TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
+                    final TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
                     optionalTour.getPrices().add(titleAndDescription);
                     DataSet.setUpTitleAndDescriptionValuesInParent(this,
                             layoutPrice,
                             titleAndDescription,
-                            padding);
+                            padding,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    optionalTour.getPrices().remove(titleAndDescription);
+                                }
+                            });
                     break;
                 }
                 case Constants.REQUEST_CODE_IMAGE_PICKER: {

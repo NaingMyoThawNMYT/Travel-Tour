@@ -157,17 +157,19 @@ public class DataSet {
                 setUpTitleAndDescriptionValuesInParent(context,
                         parent,
                         titleAndDescription,
-                        padding);
+                        padding,
+                        null);
             }
         }
     }
 
     public static void setUpTitleAndDescriptionValuesInParent(Context context,
-                                                              LinearLayout parent,
+                                                              final LinearLayout parent,
                                                               TitleAndDescription titleAndDescription,
-                                                              int padding) {
+                                                              int padding,
+                                                              final OnClearClickListener onRemoveListener) {
+        final TextView title = new TextView(context);
         if (!TextUtils.isEmpty(titleAndDescription.getTitle())) {
-            TextView title = new TextView(context);
             title.setPadding(padding, padding, 0, 0);
             title.setText(titleAndDescription.getTitle());
             title.setTypeface(Typeface.DEFAULT_BOLD);
@@ -178,6 +180,23 @@ public class DataSet {
             TextView description = new TextView(context);
             description.setPadding(padding * 3, padding, 0, 0);
             description.setText(titleAndDescription.getDescription());
+
+            if (onRemoveListener != null) {
+                description.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+                        null,
+                        context.getResources().getDrawable(R.drawable.ic_close_gray_24dp),
+                        null);
+                description.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        parent.removeView(title);
+                        parent.removeView(v);
+
+                        onRemoveListener.onClear();
+                    }
+                });
+            }
+
             parent.addView(description);
         }
     }
@@ -207,18 +226,11 @@ public class DataSet {
                             parent,
                             str,
                             padding,
-                            textStyle);
+                            textStyle,
+                            null);
                 }
             }
         }
-    }
-
-    private static void setUpStringValuesInParent(Context context,
-                                                  final LinearLayout parent,
-                                                  String string,
-                                                  int padding,
-                                                  int textStyle) {
-        setUpStringValuesInParent(context, parent, string, padding, textStyle, null);
     }
 
     public static void setUpStringValuesInParent(Context context,

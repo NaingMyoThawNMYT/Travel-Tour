@@ -86,24 +86,36 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                     if (newPackageTour.getPrice() == null) {
                         newPackageTour.setPrice(new ArrayList<TitleAndDescription>());
                     }
-                    TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
+                    final TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
                     newPackageTour.getPrice().add(titleAndDescription);
                     DataSet.setUpTitleAndDescriptionValuesInParent(this,
                             layoutPrice,
                             titleAndDescription,
-                            padding);
+                            padding,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    newPackageTour.getPrice().remove(titleAndDescription);
+                                }
+                            });
                     break;
                 }
                 case REQUEST_CODE_ITINERARY: {
                     if (newPackageTour.getBrief() == null) {
                         newPackageTour.setBrief(new ArrayList<TitleAndDescription>());
                     }
-                    TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
+                    final TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
                     newPackageTour.getBrief().add(titleAndDescription);
                     DataSet.setUpTitleAndDescriptionValuesInParent(this,
                             layoutItinerary,
                             titleAndDescription,
-                            padding);
+                            padding,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    newPackageTour.getBrief().remove(titleAndDescription);
+                                }
+                            });
                     break;
                 }
                 case REQUEST_CODE_PACKAGE_INCLUDE: {
