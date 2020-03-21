@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,15 +31,6 @@ public class DataSet {
         menuList.add(new Menu("myanmar", "Myanmar", null));
         menuList.add(new Menu("hongkong", "Hong Kong", null));
         return menuList;
-    }
-
-    public static List<Menu> getTourList() {
-        List<Menu> tourList = new ArrayList<>();
-        tourList.add(new Menu("maldives", "Maldives", null));
-        tourList.add(new Menu("vietnam", "Vietnam", null));
-        tourList.add(new Menu("myanmar", "Myanmar", null));
-        tourList.add(new Menu("hongkong", "Hong Kong", null));
-        return tourList;
     }
 
     public static PackageTour getPackageTour() {
@@ -221,17 +213,42 @@ public class DataSet {
         }
     }
 
+    private static void setUpStringValuesInParent(Context context,
+                                                  final LinearLayout parent,
+                                                  String string,
+                                                  int padding,
+                                                  int textStyle) {
+        setUpStringValuesInParent(context, parent, string, padding, textStyle, null);
+    }
+
     public static void setUpStringValuesInParent(Context context,
-                                                 LinearLayout parent,
+                                                 final LinearLayout parent,
                                                  String string,
                                                  int padding,
-                                                 int textStyle) {
-        TextView textView = new TextView(context);
+                                                 int textStyle,
+                                                 final OnClearClickListener onRemoveListener) {
+        final TextView textView = new TextView(context);
         textView.setPadding(padding * 3, padding, 0, 0);
         textView.setText(String.format("*  %s", string));
         if (textStyle != 0) {
             textView.setTypeface(Typeface.defaultFromStyle(textStyle));
         }
+
+        if (onRemoveListener != null) {
+            textView.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+                    null,
+                    context.getResources().getDrawable(R.drawable.ic_close_gray_24dp),
+                    null);
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    parent.removeView(v);
+
+                    onRemoveListener.onClear();
+                }
+            });
+        }
+
         parent.addView(textView);
     }
 
@@ -240,5 +257,9 @@ public class DataSet {
             return null;
         }
         return (Country) b.get(MainActivity.PARAM_COUNTRY);
+    }
+
+    public interface OnClearClickListener {
+        void onClear();
     }
 }

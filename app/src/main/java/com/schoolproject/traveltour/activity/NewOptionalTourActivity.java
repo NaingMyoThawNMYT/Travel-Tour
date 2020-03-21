@@ -69,8 +69,8 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && data != null) {
-            String title = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_TITLE);
-            String description = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_DESCRIPTION);
+            final String title = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_TITLE);
+            final String description = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_DESCRIPTION);
 
             if (requestCode != Constants.REQUEST_CODE_IMAGE_PICKER &&
                     TextUtils.isEmpty(description)) {
@@ -87,7 +87,13 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                             layoutBenefits,
                             description,
                             padding,
-                            0);
+                            0,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    optionalTour.getBenefits().remove(description);
+                                }
+                            });
                     break;
                 }
                 case Constants.REQUEST_CODE_PRICE: {

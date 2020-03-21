@@ -67,8 +67,8 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && data != null) {
-            String title = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_TITLE);
-            String description = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_DESCRIPTION);
+            final String title = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_TITLE);
+            final String description = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_DESCRIPTION);
 
             if (requestCode != Constants.REQUEST_CODE_IMAGE_PICKER &&
                     TextUtils.isEmpty(description)) {
@@ -85,7 +85,13 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             layoutItinerary,
                             description,
                             padding,
-                            0);
+                            0,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    sightSeeingTour.getItinerary().remove(description);
+                                }
+                            });
                     break;
                 }
                 case Constants.REQUEST_CODE_NOTE: {
@@ -97,7 +103,13 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             layoutNote,
                             description,
                             padding,
-                            0);
+                            0,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    sightSeeingTour.getNoteList().remove(description);
+                                }
+                            });
                     break;
                 }
                 case Constants.REQUEST_CODE_PRICE: {
@@ -121,7 +133,13 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             layoutServices,
                             description,
                             padding,
-                            0);
+                            0,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    sightSeeingTour.getInclude().remove(description);
+                                }
+                            });
                     break;
                 }
                 case Constants.REQUEST_CODE_EXCLUDES: {
@@ -133,7 +151,13 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             layoutExcludes,
                             description,
                             padding,
-                            0);
+                            0,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    sightSeeingTour.getExclude().remove(description);
+                                }
+                            });
                     break;
                 }
                 case Constants.REQUEST_CODE_THINGS_TO_NOTE: {
@@ -145,7 +169,13 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             layoutThingsToNote,
                             description,
                             padding,
-                            0);
+                            0,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    sightSeeingTour.getThingsToNote().remove(description);
+                                }
+                            });
                     break;
                 }
                 case Constants.REQUEST_CODE_IMAGE_PICKER: {

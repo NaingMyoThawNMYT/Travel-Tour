@@ -73,8 +73,8 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (resultCode == RESULT_OK && data != null) {
-            String title = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_TITLE);
-            String description = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_DESCRIPTION);
+            final String title = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_TITLE);
+            final String description = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_DESCRIPTION);
 
             if (requestCode != Constants.REQUEST_CODE_IMAGE_PICKER &&
                     TextUtils.isEmpty(description)) {
@@ -115,7 +115,13 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                             layoutPackageInclude,
                             description,
                             padding,
-                            0);
+                            0,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    newPackageTour.getInclude().remove(description);
+                                }
+                            });
                     break;
                 }
                 case REQUEST_CODE_PACKAGE_NOT_INCLUDE: {
@@ -127,7 +133,13 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                             layoutPackageNotInclude,
                             description,
                             padding,
-                            0);
+                            0,
+                            new DataSet.OnClearClickListener() {
+                                @Override
+                                public void onClear() {
+                                    newPackageTour.getNotInclude().remove(description);
+                                }
+                            });
                     break;
                 }
                 case REQUEST_CODE_IMAGE_PICKER: {
