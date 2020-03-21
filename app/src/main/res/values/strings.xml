@@ -64,4 +64,6 @@
     <string name="add_optional_tour">Add Optional Tour</string>
     <string name="add_package_tour">Add Package Tour</string>
     <string name="add_sightseeing_tour">Add Sightseeing Tour</string>
+    <string name="add_exclude">Add exclude</string>
+    <string name="add_things_to_note">Add things to note</string>
 </resources>

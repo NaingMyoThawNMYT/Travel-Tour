@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".activity.NewSightSeeingTourActivity" />
+        <activity android:name=".activity.NewSightseeingTourActivity" />
         <activity android:name=".activity.NewOptionalTourActivity" />
         <activity android:name=".activity.TitleAndDescriptionActivity" />
         <activity android:name=".activity.NewPackageTourActivity" />

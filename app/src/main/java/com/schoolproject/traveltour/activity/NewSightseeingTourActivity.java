@@ -28,7 +28,7 @@ import com.schoolproject.traveltour.utils.UiUtil;
 
 import java.util.ArrayList;
 
-public class NewSightSeeingTourActivity extends BaseNewTourActivity {
+public class NewSightseeingTourActivity extends BaseNewTourActivity {
     private SightSeeingTour sightSeeingTour;
 
     private LinearLayout layoutItinerary, layoutNote, layoutPrice, layoutServices, layoutExcludes, layoutThingsToNote;
@@ -222,7 +222,7 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
         btnAddExcludes = excludes.findViewById(R.id.btn_add);
 
         tvExcludesTitle.setText(R.string.package_excludes);
-        btnAddExcludes.setText(R.string.add_service);
+        btnAddExcludes.setText(R.string.add_exclude);
 
         View thingsToNote = findViewById(R.id.things_to_note);
         TextView tvThingsToNoteTitle = thingsToNote.findViewById(R.id.tv_title);
@@ -230,7 +230,7 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
         btnAddThingsToNote = thingsToNote.findViewById(R.id.btn_add);
 
         tvThingsToNoteTitle.setText(R.string.things_to_note);
-        btnAddThingsToNote.setText(R.string.add_note);
+        btnAddThingsToNote.setText(R.string.add_things_to_note);
 
         imageView = findViewById(R.id.img_background);
     }
@@ -281,7 +281,7 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageChooserUtil.showImageChooser(NewSightSeeingTourActivity.this, Constants.REQUEST_CODE_IMAGE_PICKER);
+                ImageChooserUtil.showImageChooser(NewSightseeingTourActivity.this, Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
     }

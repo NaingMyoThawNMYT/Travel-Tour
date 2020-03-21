@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                 } else if (checkedId == R.id.rdb_optional_tour) {
                     secondClass = NewOptionalTourActivity.class;
                 } else if (checkedId == R.id.rdb_sightseeing_tour) {
-                    secondClass = NewSightSeeingTourActivity.class;
+                    secondClass = NewSightseeingTourActivity.class;
                 } else {
                     return;
                 }
