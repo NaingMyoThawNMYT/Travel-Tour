@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,6 +76,11 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             String title = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_TITLE);
             String description = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_DESCRIPTION);
 
+            if (requestCode != Constants.REQUEST_CODE_IMAGE_PICKER &&
+                    TextUtils.isEmpty(description)) {
+                return;
+            }
+
             switch (requestCode) {
                 case REQUEST_CODE_PRICE: {
                     if (newPackageTour.getPrice() == null) {
@@ -138,6 +144,13 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
 
     @Override
     void saveNewTour() {
+        final String title = UiUtil.getString(edtTourTitle);
+        if (TextUtils.isEmpty(title)) {
+            Toast.makeText(this, "Enter title", Toast.LENGTH_SHORT).show();
+            edtTourTitle.requestFocus();
+            return;
+        }
+
         final String id = myRef.push().getKey();
         if (TextUtils.isEmpty(id)) {
             showFailToSaveToast();
@@ -145,7 +158,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         }
 
         newPackageTour.setId(id);
-        newPackageTour.setTitle(UiUtil.getString(edtTourTitle));
+        newPackageTour.setTitle(title);
 
         // Saving to firebase
         progressDialog.show();
