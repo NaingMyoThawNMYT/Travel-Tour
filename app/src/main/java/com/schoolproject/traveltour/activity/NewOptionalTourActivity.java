@@ -178,14 +178,18 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         btnAddBenefits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_benefits), Constants.REQUEST_CODE_BENEFITS);
+                goToTitleAndDescriptionActivity(getString(R.string.add_benefits),
+                        false,
+                        Constants.REQUEST_CODE_BENEFITS);
             }
         });
 
         btnAddPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_price), Constants.REQUEST_CODE_PRICE);
+                goToTitleAndDescriptionActivity(getString(R.string.add_price),
+                        true,
+                        Constants.REQUEST_CODE_PRICE);
             }
         });
 

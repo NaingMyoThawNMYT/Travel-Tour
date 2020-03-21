@@ -44,9 +44,10 @@ public abstract class BaseNewTourActivity extends BaseSecondActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void goToTitleAndDescriptionActivity(String title, int requestCode) {
+    public void goToTitleAndDescriptionActivity(String title, boolean showTitle, int requestCode) {
         Intent intent = new Intent(this, TitleAndDescriptionActivity.class);
-        intent.putExtra(TitleAndDescriptionActivity.ACTIVITY_TITLE, title);
+        intent.putExtra(TitleAndDescriptionActivity.PARAM_ACTIVITY_TITLE, title);
+        intent.putExtra(TitleAndDescriptionActivity.PARAM_SHOW_TITLE, showTitle);
         startActivityForResult(intent, requestCode);
     }
 

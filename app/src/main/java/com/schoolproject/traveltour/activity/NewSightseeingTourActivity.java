@@ -252,42 +252,54 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         btnAddItinerary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_itinerary), Constants.REQUEST_CODE_ITINERARY);
+                goToTitleAndDescriptionActivity(getString(R.string.add_itinerary),
+                        false,
+                        Constants.REQUEST_CODE_ITINERARY);
             }
         });
 
         btnAddNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_note), Constants.REQUEST_CODE_NOTE);
+                goToTitleAndDescriptionActivity(getString(R.string.add_note),
+                        false,
+                        Constants.REQUEST_CODE_NOTE);
             }
         });
 
         btnAddPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_price), Constants.REQUEST_CODE_PRICE);
+                goToTitleAndDescriptionActivity(getString(R.string.add_price),
+                        true,
+                        Constants.REQUEST_CODE_PRICE);
             }
         });
 
         btnAddServices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_service), Constants.REQUEST_CODE_SERVICES);
+                goToTitleAndDescriptionActivity(getString(R.string.add_service),
+                        false,
+                        Constants.REQUEST_CODE_SERVICES);
             }
         });
 
         btnAddExcludes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_exclude), Constants.REQUEST_CODE_EXCLUDES);
+                goToTitleAndDescriptionActivity(getString(R.string.add_exclude),
+                        false,
+                        Constants.REQUEST_CODE_EXCLUDES);
             }
         });
 
         btnAddThingsToNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_things_to_note), Constants.REQUEST_CODE_THINGS_TO_NOTE);
+                goToTitleAndDescriptionActivity(getString(R.string.add_things_to_note),
+                        false,
+                        Constants.REQUEST_CODE_THINGS_TO_NOTE);
             }
         });
 

@@ -218,28 +218,36 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         btnAddPrice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_price), REQUEST_CODE_PRICE);
+                goToTitleAndDescriptionActivity(getString(R.string.add_price),
+                        true,
+                        REQUEST_CODE_PRICE);
             }
         });
 
         btnAddItinerary.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_itinerary), REQUEST_CODE_ITINERARY);
+                goToTitleAndDescriptionActivity(getString(R.string.add_itinerary),
+                        true,
+                        REQUEST_CODE_ITINERARY);
             }
         });
 
         btnAddPackageInclude.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_include), REQUEST_CODE_PACKAGE_INCLUDE);
+                goToTitleAndDescriptionActivity(getString(R.string.add_include),
+                        false,
+                        REQUEST_CODE_PACKAGE_INCLUDE);
             }
         });
 
         btnAddPackageNotInclude.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_not_include), REQUEST_CODE_PACKAGE_NOT_INCLUDE);
+                goToTitleAndDescriptionActivity(getString(R.string.add_not_include),
+                        false,
+                        REQUEST_CODE_PACKAGE_NOT_INCLUDE);
             }
         });
 
