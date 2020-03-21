@@ -267,14 +267,14 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         btnAddExcludes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.package_excludes), Constants.REQUEST_CODE_EXCLUDES);
+                goToTitleAndDescriptionActivity(getString(R.string.add_exclude), Constants.REQUEST_CODE_EXCLUDES);
             }
         });
 
         btnAddThingsToNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToTitleAndDescriptionActivity(getString(R.string.add_note), Constants.REQUEST_CODE_THINGS_TO_NOTE);
+                goToTitleAndDescriptionActivity(getString(R.string.add_things_to_note), Constants.REQUEST_CODE_THINGS_TO_NOTE);
             }
         });
 
