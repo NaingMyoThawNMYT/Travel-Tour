@@ -48,6 +48,8 @@ public class NewSightSeeingTourActivity extends BaseNewTourActivity {
             return;
         }
 
+        setHomeBackButtonAndToolbarTitle(getString(R.string.add_sightseeing_tour));
+
         sightSeeingTour = new SightSeeingTour();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();

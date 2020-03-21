@@ -61,4 +61,7 @@
     <string name="sign_in">Sign In</string>
     <string name="or">or</string>
     <string name="sign_up">Sign Up</string>
+    <string name="add_optional_tour">Add Optional Tour</string>
+    <string name="add_package_tour">Add Package Tour</string>
+    <string name="add_sightseeing_tour">Add Sightseeing Tour</string>
 </resources>

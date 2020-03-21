@@ -54,6 +54,8 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             return;
         }
 
+        setHomeBackButtonAndToolbarTitle(getString(R.string.add_package_tour));
+
         newPackageTour = new PackageTour();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();

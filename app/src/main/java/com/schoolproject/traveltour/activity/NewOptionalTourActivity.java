@@ -50,6 +50,8 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
             return;
         }
 
+        setHomeBackButtonAndToolbarTitle(getString(R.string.add_optional_tour));
+
         optionalTour = new OptionalTour();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
