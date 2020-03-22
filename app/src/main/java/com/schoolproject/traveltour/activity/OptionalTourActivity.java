@@ -7,10 +7,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
@@ -20,8 +20,6 @@ import com.schoolproject.traveltour.utils.BitmapUtil;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class OptionalTourActivity extends MainTourActivity {
-    public static final String OPTIONAL_TOUR = "optional_tour";
-    private OptionalTour optionalTour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,14 +27,7 @@ public class OptionalTourActivity extends MainTourActivity {
 
         setHomeBackButtonAndToolbarTitle("Optional Tour");
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle == null || !bundle.containsKey(OPTIONAL_TOUR)) {
-            Toast.makeText(this, "Nothing to show!", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
-        optionalTour = (OptionalTour) bundle.get(OPTIONAL_TOUR);
+        OptionalTour optionalTour = (OptionalTour) getParamTourOrFinishActivity();
 
         LinearLayout parent = findViewById(R.id.parent);
 
@@ -61,11 +52,12 @@ public class OptionalTourActivity extends MainTourActivity {
             parent.addView(titleNote);
         }
 
-        if (!TextUtils.isEmpty(optionalTour.getImageUrl())) {
+        if (!TextUtils.isEmpty(optionalTour.getBase64ImageStr())) {
             CardView cv = (CardView) LayoutInflater.from(this)
                     .inflate(R.layout.image_view, parent, false);
             ImageView imageView = cv.findViewById(R.id.img_background);
             imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(optionalTour.getBase64ImageStr()));
+            cv.findViewById(R.id.img_add).setVisibility(View.GONE);
             parent.addView(cv);
         }
 

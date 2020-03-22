@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.cardview.widget.CardView;
 
@@ -23,8 +22,6 @@ import com.schoolproject.traveltour.utils.BitmapUtil;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class PackageTourActivity extends MainTourActivity {
-    public static final String PACKAGE_TOUR = "package_tour";
-    private PackageTour packageTour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,14 +29,7 @@ public class PackageTourActivity extends MainTourActivity {
 
         setHomeBackButtonAndToolbarTitle("Package Tour");
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle == null || !bundle.containsKey(PACKAGE_TOUR)) {
-            Toast.makeText(this, "Nothing to show!", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
-        packageTour = (PackageTour) bundle.get(PACKAGE_TOUR);
+        PackageTour packageTour = (PackageTour) getParamTourOrFinishActivity();
 
         LinearLayout parent = findViewById(R.id.parent);
 
@@ -55,11 +45,12 @@ public class PackageTourActivity extends MainTourActivity {
             parent.addView(packageTourTitle);
         }
 
-        if (!TextUtils.isEmpty(packageTour.getImageUrl())) {
+        if (!TextUtils.isEmpty(packageTour.getBase64ImageStr())) {
             CardView cv = (CardView) LayoutInflater.from(this)
                     .inflate(R.layout.image_view, parent, false);
             ImageView ima = cv.findViewById(R.id.img_background);
             ima.setImageBitmap(BitmapUtil.base64StringToBitmap(packageTour.getBase64ImageStr()));
+            cv.findViewById(R.id.img_add).setVisibility(View.GONE);
             parent.addView(cv);
         }
 

@@ -1,7 +1,9 @@
 package com.schoolproject.traveltour.model;
 
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PackageTour extends Menu implements Serializable {
     private List<TitleAndDescription> price;
@@ -102,5 +104,21 @@ public class PackageTour extends Menu implements Serializable {
 
     public void setHoneyMoonBenefit(List<String> honeyMoonBenefit) {
         this.honeyMoonBenefit = honeyMoonBenefit;
+    }
+
+    public void parse(Map<String, Object> map) {
+        super.parse(map);
+
+        price = convertToTitleAndDescriptionList((List<HashMap<String, String>>) map.get("price"));
+        brief = convertToTitleAndDescriptionList((List<HashMap<String, String>>) map.get("brief"));
+        include = (List<String>) map.get("include");
+        notInclude = (List<String>) map.get("notInclude");
+        choice = (List<String>) map.get("choice");
+        highLight = (List<String>) map.get("highLight");
+        roomType = (List<String>) map.get("roomType");
+        amenity = (List<String>) map.get("amenity");
+        dining = (List<String>) map.get("dining");
+        activity = (List<String>) map.get("activity");
+        honeyMoonBenefit = (List<String>) map.get("honeyMoonBenefit");
     }
 }

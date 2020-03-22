@@ -25,6 +25,8 @@ import com.schoolproject.traveltour.adapter.MenuAdapter;
 import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.OptionalTour;
+import com.schoolproject.traveltour.model.PackageTour;
+import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 
@@ -33,21 +35,34 @@ import java.util.List;
 import java.util.Map;
 
 public class TourListActivity extends AppCompatActivity {
+    public static final String PARAM_TOUR = "param_tour";
+
     private DatabaseReference packageRef, optionalRef, sightseeingRef;
     private ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             progressDialog.dismiss();
             List<Menu> dataSet = new ArrayList<>();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                OptionalTour optionalTour = new OptionalTour();
-                optionalTour.parse((Map<String, Object>) snapshot.getValue());
-                dataSet.add(optionalTour);
-            }
 
-            Toast.makeText(TourListActivity.this,
-                    "Success " + dataSet.size(),
-                    Toast.LENGTH_SHORT).show();
+            if (tourListSpinner.getSelectedItemPosition() == 1) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    OptionalTour tour = new OptionalTour();
+                    tour.parse((Map<String, Object>) snapshot.getValue());
+                    dataSet.add(tour);
+                }
+            } else if (tourListSpinner.getSelectedItemPosition() == 1) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    SightSeeingTour tour = new SightSeeingTour();
+                    tour.parse((Map<String, Object>) snapshot.getValue());
+                    dataSet.add(tour);
+                }
+            } else {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    PackageTour tour = new PackageTour();
+                    tour.parse((Map<String, Object>) snapshot.getValue());
+                    dataSet.add(tour);
+                }
+            }
 
             menuAdapter.setDataSet(dataSet);
         }
@@ -117,13 +132,15 @@ public class TourListActivity extends AppCompatActivity {
         menuAdapter = new MenuAdapter(this, new MenuAdapter.MenuClickListener() {
             @Override
             public void onClick(Menu menu) {
+                Class detailsClass;
                 if (tourListSpinner.getSelectedItemPosition() == 1) {
-                    goToOptionalTour();
+                    detailsClass = OptionalTourActivity.class;
                 } else if (tourListSpinner.getSelectedItemPosition() == 2) {
-                    goToSightseeingTour();
+                    detailsClass = SightseeingTourActivity.class;
                 } else {
-                    goToPackageTour();
+                    detailsClass = PackageTourActivity.class;
                 }
+                goToTourDetails(detailsClass, menu);
             }
         });
         recyclerView.setAdapter(menuAdapter);
@@ -162,21 +179,9 @@ public class TourListActivity extends AppCompatActivity {
         });
     }
 
-    private void goToPackageTour() {
-        Intent packageTourIntent = new Intent(TourListActivity.this, PackageTourActivity.class);
-        packageTourIntent.putExtra(PackageTourActivity.PACKAGE_TOUR, DataSet.getPackageTour());
-        startActivity(packageTourIntent);
-    }
-
-    private void goToOptionalTour() {
-        Intent optionalTourIntent = new Intent(TourListActivity.this, OptionalTourActivity.class);
-        optionalTourIntent.putExtra(OptionalTourActivity.OPTIONAL_TOUR, DataSet.getOptionalTour());
-        startActivity(optionalTourIntent);
-    }
-
-    private void goToSightseeingTour() {
-        Intent sightseeingTourIntent = new Intent(TourListActivity.this, SightseeingTourActivity.class);
-        sightseeingTourIntent.putExtra(SightseeingTourActivity.SIGHTSEEING_TOUR, DataSet.getSightSeeingTour());
+    private void goToTourDetails(Class detailsClass, Menu tour) {
+        Intent sightseeingTourIntent = new Intent(TourListActivity.this, detailsClass);
+        sightseeingTourIntent.putExtra(PARAM_TOUR, tour);
         startActivity(sightseeingTourIntent);
     }
 }

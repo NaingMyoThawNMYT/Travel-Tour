@@ -1,9 +1,9 @@
 package com.schoolproject.traveltour.model;
 
-import android.util.Pair;
-
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SightSeeingTour extends Menu implements Serializable {
     private List<String> itinerary;
@@ -59,5 +59,16 @@ public class SightSeeingTour extends Menu implements Serializable {
 
     public void setThingsToNote(List<String> thingsToNote) {
         this.thingsToNote = thingsToNote;
+    }
+
+    public void parse(Map<String, Object> map) {
+        super.parse(map);
+
+        itinerary = (List<String>) map.get("itinerary");
+        noteList = (List<String>) map.get("noteList");
+        price = convertToTitleAndDescriptionList((List<HashMap<String, String>>) map.get("price"));
+        include = (List<String>) map.get("include");
+        exclude = (List<String>) map.get("exclude");
+        thingsToNote = (List<String>) map.get("thingsToNote");
     }
 }

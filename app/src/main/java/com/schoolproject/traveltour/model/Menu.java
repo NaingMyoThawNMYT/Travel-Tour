@@ -1,6 +1,9 @@
 package com.schoolproject.traveltour.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Menu implements Serializable {
@@ -63,5 +66,19 @@ public class Menu implements Serializable {
         title = (String) map.get("title");
         description = (String) map.get("description");
         base64ImageStr = (String) map.get("base64ImageStr");
+    }
+
+    List<TitleAndDescription> convertToTitleAndDescriptionList(List<HashMap<String, String>> list) {
+        List<TitleAndDescription> resultList = new ArrayList<>();
+
+        if (list == null) {
+            return resultList;
+        }
+
+        for (HashMap<String, String> map : list) {
+            resultList.add(new TitleAndDescription(map.get("title"), map.get("title")));
+        }
+
+        return resultList;
     }
 }

@@ -1,5 +1,6 @@
 package com.schoolproject.traveltour.model;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,6 +41,6 @@ public class OptionalTour extends Menu {
 
         subTitle = (String) map.get("subTitle");
         benefits = (List<String>) map.get("benefits");
-        prices = (List<TitleAndDescription>) map.get("prices");
+        prices = convertToTitleAndDescriptionList((List<HashMap<String, String>>) map.get("prices"));
     }
 }
