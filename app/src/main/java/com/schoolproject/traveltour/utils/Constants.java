@@ -9,6 +9,8 @@ public class Constants {
     public static final int REQUEST_CODE_SERVICES = 105;
     public static final int REQUEST_CODE_EXCLUDES = 106;
     public static final int REQUEST_CODE_THINGS_TO_NOTE = 107;
+    public static final int REQUEST_CODE_PACKAGE_INCLUDE = 108;
+    public static final int REQUEST_CODE_PACKAGE_NOT_INCLUDE = 109;
 
     public static final String TABLE_NAME_COUNTRY = "table_country";
     public static final String TABLE_NAME_PACKAGE_TOUR = "table_package_tour";

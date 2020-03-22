@@ -30,11 +30,6 @@ import com.schoolproject.traveltour.utils.UiUtil;
 import java.util.ArrayList;
 
 public class NewPackageTourActivity extends BaseNewTourActivity {
-    private static final int REQUEST_CODE_PRICE = 101;
-    private static final int REQUEST_CODE_ITINERARY = 102;
-    private static final int REQUEST_CODE_PACKAGE_INCLUDE = 103;
-    private static final int REQUEST_CODE_PACKAGE_NOT_INCLUDE = 104;
-    private static final int REQUEST_CODE_IMAGE_PICKER = 105;
     private PackageTour newPackageTour;
 
     private LinearLayout layoutPrice, layoutItinerary, layoutPackageInclude, layoutPackageNotInclude;
@@ -82,7 +77,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             }
 
             switch (requestCode) {
-                case REQUEST_CODE_PRICE: {
+                case Constants.REQUEST_CODE_PRICE: {
                     if (newPackageTour.getPrice() == null) {
                         newPackageTour.setPrice(new ArrayList<TitleAndDescription>());
                     }
@@ -100,7 +95,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                             });
                     break;
                 }
-                case REQUEST_CODE_ITINERARY: {
+                case Constants.REQUEST_CODE_ITINERARY: {
                     if (newPackageTour.getBrief() == null) {
                         newPackageTour.setBrief(new ArrayList<TitleAndDescription>());
                     }
@@ -118,7 +113,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                             });
                     break;
                 }
-                case REQUEST_CODE_PACKAGE_INCLUDE: {
+                case Constants.REQUEST_CODE_PACKAGE_INCLUDE: {
                     if (newPackageTour.getInclude() == null) {
                         newPackageTour.setInclude(new ArrayList<String>());
                     }
@@ -136,7 +131,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                             });
                     break;
                 }
-                case REQUEST_CODE_PACKAGE_NOT_INCLUDE: {
+                case Constants.REQUEST_CODE_PACKAGE_NOT_INCLUDE: {
                     if (newPackageTour.getNotInclude() == null) {
                         newPackageTour.setNotInclude(new ArrayList<String>());
                     }
@@ -154,7 +149,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                             });
                     break;
                 }
-                case REQUEST_CODE_IMAGE_PICKER: {
+                case Constants.REQUEST_CODE_IMAGE_PICKER: {
                     Bitmap bm = ImageChooserUtil.getBitmapFromIntent(
                             this,
                             data);
@@ -244,7 +239,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             public void onClick(View v) {
                 goToTitleAndDescriptionActivity(getString(R.string.add_price),
                         true,
-                        REQUEST_CODE_PRICE);
+                        Constants.REQUEST_CODE_PRICE);
             }
         });
 
@@ -253,7 +248,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             public void onClick(View v) {
                 goToTitleAndDescriptionActivity(getString(R.string.add_itinerary),
                         true,
-                        REQUEST_CODE_ITINERARY);
+                        Constants.REQUEST_CODE_ITINERARY);
             }
         });
 
@@ -262,7 +257,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             public void onClick(View v) {
                 goToTitleAndDescriptionActivity(getString(R.string.add_include),
                         false,
-                        REQUEST_CODE_PACKAGE_INCLUDE);
+                        Constants.REQUEST_CODE_PACKAGE_INCLUDE);
             }
         });
 
@@ -271,14 +266,15 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             public void onClick(View v) {
                 goToTitleAndDescriptionActivity(getString(R.string.add_not_include),
                         false,
-                        REQUEST_CODE_PACKAGE_NOT_INCLUDE);
+                        Constants.REQUEST_CODE_PACKAGE_NOT_INCLUDE);
             }
         });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ImageChooserUtil.showImageChooser(NewPackageTourActivity.this, REQUEST_CODE_IMAGE_PICKER);
+                ImageChooserUtil.showImageChooser(NewPackageTourActivity.this,
+                        Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
     }
