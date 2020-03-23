@@ -17,14 +17,16 @@ public abstract class MainTourActivity extends BaseSecondActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple);
 
-        Button btnBookNow = findViewById(R.id.btn_book_now);
-        btnBookNow.setVisibility(View.VISIBLE);
-        btnBookNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToBookingActivity();
-            }
-        });
+        if (!SignInActivity.isAdmin) {
+            Button btnBookNow = findViewById(R.id.btn_book_now);
+            btnBookNow.setVisibility(View.VISIBLE);
+            btnBookNow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goToBookingActivity();
+                }
+            });
+        }
     }
 
     @Override
