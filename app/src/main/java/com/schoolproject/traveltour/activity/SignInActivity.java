@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,6 +23,8 @@ import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.utils.UiUtil;
 
 public class SignInActivity extends AppCompatActivity {
+    private static final int REQUEST_CODE_SIGN_UP = 1324;
+
     public static boolean isAdmin;
 
     private FirebaseAuth mAuth;
@@ -76,8 +79,7 @@ public class SignInActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressDialog.dismiss();
                                 if (task.isSuccessful()) {
-                                    startActivity(new Intent(SignInActivity.this, MainActivity.class));
-                                    finish();
+                                    goToMainActivity();
                                 } else {
                                     Toast.makeText(SignInActivity.this, "Sign in failed!",
                                             Toast.LENGTH_SHORT).show();
@@ -90,8 +92,25 @@ public class SignInActivity extends AppCompatActivity {
         tvSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: 18-Mar-20 go to sign up activity
+                startActivityForResult(
+                        new Intent(SignInActivity.this, SignUpActivity.class),
+                        REQUEST_CODE_SIGN_UP);
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK &&
+                requestCode == REQUEST_CODE_SIGN_UP) {
+            goToMainActivity();
+        }
+    }
+
+    private void goToMainActivity() {
+        startActivity(new Intent(SignInActivity.this, MainActivity.class));
+        finish();
     }
 }

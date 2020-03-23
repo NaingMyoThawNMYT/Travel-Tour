@@ -66,4 +66,5 @@
     <string name="add_sightseeing_tour">Add Sightseeing Tour</string>
     <string name="add_exclude">Add exclude</string>
     <string name="add_things_to_note">Add things to note</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>
