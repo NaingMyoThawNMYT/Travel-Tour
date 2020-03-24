@@ -9,13 +9,17 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.model.Menu;
+import com.schoolproject.traveltour.model.OptionalTour;
+import com.schoolproject.traveltour.model.PackageTour;
+import com.schoolproject.traveltour.model.SightSeeingTour;
 
 public class BookingActivity extends BaseSecondActivity {
-    public static final String PACKAGE_TOUR = "package_tour";
-    public static final String OPTIONAL_TOUR = "optional_tour";
-    public static final String SIGHTSEEING_TOUR = "sightseeing_tour";
+    public static final String PARAM_SELECTED_TOUR = "param_selected_tour";
 
-    private FirebaseAuth mAuth;
+    private PackageTour packageTour;
+    private OptionalTour optionalTour;
+    private SightSeeingTour sightSeeingTour;
 
     private TextInputEditText edtName, edtPassportNo, edtPhone, edtEmail, edtAddress;
 
@@ -27,26 +31,31 @@ public class BookingActivity extends BaseSecondActivity {
         setHomeBackButtonAndToolbarTitle("Booking");
 
         Bundle b = getIntent().getExtras();
-        if (b == null) {
-            Toast.makeText(this, "There is no param!", Toast.LENGTH_SHORT).show();
-            finish();
+        if (b == null || !b.containsKey(PARAM_SELECTED_TOUR)) {
+            showErrorToast();
             return;
         }
 
-        if (b.getBoolean(PACKAGE_TOUR)) {
-            Toast.makeText(this, "Package Tour", Toast.LENGTH_SHORT).show();
-            // TODO: 10-Mar-20 book for package tour
-        } else if (b.getBoolean(OPTIONAL_TOUR)) {
-            Toast.makeText(this, "Optional Tour", Toast.LENGTH_SHORT).show();
-            // TODO: 10-Mar-20 book for optional tour
-        } else if (b.getBoolean(SIGHTSEEING_TOUR)) {
-            Toast.makeText(this, "Sightseeing Tour", Toast.LENGTH_SHORT).show();
-            // TODO: 10-Mar-20 book for sightseeing tour
+        Menu tour = (Menu) b.get(PARAM_SELECTED_TOUR);
+        if (tour == null) {
+            showErrorToast();
+            return;
+        }
+
+        if (tour instanceof PackageTour) {
+            packageTour = (PackageTour) tour;
+        } else if (tour instanceof OptionalTour) {
+            optionalTour = (OptionalTour) tour;
+        } else if (tour instanceof SightSeeingTour) {
+            sightSeeingTour = (SightSeeingTour) tour;
+        } else {
+            showErrorToast();
+            return;
         }
 
         initUI();
 
-        mAuth = FirebaseAuth.getInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = mAuth.getCurrentUser();
 
         if (currentUser == null) {
@@ -72,5 +81,10 @@ public class BookingActivity extends BaseSecondActivity {
         edtPhone = findViewById(R.id.edt_phone);
         edtEmail = findViewById(R.id.edt_email);
         edtAddress = findViewById(R.id.edt_address);
+    }
+
+    private void showErrorToast() {
+        Toast.makeText(this, "There is no param!", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

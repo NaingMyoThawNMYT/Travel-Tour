@@ -22,6 +22,7 @@ import com.schoolproject.traveltour.utils.BitmapUtil;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class PackageTourActivity extends MainTourActivity {
+    private PackageTour packageTour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +30,7 @@ public class PackageTourActivity extends MainTourActivity {
 
         setHomeBackButtonAndToolbarTitle("Package Tour");
 
-        PackageTour packageTour = (PackageTour) getParamTourOrFinishActivity();
+        packageTour = (PackageTour) getParamTourOrFinishActivity();
 
         LinearLayout parent = findViewById(R.id.parent);
 
@@ -106,7 +107,7 @@ public class PackageTourActivity extends MainTourActivity {
     @Override
     void goToBookingActivity() {
         Intent i = new Intent(this, BookingActivity.class);
-        i.putExtra(BookingActivity.PACKAGE_TOUR, true);
+        i.putExtra(BookingActivity.PARAM_SELECTED_TOUR, packageTour);
         startActivity(i);
     }
 }

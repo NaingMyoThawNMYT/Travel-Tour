@@ -20,6 +20,7 @@ import com.schoolproject.traveltour.utils.BitmapUtil;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class OptionalTourActivity extends MainTourActivity {
+    private OptionalTour optionalTour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class OptionalTourActivity extends MainTourActivity {
 
         setHomeBackButtonAndToolbarTitle("Optional Tour");
 
-        OptionalTour optionalTour = (OptionalTour) getParamTourOrFinishActivity();
+        optionalTour = (OptionalTour) getParamTourOrFinishActivity();
 
         LinearLayout parent = findViewById(R.id.parent);
 
@@ -75,7 +76,7 @@ public class OptionalTourActivity extends MainTourActivity {
     @Override
     void goToBookingActivity() {
         Intent i = new Intent(this, BookingActivity.class);
-        i.putExtra(BookingActivity.OPTIONAL_TOUR, true);
+        i.putExtra(BookingActivity.PARAM_SELECTED_TOUR, optionalTour);
         startActivity(i);
     }
 }

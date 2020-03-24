@@ -20,6 +20,7 @@ import com.schoolproject.traveltour.utils.BitmapUtil;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class SightseeingTourActivity extends MainTourActivity {
+    private SightSeeingTour sightSeeingTour;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class SightseeingTourActivity extends MainTourActivity {
 
         setHomeBackButtonAndToolbarTitle("Sightseeing Tour");
 
-        SightSeeingTour sightSeeingTour = (SightSeeingTour) getParamTourOrFinishActivity();
+        sightSeeingTour = (SightSeeingTour) getParamTourOrFinishActivity();
 
         LinearLayout parent = findViewById(R.id.parent);
 
@@ -63,7 +64,7 @@ public class SightseeingTourActivity extends MainTourActivity {
     @Override
     void goToBookingActivity() {
         Intent i = new Intent(this, BookingActivity.class);
-        i.putExtra(BookingActivity.SIGHTSEEING_TOUR, true);
+        i.putExtra(BookingActivity.PARAM_SELECTED_TOUR, sightSeeingTour);
         startActivity(i);
     }
 }
