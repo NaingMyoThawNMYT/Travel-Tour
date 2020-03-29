@@ -63,6 +63,7 @@ public class Menu implements Serializable {
     }
 
     public void parse(Map<String, Object> map) {
+        id = (String) map.get("id");
         title = (String) map.get("title");
         description = (String) map.get("description");
         base64ImageStr = (String) map.get("base64ImageStr");

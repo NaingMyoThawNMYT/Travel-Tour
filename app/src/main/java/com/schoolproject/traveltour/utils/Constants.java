@@ -16,4 +16,5 @@ public class Constants {
     public static final String TABLE_NAME_PACKAGE_TOUR = "table_package_tour";
     public static final String TABLE_NAME_OPTIONAL_TOUR = "table_optional_tour";
     public static final String TABLE_NAME_SIGHTSEEING_TOUR = "table_sightseeing_tour";
+    public static final String TABLE_NAME_BOOKING = "table_booking";
 }

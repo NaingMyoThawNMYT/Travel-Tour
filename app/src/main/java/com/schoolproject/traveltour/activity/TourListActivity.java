@@ -90,6 +90,8 @@ public class TourListActivity extends AppCompatActivity {
             return;
         }
 
+        BookingActivity.selectedCountry = country.getCode();
+
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
                 .child(country.getCode());
