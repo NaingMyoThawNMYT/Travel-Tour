@@ -25,6 +25,8 @@ import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.UiUtil;
 
+import java.util.Date;
+
 public class BookingActivity extends BaseSecondActivity {
     public static final String PARAM_SELECTED_TOUR = "param_selected_tour";
     public static String selectedCountry = null;
@@ -131,11 +133,15 @@ public class BookingActivity extends BaseSecondActivity {
             tourType = Constants.TABLE_NAME_SIGHTSEEING_TOUR;
         }
 
-        Booking booking = new Booking();
+        final Booking booking = new Booking();
         booking.setId(id);
+        booking.setBookingDate(String.valueOf(new Date().getTime()));
         booking.setTourId(tourId);
         booking.setTourCountry(selectedCountry);
         booking.setTourType(tourType);
+        // TODO: 3/29/2020 get package name and price from activity params
+        booking.setPackageName("Sample Package Name");
+        booking.setPackagePrice("150000");
         booking.setUsername(UiUtil.getString(edtName));
         booking.setPassportNo(UiUtil.getString(edtPassportNo));
         booking.setPhone(UiUtil.getString(edtPhone));
@@ -150,7 +156,10 @@ public class BookingActivity extends BaseSecondActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
-                            startActivity(new Intent(BookingActivity.this, InvoiceActivity.class));
+                            Intent i = new Intent(BookingActivity.this, InvoiceActivity.class);
+                            i.putExtra(InvoiceActivity.PARAM_BOOKING, booking);
+                            startActivity(i);
+                            finish();
                         } else {
                             showFailToSaveToast();
                         }

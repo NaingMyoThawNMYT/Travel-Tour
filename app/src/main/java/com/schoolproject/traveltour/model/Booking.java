@@ -4,9 +4,12 @@ import java.io.Serializable;
 
 public class Booking implements Serializable {
     private String id;
+    private String bookingDate;
     private String tourId;
     private String tourCountry;
     private String tourType;
+    private String packageName;
+    private String packagePrice;
     private String username;
     private String passportNo;
     private String phone;
@@ -19,6 +22,14 @@ public class Booking implements Serializable {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(String bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public String getTourId() {
@@ -43,6 +54,22 @@ public class Booking implements Serializable {
 
     public void setTourType(String tourType) {
         this.tourType = tourType;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getPackagePrice() {
+        return packagePrice;
+    }
+
+    public void setPackagePrice(String packagePrice) {
+        this.packagePrice = packagePrice;
     }
 
     public String getUsername() {
