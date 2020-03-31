@@ -36,112 +36,6 @@ public class DataSet {
         return menuList;
     }
 
-    public static PackageTour getPackageTour() {
-        List<TitleAndDescription> list;
-        PackageTour packageTour = new PackageTour();
-        packageTour.setTitle("3 Days Yangon Stopover");
-        packageTour.setImageUrl("myanmar");
-
-        list = new ArrayList<>();
-        list.add(new TitleAndDescription("", "3D2N from MMK 560000"));
-        packageTour.setPrice(list);
-
-        list = new ArrayList<>();
-        list.add(new TitleAndDescription("Day 01: Yangon arrival", "Day 01: Yangon arrival"));
-        list.add(new TitleAndDescription("Day 02: Yangon sightseeing", "Day 02: Yangon sightseeing"));
-        list.add(new TitleAndDescription("Day 03: Yangon departure", "Day 03: Yangon departure"));
-        packageTour.setBrief(list);
-
-        List<String> stringList = new ArrayList<>();
-        stringList.add("Include 1");
-        stringList.add("Include 2");
-        stringList.add("Include 3");
-        packageTour.setInclude(stringList);
-
-        stringList = new ArrayList<>();
-        stringList.add("Not Include 1");
-        stringList.add("Not Include 2");
-        stringList.add("Not Include 3");
-        packageTour.setNotInclude(stringList);
-
-        return packageTour;
-    }
-
-    public static OptionalTour getOptionalTour() {
-        OptionalTour optionalTour = new OptionalTour();
-        optionalTour.setTitle("Trekking in Pindaya");
-        optionalTour.setSubTitle("Leave your footprints in Myanmar and take memories back!");
-        optionalTour.setImageUrl("vietnam");
-        optionalTour.setDescription("The easy way is to set the size programatically like that :" +
-                "graphView.setLayoutParams(new LayoutParams(width, height));" +
-                "This is fine if you know the exact size of the view. However, if you want a more flexible approach, you can override the onMeasure() method to measure the view more precisely depending on the space available and layout constraints (wrap_content, match_parent, or a fixed size)." +
-                "You can find an example on how to override onMeasure() by looking at the android docs and the LabelView sample in your SDK directory.");
-
-        List<String> stringList = new ArrayList<>();
-        stringList.add("Benefit 1");
-        stringList.add("Benefit 2");
-        stringList.add("Benefit 3");
-        optionalTour.setBenefits(stringList);
-
-        List<TitleAndDescription> list = new ArrayList<>();
-        list.add(new TitleAndDescription("Price of Tour", "One person for MMK 380000(All included)"));
-        optionalTour.setPrices(list);
-
-        return optionalTour;
-    }
-
-    public static SightSeeingTour getSightSeeingTour() {
-        SightSeeingTour sightSeeingTour = new SightSeeingTour();
-        sightSeeingTour.setTitle("Sightseeing Tour- Dream World");
-        sightSeeingTour.setImageUrl("maldives");
-        sightSeeingTour.setDescription("The easy way is to set the size programatically like that :" +
-                "graphView.setLayoutParams(new LayoutParams(width, height));" +
-                "This is fine if you know the exact size of the view. However, if you want a more flexible approach, you can override the onMeasure() method to measure the view more precisely depending on the space available and layout constraints (wrap_content, match_parent, or a fixed size)." +
-                "You can find an example on how to override onMeasure() by looking at the android docs and the LabelView sample in your SDK directory.");
-
-        List<String> stringList = new ArrayList<>();
-        stringList.add("Hotel pick up");
-        stringList.add("Dream World");
-        stringList.add("Lunch");
-        stringList.add("Return to hotel");
-        sightSeeingTour.setItinerary(stringList);
-
-        stringList = new ArrayList<>();
-        stringList.add("Kindly check the availability with us first, and let us know where you stay");
-        stringList.add("You may check flight and accommodation with us too");
-        sightSeeingTour.setNoteList(stringList);
-
-        List<TitleAndDescription> list = new ArrayList<>();
-        list.add(new TitleAndDescription("Adult (About 9 years old)", "SGD $88/person"));
-        list.add(new TitleAndDescription("Child (6~9 years old)", "SGD $70.4/person"));
-        list.add(new TitleAndDescription("Child (3~5 years old)", "SGD $44/person"));
-        list.add(new TitleAndDescription("Infant (under 3 years old)", "Free of charge"));
-        sightSeeingTour.setPrice(list);
-
-        stringList = new ArrayList<>();
-        stringList.add("Sightseeing with professional English speaking local tour guide");
-        stringList.add("Private air-con vehicle with drivers for transfers and excursions as mentioned in program");
-        stringList.add("Entrance fees and zone fees for the visits mentioned in the program");
-        stringList.add("Drinking water and towel during excursion");
-        stringList.add("Meals included lunch as mentioned in the program");
-        sightSeeingTour.setInclude(stringList);
-
-        stringList = new ArrayList<>();
-        stringList.add("Accommodations");
-        stringList.add("Flight Tickets");
-        stringList.add("Person Insurance");
-        stringList.add("Porterage Fee");
-        stringList.add("Visa Fee");
-        stringList.add("All expense of purely personal nature");
-        sightSeeingTour.setExclude(stringList);
-
-        stringList = new ArrayList<>();
-        stringList.add("Tour timing:7AM - 8PM Bangkok Time");
-        sightSeeingTour.setThingsToNote(stringList);
-
-        return sightSeeingTour;
-    }
-
     public static void setUpListTitleAndDescriptionValuesInParent(Context context,
                                                                   LinearLayout parent,
                                                                   List<TitleAndDescription> list,
@@ -276,5 +170,19 @@ public class DataSet {
 
     public interface OnClearClickListener {
         void onClear();
+    }
+
+    public static boolean isIncludeInWishList(String tourId) {
+        if (wishLists == null || wishLists.isEmpty()) {
+            return false;
+        }
+
+        for (WishList w : wishLists) {
+            if (w.getTourId().equals(tourId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

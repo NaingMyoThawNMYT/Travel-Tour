@@ -99,18 +99,12 @@ public abstract class MainTourActivity extends BaseSecondActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void changeIcon(MenuItem item) {
+    void changeIcon(MenuItem item) {
         bookmark = !bookmark;
 
         item.setIcon(getResources().getDrawable(bookmark
                 ? R.drawable.ic_bookmark_white_24dp
                 : R.drawable.ic_bookmark_border_white_24dp));
-
-        Toast.makeText(MainTourActivity.this,
-                bookmark
-                        ? "Added to wishlist"
-                        : "Removed from wishlist",
-                Toast.LENGTH_SHORT).show();
     }
 
     public com.schoolproject.traveltour.model.Menu getParamTourOrFinishActivity() {
