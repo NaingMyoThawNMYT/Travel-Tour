@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 
+import com.google.firebase.database.DatabaseReference;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
@@ -109,5 +110,11 @@ public class PackageTourActivity extends MainTourActivity {
         Intent i = new Intent(this, BookingActivity.class);
         i.putExtra(BookingActivity.PARAM_SELECTED_TOUR, packageTour);
         startActivity(i);
+    }
+
+    @Override
+    void bookMark(DatabaseReference myRef, BookMarkCallback callback) {
+        // TODO: 3/31/2020 add to wish list
+        callback.isBookMarked(!bookmark);
     }
 }

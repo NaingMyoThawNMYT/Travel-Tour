@@ -6,6 +6,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.Booking;
 import com.schoolproject.traveltour.utils.DateUtil;
 
@@ -46,7 +47,8 @@ public class InvoiceActivity extends BaseSecondActivity {
 
         tvNo.setText(booking.getId());
         tvDate.setText(DateUtil.stdDateFormat(new Date(Long.parseLong(booking.getBookingDate()))));
-        tvType.setText(booking.getTourType());
+        TourType tourType = TourType.getTourTypeByCode(booking.getTourType());
+        tvType.setText(tourType == null ? null : tourType.getName());
         tvTourName.setText(booking.getPackageName());
         tvPrice.setText(booking.getPackagePrice());
         tvName.setText(booking.getUsername());

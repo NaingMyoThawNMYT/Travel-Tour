@@ -7,7 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.utils.Constants;
 
 public abstract class MainTourActivity extends BaseSecondActivity {
     boolean bookmark;
@@ -36,19 +41,36 @@ public abstract class MainTourActivity extends BaseSecondActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == R.id.action_wishlist) {
-            bookmark = !bookmark;
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
 
-            item.setIcon(getResources().getDrawable(bookmark
-                    ? R.drawable.ic_bookmark_white_24dp
-                    : R.drawable.ic_bookmark_border_white_24dp));
+            if (currentUser == null) {
+                Toast.makeText(this, "Please login first!", Toast.LENGTH_SHORT).show();
+                return false;
+            }
 
-            Toast.makeText(this,
-                    bookmark
-                            ? "Added to wishlist"
-                            : "Removed from wishlist",
-                    Toast.LENGTH_SHORT).show();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference myRef = database.getReference(Constants.TABLE_NAME_WISH_LIST)
+                    .child(currentUser.getUid());
+
+            bookMark(myRef, new BookMarkCallback() {
+                @Override
+                public void isBookMarked(boolean isBookMarked) {
+                    bookmark = isBookMarked;
+
+                    item.setIcon(getResources().getDrawable(bookmark
+                            ? R.drawable.ic_bookmark_white_24dp
+                            : R.drawable.ic_bookmark_border_white_24dp));
+
+                    Toast.makeText(MainTourActivity.this,
+                            bookmark
+                                    ? "Added to wishlist"
+                                    : "Removed from wishlist",
+                            Toast.LENGTH_SHORT).show();
+                }
+            });
 
             return true;
         }
@@ -78,5 +100,13 @@ public abstract class MainTourActivity extends BaseSecondActivity {
         finish();
     }
 
+    public interface BookMarkCallback {
+        void isBookMarked(boolean isBookMarked);
+    }
+
+    ;
+
     abstract void goToBookingActivity();
+
+    abstract void bookMark(DatabaseReference myRef, BookMarkCallback callback);
 }
