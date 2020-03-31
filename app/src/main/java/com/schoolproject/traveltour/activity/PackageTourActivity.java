@@ -15,11 +15,12 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 
-import com.google.firebase.database.DatabaseReference;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
+import com.schoolproject.traveltour.model.WishList;
 import com.schoolproject.traveltour.utils.BitmapUtil;
+import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class PackageTourActivity extends MainTourActivity {
@@ -113,8 +114,12 @@ public class PackageTourActivity extends MainTourActivity {
     }
 
     @Override
-    void bookMark(DatabaseReference myRef, BookMarkCallback callback) {
-        // TODO: 3/31/2020 add to wish list
-        callback.isBookMarked(!bookmark);
+    void bookMark(BookMarkCallback callback) {
+        WishList wishList = new WishList();
+        wishList.setTourId(packageTour.getId());
+        wishList.setTourType(Constants.TABLE_NAME_PACKAGE_TOUR);
+        wishList.setTourCountry(BookingActivity.selectedCountry);
+
+        callback.saveOrRemoveBookmark(wishList);
     }
 }

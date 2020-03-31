@@ -3,18 +3,9 @@ package com.schoolproject.traveltour.model;
 import java.io.Serializable;
 
 public class WishList implements Serializable {
-    private String id;
     private String tourId;
     private String tourCountry;
     private String tourType;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     public String getTourId() {
         return tourId;
