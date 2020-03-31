@@ -17,12 +17,15 @@ import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
+import com.schoolproject.traveltour.model.WishList;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataSet {
     public static final String[] TOUR_LIST = new String[]{"Package Tour", "Optional Tour", "Sightseeing Tour"};
+
+    public static List<WishList> wishLists = null;
 
     public static List<Menu> getMenuList() {
         List<Menu> menuList = new ArrayList<>();

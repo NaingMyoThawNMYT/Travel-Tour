@@ -1,35 +1,83 @@
 package com.schoolproject.traveltour.activity;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.MenuAdapter;
 import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.model.Menu;
+import com.schoolproject.traveltour.model.WishList;
+import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PARAM_COUNTRY = "param_country";
 
     private Country selectedCountry;
 
+    private ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initUI();
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+
+        if (currentUser == null) {
+            Toast.makeText(this, "Please login first!", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        progressDialog.show();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        database.getReference(Constants.TABLE_NAME_WISH_LIST)
+                .child(currentUser.getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        progressDialog.dismiss();
+                        DataSet.wishLists = new ArrayList<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            WishList wishList = new WishList();
+                            wishList.parse((Map<String, Object>) snapshot.getValue());
+                            DataSet.wishLists.add(wishList);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        progressDialog.dismiss();
+                    }
+                });
     }
 
     @Override
@@ -87,6 +135,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         rv.setAdapter(menuAdapter);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
     }
 
     private void showCountryChooserDialog() {

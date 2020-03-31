@@ -1,6 +1,7 @@
 package com.schoolproject.traveltour.model;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class WishList implements Serializable {
     private String tourId;
@@ -29,5 +30,11 @@ public class WishList implements Serializable {
 
     public void setTourType(String tourType) {
         this.tourType = tourType;
+    }
+
+    public void parse(Map<String, Object> map) {
+        tourId = (String) map.get("tourId");
+        tourCountry = (String) map.get("tourCountry");
+        tourType = (String) map.get("tourType");
     }
 }
