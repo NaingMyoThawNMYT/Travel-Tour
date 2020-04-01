@@ -21,7 +21,6 @@ import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.WishList;
 import com.schoolproject.traveltour.utils.BitmapUtil;
-import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class OptionalTourActivity extends MainTourActivity {

@@ -23,7 +23,6 @@ import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 import com.schoolproject.traveltour.model.WishList;
 import com.schoolproject.traveltour.utils.BitmapUtil;
-import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class PackageTourActivity extends MainTourActivity {
