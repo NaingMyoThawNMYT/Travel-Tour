@@ -14,6 +14,9 @@ import com.schoolproject.traveltour.activity.MainActivity;
 import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.Menu;
+import com.schoolproject.traveltour.model.OptionalTour;
+import com.schoolproject.traveltour.model.PackageTour;
+import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 import com.schoolproject.traveltour.model.WishList;
 
@@ -187,30 +190,37 @@ public class DataSet {
         return true;
     }
 
-    public static List<WishList> getPackageTourWishLists() {
-        return getWishList(TourType.PACKAGE_TOUR.getCode());
-    }
+    public static List<Menu> getBookmarkedTours() {
+        List<Menu> tours = new ArrayList<>();
 
-    public static List<WishList> getOptionalTourWishLists() {
-        return getWishList(TourType.OPTIONAL_TOUR.getCode());
-    }
-
-    public static List<WishList> getSightseeingTourWishLists() {
-        return getWishList(TourType.SIGHTSEEING_TOUR.getCode());
-    }
-
-    private static List<WishList> getWishList(String tourType) {
-        if (wishLists == null || wishLists.isEmpty()) {
-            return null;
+        if (tourDataSet == null ||
+                tourDataSet.isEmpty() ||
+                wishLists == null ||
+                wishLists.isEmpty()) {
+            return tours;
         }
 
-        List<WishList> wishLists = new ArrayList<>();
-        for (WishList w : DataSet.wishLists) {
-            if (w.getTourType().equals(tourType)) {
-                wishLists.add(w);
+        for (WishList wishList : wishLists) {
+            for (Map<String, Object> map : tourDataSet) {
+                if (wishList.getTourId().equals(map.get("id"))) {
+                    Menu tour = null;
+                    String type = (String) map.get("type");
+                    if (TourType.PACKAGE_TOUR.getCode().equals(type)) {
+                        tour = new PackageTour();
+                    } else if (TourType.OPTIONAL_TOUR.getCode().equals(type)) {
+                        tour = new OptionalTour();
+                    } else if (TourType.SIGHTSEEING_TOUR.getCode().equals(type)) {
+                        tour = new SightSeeingTour();
+                    }
+
+                    if (tour != null) {
+                        tour.parse(map);
+                        tours.add(tour);
+                    }
+                }
             }
         }
 
-        return wishLists;
+        return tours;
     }
 }
