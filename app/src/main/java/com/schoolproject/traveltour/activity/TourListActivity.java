@@ -107,9 +107,9 @@ public class TourListActivity extends AppCompatActivity {
     }
 
     private void goToTourDetails(Class detailsClass, Menu tour) {
-        Intent sightseeingTourIntent = new Intent(TourListActivity.this, detailsClass);
-        sightseeingTourIntent.putExtra(PARAM_TOUR, tour);
-        startActivity(sightseeingTourIntent);
+        Intent i = new Intent(TourListActivity.this, detailsClass);
+        i.putExtra(PARAM_TOUR, tour);
+        startActivity(i);
     }
 
     private void refreshTourList(int position) {

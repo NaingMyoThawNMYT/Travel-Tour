@@ -1,15 +1,17 @@
 package com.schoolproject.traveltour.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.adapter.MenuAdapter;
 import com.schoolproject.traveltour.model.Menu;
+import com.schoolproject.traveltour.model.OptionalTour;
+import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.utils.DataSet;
-
-import java.util.List;
 
 public class WishListActivity extends AppCompatActivity {
 
@@ -18,8 +20,29 @@ public class WishListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wishlist);
 
-        List<Menu> tours = DataSet.getBookmarkedTours();
+        RecyclerView rv = findViewById(R.id.rv);
+        MenuAdapter menuAdapter = new MenuAdapter(this,
+                DataSet.getBookmarkedTours(),
+                new MenuAdapter.MenuClickListener() {
+                    @Override
+                    public void onClick(Menu menu) {
+                        Class detailsClass;
+                        if (menu instanceof OptionalTour) {
+                            detailsClass = OptionalTourActivity.class;
+                        } else if (menu instanceof SightSeeingTour) {
+                            detailsClass = SightseeingTourActivity.class;
+                        } else {
+                            detailsClass = PackageTourActivity.class;
+                        }
+                        goToTourDetails(detailsClass, menu);
+                    }
+                });
+        rv.setAdapter(menuAdapter);
+    }
 
-        Toast.makeText(this, tours.size() + "", Toast.LENGTH_SHORT).show();
+    private void goToTourDetails(Class detailsClass, Menu tour) {
+        Intent i = new Intent(this, detailsClass);
+        i.putExtra(TourListActivity.PARAM_TOUR, tour);
+        startActivity(i);
     }
 }
