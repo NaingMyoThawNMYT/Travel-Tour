@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.schoolproject.traveltour.R;
 
-public class WishlistActivity extends AppCompatActivity {
+public class WishListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

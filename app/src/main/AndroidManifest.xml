@@ -15,7 +15,7 @@
         <activity android:name=".activity.NewOptionalTourActivity" />
         <activity android:name=".activity.TitleAndDescriptionActivity" />
         <activity android:name=".activity.NewPackageTourActivity" />
-        <activity android:name=".activity.WishlistActivity" />
+        <activity android:name=".activity.WishListActivity" />
         <activity android:name=".activity.InvoiceActivity" />
         <activity android:name=".activity.BookingActivity" />
         <activity android:name=".activity.SightseeingTourActivity" />

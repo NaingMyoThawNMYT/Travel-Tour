@@ -20,6 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.enums.Country;
+import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 import com.schoolproject.traveltour.utils.BitmapUtil;
@@ -56,9 +57,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         optionalTour = new OptionalTour();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
-                .child(country.getCode())
-                .child(Constants.TABLE_NAME_OPTIONAL_TOUR);
+        myRef = database.getReference(Constants.TABLE_NAME_TOUR);
 
         initUI();
         initListener();
@@ -142,6 +141,8 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         }
 
         optionalTour.setId(id);
+        optionalTour.setCountry(BookingActivity.selectedCountry);
+        optionalTour.setType(TourType.OPTIONAL_TOUR.getCode());
         optionalTour.setTitle(title);
         optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));
         optionalTour.setDescription(UiUtil.getString(edtTourDescription));

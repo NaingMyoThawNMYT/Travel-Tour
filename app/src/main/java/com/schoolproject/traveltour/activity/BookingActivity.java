@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.Booking;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.OptionalTour;
@@ -124,13 +125,13 @@ public class BookingActivity extends BaseSecondActivity {
 
         if (packageTour != null) {
             tourId = packageTour.getId();
-            tourType = Constants.TABLE_NAME_PACKAGE_TOUR;
+            tourType = TourType.PACKAGE_TOUR.getCode();
         } else if (optionalTour != null) {
             tourId = optionalTour.getId();
-            tourType = Constants.TABLE_NAME_OPTIONAL_TOUR;
+            tourType = TourType.OPTIONAL_TOUR.getCode();
         } else {
             tourId = sightSeeingTour.getId();
-            tourType = Constants.TABLE_NAME_SIGHTSEEING_TOUR;
+            tourType = TourType.SIGHTSEEING_TOUR.getCode();
         }
 
         final Booking booking = new Booking();

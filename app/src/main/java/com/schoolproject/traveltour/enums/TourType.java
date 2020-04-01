@@ -1,11 +1,9 @@
 package com.schoolproject.traveltour.enums;
 
-import com.schoolproject.traveltour.utils.Constants;
-
 public enum TourType {
-    PACKAGE_TOUR(Constants.TABLE_NAME_PACKAGE_TOUR, "Package Tour"),
-    OPTIONAL_TOUR(Constants.TABLE_NAME_OPTIONAL_TOUR, "Optional Tour"),
-    SIGHTSEEING_TOUR(Constants.TABLE_NAME_SIGHTSEEING_TOUR, "Sightseeing Tour");
+    PACKAGE_TOUR("package_tour", "Package Tour"),
+    OPTIONAL_TOUR("optional_tour", "Optional Tour"),
+    SIGHTSEEING_TOUR("sightseeing_tour", "Sightseeing Tour");
 
     private final String code;
     private final String name;

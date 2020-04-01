@@ -12,10 +12,8 @@ import android.widget.TextView;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.activity.MainActivity;
 import com.schoolproject.traveltour.enums.Country;
+import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.Menu;
-import com.schoolproject.traveltour.model.OptionalTour;
-import com.schoolproject.traveltour.model.PackageTour;
-import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 import com.schoolproject.traveltour.model.WishList;
 
@@ -172,17 +170,44 @@ public class DataSet {
         void onClear();
     }
 
-    public static boolean isIncludeInWishList(String tourId) {
+    public static boolean isNotIncludeInWishList(String tourId) {
         if (wishLists == null || wishLists.isEmpty()) {
-            return false;
+            return true;
         }
 
         for (WishList w : wishLists) {
             if (w.getTourId().equals(tourId)) {
-                return true;
+                return false;
             }
         }
 
-        return false;
+        return true;
+    }
+
+    public static List<WishList> getPackageTourWishLists() {
+        return getWishList(TourType.PACKAGE_TOUR.getCode());
+    }
+
+    public static List<WishList> getOptionalTourWishLists() {
+        return getWishList(TourType.OPTIONAL_TOUR.getCode());
+    }
+
+    public static List<WishList> getSightseeingTourWishLists() {
+        return getWishList(TourType.SIGHTSEEING_TOUR.getCode());
+    }
+
+    private static List<WishList> getWishList(String tourType) {
+        if (wishLists == null || wishLists.isEmpty()) {
+            return null;
+        }
+
+        List<WishList> wishLists = new ArrayList<>();
+        for (WishList w : DataSet.wishLists) {
+            if (w.getTourType().equals(tourType)) {
+                wishLists.add(w);
+            }
+        }
+
+        return wishLists;
     }
 }

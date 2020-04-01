@@ -17,6 +17,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.model.WishList;
 import com.schoolproject.traveltour.utils.BitmapUtil;
@@ -70,7 +71,7 @@ public class SightseeingTourActivity extends MainTourActivity {
         super.onCreateOptionsMenu(menu);
 
         MenuItem item = menu.findItem(R.id.action_wishlist);
-        bookmark = !DataSet.isIncludeInWishList(sightSeeingTour.getId());
+        bookmark = DataSet.isNotIncludeInWishList(sightSeeingTour.getId());
         changeIcon(item);
 
         return true;
@@ -87,7 +88,7 @@ public class SightseeingTourActivity extends MainTourActivity {
     void bookMark(BookMarkCallback callback) {
         WishList wishList = new WishList();
         wishList.setTourId(sightSeeingTour.getId());
-        wishList.setTourType(Constants.TABLE_NAME_SIGHTSEEING_TOUR);
+        wishList.setTourType(TourType.SIGHTSEEING_TOUR.getCode());
         wishList.setTourCountry(BookingActivity.selectedCountry);
 
         callback.saveOrRemoveBookmark(wishList);

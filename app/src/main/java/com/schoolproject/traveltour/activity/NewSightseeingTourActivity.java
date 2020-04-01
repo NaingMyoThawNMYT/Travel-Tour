@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.enums.Country;
+import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
 import com.schoolproject.traveltour.utils.BitmapUtil;
@@ -54,9 +55,7 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         sightSeeingTour = new SightSeeingTour();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
-                .child(country.getCode())
-                .child(Constants.TABLE_NAME_SIGHTSEEING_TOUR);
+        myRef = database.getReference(Constants.TABLE_NAME_TOUR);
 
         initUI();
         initListener();
@@ -212,6 +211,8 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         }
 
         sightSeeingTour.setId(id);
+        sightSeeingTour.setCountry(BookingActivity.selectedCountry);
+        sightSeeingTour.setType(TourType.SIGHTSEEING_TOUR.getCode());
         sightSeeingTour.setTitle(title);
 
         // Saving to firebase

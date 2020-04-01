@@ -17,12 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.MenuAdapter;
 import com.schoolproject.traveltour.enums.Country;
+import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.PackageTour;
@@ -37,34 +37,17 @@ import java.util.Map;
 public class TourListActivity extends AppCompatActivity {
     public static final String PARAM_TOUR = "param_tour";
 
-    private DatabaseReference packageRef, optionalRef, sightseeingRef;
+    private List<Map<String, Object>> tourDataSet = new ArrayList<>();
     private ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             progressDialog.dismiss();
-            List<Menu> dataSet = new ArrayList<>();
 
-            if (tourListSpinner.getSelectedItemPosition() == 1) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    OptionalTour tour = new OptionalTour();
-                    tour.parse((Map<String, Object>) snapshot.getValue());
-                    dataSet.add(tour);
-                }
-            } else if (tourListSpinner.getSelectedItemPosition() == 1) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    SightSeeingTour tour = new SightSeeingTour();
-                    tour.parse((Map<String, Object>) snapshot.getValue());
-                    dataSet.add(tour);
-                }
-            } else {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    PackageTour tour = new PackageTour();
-                    tour.parse((Map<String, Object>) snapshot.getValue());
-                    dataSet.add(tour);
-                }
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                tourDataSet.add((Map<String, Object>) snapshot.getValue());
             }
 
-            menuAdapter.setDataSet(dataSet);
+            refreshTourList(tourListSpinner.getSelectedItemPosition());
         }
 
         @Override
@@ -90,21 +73,19 @@ public class TourListActivity extends AppCompatActivity {
             return;
         }
 
+        initUI();
+        initListener();
+
         BookingActivity.selectedCountry = country.getCode();
 
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(Constants.TABLE_NAME_COUNTRY)
-                .child(country.getCode());
-        packageRef = myRef.child(Constants.TABLE_NAME_PACKAGE_TOUR);
-        optionalRef = myRef.child(Constants.TABLE_NAME_OPTIONAL_TOUR);
-        sightseeingRef = myRef.child(Constants.TABLE_NAME_SIGHTSEEING_TOUR);
+        FirebaseDatabase.getInstance()
+                .getReference(Constants.TABLE_NAME_TOUR)
+                .addValueEventListener(valueEventListener);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
-
-        initUI();
-        initListener();
+        progressDialog.show();
     }
 
     @Override
@@ -152,27 +133,7 @@ public class TourListActivity extends AppCompatActivity {
         tourListSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                progressDialog.show();
-                switch (position) {
-                    case 0: {
-                        packageRef.addValueEventListener(valueEventListener);
-                        optionalRef.removeEventListener(valueEventListener);
-                        sightseeingRef.removeEventListener(valueEventListener);
-                        break;
-                    }
-                    case 1: {
-                        packageRef.removeEventListener(valueEventListener);
-                        optionalRef.addValueEventListener(valueEventListener);
-                        sightseeingRef.removeEventListener(valueEventListener);
-                        break;
-                    }
-                    case 2: {
-                        packageRef.removeEventListener(valueEventListener);
-                        optionalRef.removeEventListener(valueEventListener);
-                        sightseeingRef.addValueEventListener(valueEventListener);
-                        break;
-                    }
-                }
+                refreshTourList(position);
             }
 
             @Override
@@ -185,5 +146,42 @@ public class TourListActivity extends AppCompatActivity {
         Intent sightseeingTourIntent = new Intent(TourListActivity.this, detailsClass);
         sightseeingTourIntent.putExtra(PARAM_TOUR, tour);
         startActivity(sightseeingTourIntent);
+    }
+
+    private void refreshTourList(int position) {
+        List<Menu> tours = new ArrayList<>();
+        if (tourDataSet != null && !tourDataSet.isEmpty()) {
+            Menu tour = null;
+            TourType type = null;
+            switch (position) {
+                case 0: {
+                    tour = new PackageTour();
+                    type = TourType.PACKAGE_TOUR;
+                    break;
+                }
+                case 1: {
+                    tour = new OptionalTour();
+                    type = TourType.OPTIONAL_TOUR;
+                    break;
+                }
+                case 2: {
+                    tour = new SightSeeingTour();
+                    type = TourType.SIGHTSEEING_TOUR;
+                    break;
+                }
+            }
+
+            if (tour != null) {
+                for (Map<String, Object> map : tourDataSet) {
+                    if (type.getCode().equals(map.get("type")) &&
+                            BookingActivity.selectedCountry.equals(map.get("country"))) {
+                        tour.parse(map);
+                        tours.add(tour);
+                    }
+                }
+            }
+        }
+
+        menuAdapter.setDataSet(tours);
     }
 }
