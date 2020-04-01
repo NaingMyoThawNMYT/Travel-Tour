@@ -19,11 +19,14 @@ import com.schoolproject.traveltour.model.WishList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DataSet {
     public static final String[] TOUR_LIST = new String[]{"Package Tour", "Optional Tour", "Sightseeing Tour"};
 
     public static List<WishList> wishLists = null;
+
+    public static List<Map<String, Object>> tourDataSet;
 
     public static List<Menu> getMenuList() {
         List<Menu> menuList = new ArrayList<>();

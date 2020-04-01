@@ -37,6 +37,23 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     public static final String PARAM_COUNTRY = "param_country";
 
+    private ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            progressDialog.dismiss();
+
+            DataSet.tourDataSet = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                DataSet.tourDataSet.add((Map<String, Object>) snapshot.getValue());
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            progressDialog.dismiss();
+        }
+    };
+
     private Country selectedCountry;
 
     private ProgressDialog progressDialog;
@@ -57,19 +74,21 @@ public class MainActivity extends AppCompatActivity {
         }
 
         progressDialog.show();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
         database.getReference(Constants.TABLE_NAME_WISH_LIST)
                 .child(currentUser.getUid())
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        progressDialog.dismiss();
                         DataSet.wishLists = new ArrayList<>();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             WishList wishList = new WishList();
                             wishList.parse((Map<String, Object>) snapshot.getValue());
                             DataSet.wishLists.add(wishList);
                         }
+
+                        database.getReference(Constants.TABLE_NAME_TOUR)
+                                .addValueEventListener(valueEventListener);
                     }
 
                     @Override

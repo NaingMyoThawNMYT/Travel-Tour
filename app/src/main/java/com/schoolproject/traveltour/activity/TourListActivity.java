@@ -1,6 +1,5 @@
 package com.schoolproject.traveltour.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -9,16 +8,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.MenuAdapter;
 import com.schoolproject.traveltour.enums.Country;
@@ -27,7 +21,6 @@ import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.SightSeeingTour;
-import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 
 import java.util.ArrayList;
@@ -37,26 +30,6 @@ import java.util.Map;
 public class TourListActivity extends AppCompatActivity {
     public static final String PARAM_TOUR = "param_tour";
 
-    private List<Map<String, Object>> tourDataSet = new ArrayList<>();
-    private ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            progressDialog.dismiss();
-
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                tourDataSet.add((Map<String, Object>) snapshot.getValue());
-            }
-
-            refreshTourList(tourListSpinner.getSelectedItemPosition());
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-            progressDialog.dismiss();
-        }
-    };
-
-    private ProgressDialog progressDialog;
     private AppCompatSpinner tourListSpinner;
     private MenuAdapter menuAdapter;
 
@@ -77,15 +50,6 @@ public class TourListActivity extends AppCompatActivity {
         initListener();
 
         BookingActivity.selectedCountry = country.getCode();
-
-        FirebaseDatabase.getInstance()
-                .getReference(Constants.TABLE_NAME_TOUR)
-                .addValueEventListener(valueEventListener);
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
     }
 
     @Override
@@ -150,7 +114,7 @@ public class TourListActivity extends AppCompatActivity {
 
     private void refreshTourList(int position) {
         List<Menu> tours = new ArrayList<>();
-        if (tourDataSet != null && !tourDataSet.isEmpty()) {
+        if (DataSet.tourDataSet != null && !DataSet.tourDataSet.isEmpty()) {
             Menu tour = null;
             TourType type = null;
             switch (position) {
@@ -172,7 +136,7 @@ public class TourListActivity extends AppCompatActivity {
             }
 
             if (tour != null) {
-                for (Map<String, Object> map : tourDataSet) {
+                for (Map<String, Object> map : DataSet.tourDataSet) {
                     if (type.getCode().equals(map.get("type")) &&
                             BookingActivity.selectedCountry.equals(map.get("country"))) {
                         tour.parse(map);
