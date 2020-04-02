@@ -20,12 +20,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.utils.DataSet;
 import com.schoolproject.traveltour.utils.UiUtil;
 
 public class SignInActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_SIGN_UP = 1324;
-
-    public static boolean isAdmin;
 
     private FirebaseAuth mAuth;
 
@@ -68,7 +67,7 @@ public class SignInActivity extends AppCompatActivity {
                     return;
                 }
 
-                isAdmin = email.equals("admin@gmail.com");
+                DataSet.isAdmin = email.equals("admin@gmail.com");
 
                 progressDialog.setMessage("Loading...");
                 progressDialog.setCancelable(false);

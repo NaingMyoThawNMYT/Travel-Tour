@@ -176,7 +176,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         }
 
         newPackageTour.setId(id);
-        newPackageTour.setCountry(BookingActivity.selectedCountry);
+        newPackageTour.setCountry(DataSet.selectedCountry);
         newPackageTour.setType(TourType.PACKAGE_TOUR.getCode());
         newPackageTour.setTitle(title);
 

@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setTitle("Popular Trip");
         }
 
-        if (SignInActivity.isAdmin) {
+        if (DataSet.isAdmin) {
             FloatingActionButton fab = findViewById(R.id.fab);
             fab.setVisibility(View.VISIBLE);
             fab.setOnClickListener(new View.OnClickListener() {

@@ -131,7 +131,7 @@ public class PackageTourActivity extends MainTourActivity {
         WishList wishList = new WishList();
         wishList.setTourId(packageTour.getId());
         wishList.setTourType(TourType.PACKAGE_TOUR.getCode());
-        wishList.setTourCountry(BookingActivity.selectedCountry);
+        wishList.setTourCountry(DataSet.selectedCountry);
 
         callback.saveOrRemoveBookmark(wishList);
     }

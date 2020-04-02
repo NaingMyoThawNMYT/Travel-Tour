@@ -31,6 +31,10 @@ public class DataSet {
 
     public static List<Map<String, Object>> tourDataSet;
 
+    public static String selectedCountry = null;
+
+    public static boolean isAdmin;
+
     public static List<Menu> getMenuList() {
         List<Menu> menuList = new ArrayList<>();
         menuList.add(new Menu("maldives", "Maldives", null));

@@ -141,7 +141,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         }
 
         optionalTour.setId(id);
-        optionalTour.setCountry(BookingActivity.selectedCountry);
+        optionalTour.setCountry(DataSet.selectedCountry);
         optionalTour.setType(TourType.OPTIONAL_TOUR.getCode());
         optionalTour.setTitle(title);
         optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));

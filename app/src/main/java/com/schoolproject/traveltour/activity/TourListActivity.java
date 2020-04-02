@@ -49,7 +49,7 @@ public class TourListActivity extends AppCompatActivity {
         initUI();
         initListener();
 
-        BookingActivity.selectedCountry = country.getCode();
+        DataSet.selectedCountry = country.getCode();
     }
 
     @Override
@@ -138,7 +138,7 @@ public class TourListActivity extends AppCompatActivity {
             if (tour != null) {
                 for (Map<String, Object> map : DataSet.tourDataSet) {
                     if (type.getCode().equals(map.get("type")) &&
-                            BookingActivity.selectedCountry.equals(map.get("country"))) {
+                            DataSet.selectedCountry.equals(map.get("country"))) {
                         tour.parse(map);
                         tours.add(tour);
                     }

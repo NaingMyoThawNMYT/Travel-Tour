@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.model.WishList;
 import com.schoolproject.traveltour.utils.Constants;
+import com.schoolproject.traveltour.utils.DataSet;
 
 public abstract class MainTourActivity extends BaseSecondActivity {
     boolean bookmark;
@@ -27,7 +28,7 @@ public abstract class MainTourActivity extends BaseSecondActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_simple);
 
-        if (!SignInActivity.isAdmin) {
+        if (!DataSet.isAdmin) {
             Button btnBookNow = findViewById(R.id.btn_book_now);
             btnBookNow.setVisibility(View.VISIBLE);
             btnBookNow.setOnClickListener(new View.OnClickListener() {

@@ -211,7 +211,7 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         }
 
         sightSeeingTour.setId(id);
-        sightSeeingTour.setCountry(BookingActivity.selectedCountry);
+        sightSeeingTour.setCountry(DataSet.selectedCountry);
         sightSeeingTour.setType(TourType.SIGHTSEEING_TOUR.getCode());
         sightSeeingTour.setTitle(title);
 

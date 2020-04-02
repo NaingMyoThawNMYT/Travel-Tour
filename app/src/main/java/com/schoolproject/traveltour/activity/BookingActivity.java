@@ -24,13 +24,13 @@ import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.utils.Constants;
+import com.schoolproject.traveltour.utils.DataSet;
 import com.schoolproject.traveltour.utils.UiUtil;
 
 import java.util.Date;
 
 public class BookingActivity extends BaseSecondActivity {
     public static final String PARAM_SELECTED_TOUR = "param_selected_tour";
-    public static String selectedCountry = null;
 
     private DatabaseReference myRef;
 
@@ -138,7 +138,7 @@ public class BookingActivity extends BaseSecondActivity {
         booking.setId(id);
         booking.setBookingDate(String.valueOf(new Date().getTime()));
         booking.setTourId(tourId);
-        booking.setTourCountry(selectedCountry);
+        booking.setTourCountry(DataSet.selectedCountry);
         booking.setTourType(tourType);
         // TODO: 3/29/2020 get package name and price from activity params
         booking.setPackageName("Sample Package Name");

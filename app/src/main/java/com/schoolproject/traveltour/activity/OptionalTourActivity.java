@@ -100,7 +100,7 @@ public class OptionalTourActivity extends MainTourActivity {
         WishList wishList = new WishList();
         wishList.setTourId(optionalTour.getId());
         wishList.setTourType(TourType.OPTIONAL_TOUR.getCode());
-        wishList.setTourCountry(BookingActivity.selectedCountry);
+        wishList.setTourCountry(DataSet.selectedCountry);
 
         callback.saveOrRemoveBookmark(wishList);
     }
