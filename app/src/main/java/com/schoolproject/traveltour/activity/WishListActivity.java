@@ -36,6 +36,10 @@ public class WishListActivity extends AppCompatActivity {
                         }
                         goToTourDetails(detailsClass, menu);
                     }
+
+                    @Override
+                    public void onLongClick(Menu menu) {
+                    }
                 });
         rv.setAdapter(menuAdapter);
     }

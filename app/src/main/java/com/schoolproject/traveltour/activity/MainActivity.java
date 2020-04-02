@@ -151,6 +151,10 @@ public class MainActivity extends AppCompatActivity {
                 i.putExtra(PARAM_COUNTRY, country);
                 startActivity(i);
             }
+
+            @Override
+            public void onLongClick(Menu menu) {
+            }
         });
         rv.setAdapter(menuAdapter);
 

@@ -89,10 +89,20 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
                     menuClickListener.onClick(dataSet.get(getAdapterPosition()));
                 }
             });
+
+            itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    menuClickListener.onLongClick(dataSet.get(getAdapterPosition()));
+                    return true;
+                }
+            });
         }
     }
 
     public interface MenuClickListener {
         void onClick(Menu menu);
+
+        void onLongClick(Menu menu);
     }
 }

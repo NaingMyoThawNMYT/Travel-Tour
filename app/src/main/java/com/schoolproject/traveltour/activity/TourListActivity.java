@@ -1,5 +1,9 @@
 package com.schoolproject.traveltour.activity;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -8,19 +12,22 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.MenuAdapter;
 import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.enums.TourType;
+import com.schoolproject.traveltour.factory.TourFactory;
 import com.schoolproject.traveltour.model.Menu;
-import com.schoolproject.traveltour.model.OptionalTour;
-import com.schoolproject.traveltour.model.PackageTour;
-import com.schoolproject.traveltour.model.SightSeeingTour;
+import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 
 import java.util.ArrayList;
@@ -32,6 +39,7 @@ public class TourListActivity extends AppCompatActivity {
 
     private AppCompatSpinner tourListSpinner;
     private MenuAdapter menuAdapter;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,8 +97,19 @@ public class TourListActivity extends AppCompatActivity {
                 }
                 goToTourDetails(detailsClass, menu);
             }
+
+            @Override
+            public void onLongClick(Menu menu) {
+                if (DataSet.isAdmin) {
+                    showDeleteConfirmDialog(TourListActivity.this, menu);
+                }
+            }
         });
         recyclerView.setAdapter(menuAdapter);
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.setCancelable(false);
     }
 
     private void initListener() {
@@ -115,30 +134,27 @@ public class TourListActivity extends AppCompatActivity {
     private void refreshTourList(int position) {
         List<Menu> tours = new ArrayList<>();
         if (DataSet.tourDataSet != null && !DataSet.tourDataSet.isEmpty()) {
-            Menu tour = null;
             TourType type = null;
             switch (position) {
                 case 0: {
-                    tour = new PackageTour();
                     type = TourType.PACKAGE_TOUR;
                     break;
                 }
                 case 1: {
-                    tour = new OptionalTour();
                     type = TourType.OPTIONAL_TOUR;
                     break;
                 }
                 case 2: {
-                    tour = new SightSeeingTour();
                     type = TourType.SIGHTSEEING_TOUR;
                     break;
                 }
             }
 
-            if (tour != null) {
+            if (type != null) {
                 for (Map<String, Object> map : DataSet.tourDataSet) {
                     if (type.getCode().equals(map.get("type")) &&
                             DataSet.selectedCountry.equals(map.get("country"))) {
+                        Menu tour = TourFactory.createNewTour(type);
                         tour.parse(map);
                         tours.add(tour);
                     }
@@ -147,5 +163,48 @@ public class TourListActivity extends AppCompatActivity {
         }
 
         menuAdapter.setDataSet(tours);
+    }
+
+    private void showDeleteConfirmDialog(Context context, final Menu menu) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Are you sure?")
+                .setMessage("Delete " + menu.getTitle())
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteMenu(menu);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void deleteMenu(Menu menu) {
+        progressDialog.show();
+        FirebaseDatabase.getInstance()
+                .getReference(Constants.TABLE_NAME_TOUR)
+                .child(menu.getId())
+                .removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(TourListActivity.this,
+                                    "Deleted successfully",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(TourListActivity.this,
+                                    "Failed to delete! Try again!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
