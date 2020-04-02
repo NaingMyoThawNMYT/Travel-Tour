@@ -1,6 +1,7 @@
 package com.schoolproject.traveltour.model;
 
 import java.io.Serializable;
+import java.util.Map;
 
 public class Booking implements Serializable {
     private String id;
@@ -110,5 +111,20 @@ public class Booking implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void parse(Map<String, Object> map) {
+        id = (String) map.get("id");
+        bookingDate = (String) map.get("bookingDate");
+        tourId = (String) map.get("tourId");
+        tourCountry = (String) map.get("tourCountry");
+        tourType = (String) map.get("tourType");
+        packageName = (String) map.get("packageName");
+        packagePrice = (String) map.get("packagePrice");
+        username = (String) map.get("username");
+        passportNo = (String) map.get("passportNo");
+        phone = (String) map.get("phone");
+        email = (String) map.get("email");
+        address = (String) map.get("address");
     }
 }

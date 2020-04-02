@@ -5,7 +5,7 @@
     <item
         android:id="@+id/action_invoice"
         android:icon="@drawable/ic_invoiced_white_24dp"
-        android:title="@string/invoice"
+        android:title="@string/invoiced_list"
         android:visible="false"
         app:showAsAction="ifRoom" />
 

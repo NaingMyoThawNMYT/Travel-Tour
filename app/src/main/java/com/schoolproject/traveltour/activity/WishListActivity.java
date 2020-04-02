@@ -18,7 +18,7 @@ public class WishListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wishlist);
+        setContentView(R.layout.activity_list);
 
         RecyclerView rv = findViewById(R.id.rv);
         MenuAdapter menuAdapter = new MenuAdapter(this,
