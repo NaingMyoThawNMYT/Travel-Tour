@@ -101,17 +101,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        if (DataSet.isAdmin) {
+            menu.findItem(R.id.action_invoice).setVisible(true);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_wishlist) {
-            startActivity(new Intent(this, WishListActivity.class));
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_wishlist: {
+                startActivity(new Intent(this, WishListActivity.class));
+                break;
+            }
+            case R.id.action_invoice: {
+                startActivity(new Intent(this, InvoicedActivity.class));
+                break;
+            }
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private void initUI() {
