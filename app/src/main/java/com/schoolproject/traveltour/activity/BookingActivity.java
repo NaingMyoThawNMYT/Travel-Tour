@@ -32,11 +32,12 @@ import java.util.Date;
 public class BookingActivity extends BaseSecondActivity {
     public static final String PARAM_SELECTED_TOUR = "param_selected_tour";
 
-    private DatabaseReference myRef;
+    private String tourId;
+    private String tourType;
+    private String packageName;
+    private String packagePrice;
 
-    private PackageTour packageTour;
-    private OptionalTour optionalTour;
-    private SightSeeingTour sightSeeingTour;
+    private DatabaseReference myRef;
 
     private TextInputEditText edtName, edtPassportNo, edtPhone, edtEmail, edtAddress;
     private ProgressDialog progressDialog;
@@ -61,11 +62,23 @@ public class BookingActivity extends BaseSecondActivity {
         }
 
         if (tour instanceof PackageTour) {
-            packageTour = (PackageTour) tour;
+            PackageTour packageTour = (PackageTour) tour;
+            tourId = packageTour.getId();
+            tourType = TourType.PACKAGE_TOUR.getCode();
+            packageName = packageTour.getTitle();
+            packagePrice = packageTour.getPrice().get(0).getDescription();
         } else if (tour instanceof OptionalTour) {
-            optionalTour = (OptionalTour) tour;
+            OptionalTour optionalTour = (OptionalTour) tour;
+            tourId = optionalTour.getId();
+            tourType = TourType.OPTIONAL_TOUR.getCode();
+            packageName = optionalTour.getTitle();
+            packagePrice = optionalTour.getPrices().get(0).getDescription();
         } else if (tour instanceof SightSeeingTour) {
-            sightSeeingTour = (SightSeeingTour) tour;
+            SightSeeingTour sightSeeingTour = (SightSeeingTour) tour;
+            tourId = sightSeeingTour.getId();
+            tourType = TourType.SIGHTSEEING_TOUR.getCode();
+            packageName = sightSeeingTour.getTitle();
+            packagePrice = sightSeeingTour.getPrice().get(0).getDescription();
         } else {
             showErrorToast();
             return;
@@ -120,29 +133,14 @@ public class BookingActivity extends BaseSecondActivity {
             return;
         }
 
-        String tourId;
-        String tourType;
-
-        if (packageTour != null) {
-            tourId = packageTour.getId();
-            tourType = TourType.PACKAGE_TOUR.getCode();
-        } else if (optionalTour != null) {
-            tourId = optionalTour.getId();
-            tourType = TourType.OPTIONAL_TOUR.getCode();
-        } else {
-            tourId = sightSeeingTour.getId();
-            tourType = TourType.SIGHTSEEING_TOUR.getCode();
-        }
-
         final Booking booking = new Booking();
         booking.setId(id);
         booking.setBookingDate(String.valueOf(new Date().getTime()));
         booking.setTourId(tourId);
         booking.setTourCountry(DataSet.selectedCountry);
         booking.setTourType(tourType);
-        // TODO: 3/29/2020 get package name and price from activity params
-        booking.setPackageName("Sample Package Name");
-        booking.setPackagePrice("150000");
+        booking.setPackageName(packageName);
+        booking.setPackagePrice(packagePrice);
         booking.setUsername(UiUtil.getString(edtName));
         booking.setPassportNo(UiUtil.getString(edtPassportNo));
         booking.setPhone(UiUtil.getString(edtPhone));
