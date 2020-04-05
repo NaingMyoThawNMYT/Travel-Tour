@@ -54,10 +54,10 @@ public class TourListActivity extends AppCompatActivity {
             return;
         }
 
+        DataSet.selectedCountry = country.getCode();
+
         initUI();
         initListener();
-
-        DataSet.selectedCountry = country.getCode();
     }
 
     @Override

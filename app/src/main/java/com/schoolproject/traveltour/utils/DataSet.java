@@ -25,7 +25,11 @@ import java.util.List;
 import java.util.Map;
 
 public class DataSet {
-    public static final String[] TOUR_LIST = new String[]{"Package Tour", "Optional Tour", "Sightseeing Tour"};
+    public static final String[] TOUR_LIST = new String[]{
+            TourType.PACKAGE_TOUR.getName(),
+            TourType.OPTIONAL_TOUR.getName(),
+            TourType.SIGHTSEEING_TOUR.getName()
+    };
 
     public static List<WishList> wishLists = null;
 
