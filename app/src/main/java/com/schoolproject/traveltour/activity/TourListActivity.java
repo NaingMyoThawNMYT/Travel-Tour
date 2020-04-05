@@ -6,10 +6,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -40,6 +43,7 @@ public class TourListActivity extends AppCompatActivity {
     private AppCompatSpinner tourListSpinner;
     private MenuAdapter menuAdapter;
     private ProgressDialog progressDialog;
+    private EditText edtSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,9 +81,11 @@ public class TourListActivity extends AppCompatActivity {
             actionBar.setHomeAsUpIndicator(R.drawable.ic_keyboard_arrow_left_white_24dp);
         }
         tourListSpinner = findViewById(R.id.tour_spinner);
+        edtSearch = findViewById(R.id.edt_search);
         RecyclerView recyclerView = findViewById(R.id.main_rv);
 
         findViewById(R.id.tour_spinner_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.edt_search).setVisibility(View.VISIBLE);
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, DataSet.TOUR_LIST);
         tourListSpinner.setAdapter(adapter);
@@ -121,6 +127,21 @@ public class TourListActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                menuAdapter.getFilter().filter(s);
             }
         });
     }

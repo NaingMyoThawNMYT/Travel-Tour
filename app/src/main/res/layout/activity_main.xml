@@ -18,7 +18,21 @@
             android:id="@+id/tour_spinner"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </androidx.cardview.widget.CardView>
+
+    <EditText
+        android:id="@+id/edt_search"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="8dp"
+        android:background="@drawable/border_bg"
+        android:drawableEnd="@drawable/ic_search_blue_24dp"
+        android:hint="@string/search"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/tour_spinner_layout" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/main_rv"
@@ -28,7 +42,7 @@
         android:paddingBottom="100dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tour_spinner_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/edt_search" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

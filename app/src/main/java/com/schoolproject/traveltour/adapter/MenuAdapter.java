@@ -5,6 +5,8 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +20,10 @@ import com.schoolproject.traveltour.utils.BitmapUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
+public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> implements Filterable {
     private Context mContext;
     private List<Menu> dataSet;
+    private List<Menu> filteredDataSet;
     private MenuClickListener menuClickListener;
 
     public MenuAdapter(Context mContext, MenuClickListener menuClickListener) {
@@ -30,6 +33,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
     public MenuAdapter(Context mContext, List<Menu> dataSet, MenuClickListener menuClickListener) {
         this.mContext = mContext;
         this.dataSet = dataSet;
+        this.filteredDataSet = dataSet;
         this.menuClickListener = menuClickListener;
     }
 
@@ -42,7 +46,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Menu menu = dataSet.get(holder.getAdapterPosition());
+        Menu menu = filteredDataSet.get(holder.getAdapterPosition());
 
         if (!TextUtils.isEmpty(menu.getBase64ImageStr())) {
             holder.imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(menu.getBase64ImageStr()));
@@ -63,12 +67,45 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
 
     public void setDataSet(List<Menu> dataSet) {
         this.dataSet = dataSet;
+        this.filteredDataSet = dataSet;
         this.notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return dataSet == null ? 0 : dataSet.size();
+        return filteredDataSet == null ? 0 : filteredDataSet.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String searchTerm = charSequence.toString().trim().toLowerCase();
+
+                final List<Menu> filteredList = new ArrayList<>();
+                if (searchTerm.isEmpty()) {
+                    filteredList.addAll(new ArrayList<>(dataSet));
+                } else {
+                    for (Menu tour : dataSet) {
+                        if (tour.getTitle().toLowerCase().contains(searchTerm.toLowerCase())) {
+                            filteredList.add(tour);
+                        }
+                    }
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = filteredList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                filteredDataSet = (List<Menu>) filterResults.values;
+
+                notifyDataSetChanged();
+            }
+        };
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -86,14 +123,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    menuClickListener.onClick(dataSet.get(getAdapterPosition()));
+                    menuClickListener.onClick(filteredDataSet.get(getAdapterPosition()));
                 }
             });
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    menuClickListener.onLongClick(dataSet.get(getAdapterPosition()));
+                    menuClickListener.onLongClick(filteredDataSet.get(getAdapterPosition()));
                     return true;
                 }
             });
