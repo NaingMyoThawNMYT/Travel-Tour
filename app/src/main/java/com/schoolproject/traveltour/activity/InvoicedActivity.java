@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -20,7 +21,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.InvoicedAdapter;
 import com.schoolproject.traveltour.model.Booking;
-import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.utils.Constants;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class InvoicedActivity extends BaseSecondActivity {
                         new InvoicedAdapter.OnClickListener() {
                             @Override
                             public void onClick(Booking booking) {
-                                // TODO: 4/2/2020 go to detail
+                                showInvoiceDetails(booking);
                             }
 
                             @Override
@@ -80,6 +80,12 @@ public class InvoicedActivity extends BaseSecondActivity {
                 progressDialog.dismiss();
             }
         });
+    }
+
+    private void showInvoiceDetails(Booking booking) {
+        Intent i = new Intent(this, InvoiceActivity.class);
+        i.putExtra(InvoiceActivity.PARAM_BOOKING, booking);
+        startActivity(i);
     }
 
     private void showDeleteConfirmDialog(Context context, final Booking booking) {
