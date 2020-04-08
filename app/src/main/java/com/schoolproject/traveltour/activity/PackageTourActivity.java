@@ -51,12 +51,13 @@ public class PackageTourActivity extends MainTourActivity {
         }
 
         if (!TextUtils.isEmpty(packageTour.getBase64ImageStr())) {
-            CardView cv = (CardView) LayoutInflater.from(this)
+            View parentViewGroup = LayoutInflater.from(this)
                     .inflate(R.layout.image_view, parent, false);
-            ImageView ima = cv.findViewById(R.id.img_background);
+            parentViewGroup.findViewById(R.id.location).setVisibility(View.GONE);
+            ImageView ima = parentViewGroup.findViewById(R.id.img_background);
             ima.setImageBitmap(BitmapUtil.base64StringToBitmap(packageTour.getBase64ImageStr()));
-            cv.findViewById(R.id.img_add).setVisibility(View.GONE);
-            parent.addView(cv);
+            parentViewGroup.findViewById(R.id.img_add).setVisibility(View.GONE);
+            parent.addView(parentViewGroup);
         }
 
         DataSet.setUpListTitleAndDescriptionValuesInParent(this, parent, packageTour.getPrice(), getString(R.string.price_for_package), padding);

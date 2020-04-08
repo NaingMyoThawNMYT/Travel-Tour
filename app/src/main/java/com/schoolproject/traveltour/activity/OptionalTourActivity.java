@@ -58,12 +58,13 @@ public class OptionalTourActivity extends MainTourActivity {
         }
 
         if (!TextUtils.isEmpty(optionalTour.getBase64ImageStr())) {
-            CardView cv = (CardView) LayoutInflater.from(this)
+            View parentViewGroup = LayoutInflater.from(this)
                     .inflate(R.layout.image_view, parent, false);
-            ImageView imageView = cv.findViewById(R.id.img_background);
+            parentViewGroup.findViewById(R.id.location).setVisibility(View.GONE);
+            ImageView imageView = parentViewGroup.findViewById(R.id.img_background);
             imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(optionalTour.getBase64ImageStr()));
-            cv.findViewById(R.id.img_add).setVisibility(View.GONE);
-            parent.addView(cv);
+            parentViewGroup.findViewById(R.id.img_add).setVisibility(View.GONE);
+            parent.addView(parentViewGroup);
         }
 
         if (!TextUtils.isEmpty(optionalTour.getDescription())) {
