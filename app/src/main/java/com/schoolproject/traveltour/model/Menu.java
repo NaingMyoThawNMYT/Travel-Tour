@@ -14,6 +14,8 @@ public class Menu implements Serializable {
     private String title;
     private String description;
     private String base64ImageStr;
+    private double latitude;
+    private double longitude;
 
     public Menu() {
     }
@@ -80,11 +82,29 @@ public class Menu implements Serializable {
         this.base64ImageStr = base64ImageStr;
     }
 
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+
     public void parse(Map<String, Object> map) {
         id = (String) map.get("id");
         title = (String) map.get("title");
         description = (String) map.get("description");
         base64ImageStr = (String) map.get("base64ImageStr");
+        latitude = (double) map.get("latitude");
+        longitude = (double) map.get("longitude");
     }
 
     List<TitleAndDescription> convertToTitleAndDescriptionList(List<HashMap<String, String>> list) {

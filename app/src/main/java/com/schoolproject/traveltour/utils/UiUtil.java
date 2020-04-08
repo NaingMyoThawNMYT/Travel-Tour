@@ -10,4 +10,9 @@ public class UiUtil {
         Editable e = edt.getText();
         return e == null ? null : e.toString();
     }
+
+    public static double getDouble(TextInputEditText edt) {
+        Editable e = edt.getText();
+        return e == null ? 0 : Double.parseDouble(e.toString());
+    }
 }

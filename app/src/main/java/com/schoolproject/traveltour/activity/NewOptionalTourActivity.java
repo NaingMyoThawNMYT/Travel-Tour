@@ -146,6 +146,8 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         optionalTour.setTitle(title);
         optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));
         optionalTour.setDescription(UiUtil.getString(edtTourDescription));
+        optionalTour.setLatitude(UiUtil.getDouble(edtLat));
+        optionalTour.setLongitude(UiUtil.getDouble(edtLng));
 
         // Saving to firebase
         progressDialog.show();
@@ -164,6 +166,9 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
     }
 
     private void initUI() {
+        edtLat = findViewById(R.id.edt_lat);
+        edtLng = findViewById(R.id.edt_lng);
+
         View benefits = findViewById(R.id.benefits);
         TextView tvBenefitsTitle = benefits.findViewById(R.id.tv_title);
         layoutBenefits = benefits.findViewById(R.id.layout);

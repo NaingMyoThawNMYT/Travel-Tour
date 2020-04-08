@@ -14,8 +14,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.cardview.widget.CardView;
-
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.OptionalTour;
@@ -61,8 +59,16 @@ public class OptionalTourActivity extends MainTourActivity {
             View parentViewGroup = LayoutInflater.from(this)
                     .inflate(R.layout.image_view, parent, false);
             parentViewGroup.findViewById(R.id.location).setVisibility(View.GONE);
-            ImageView imageView = parentViewGroup.findViewById(R.id.img_background);
-            imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(optionalTour.getBase64ImageStr()));
+            ImageView img = parentViewGroup.findViewById(R.id.img_background);
+            img.setImageBitmap(BitmapUtil.base64StringToBitmap(optionalTour.getBase64ImageStr()));
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    goToMapActivity(optionalTour.getTitle(),
+                            optionalTour.getLatitude(),
+                            optionalTour.getLongitude());
+                }
+            });
             parentViewGroup.findViewById(R.id.img_add).setVisibility(View.GONE);
             parent.addView(parentViewGroup);
         }

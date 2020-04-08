@@ -214,6 +214,8 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         sightSeeingTour.setCountry(DataSet.selectedCountry);
         sightSeeingTour.setType(TourType.SIGHTSEEING_TOUR.getCode());
         sightSeeingTour.setTitle(title);
+        sightSeeingTour.setLatitude(UiUtil.getDouble(edtLat));
+        sightSeeingTour.setLongitude(UiUtil.getDouble(edtLng));
 
         // Saving to firebase
         progressDialog.show();
@@ -232,6 +234,9 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
     }
 
     private void initUI() {
+        edtLat = findViewById(R.id.edt_lat);
+        edtLng = findViewById(R.id.edt_lng);
+
         edtTourTitle = findViewById(R.id.edt_name);
 
         View itinerary = findViewById(R.id.itinerary);

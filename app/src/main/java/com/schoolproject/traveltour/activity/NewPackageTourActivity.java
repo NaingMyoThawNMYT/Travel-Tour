@@ -179,6 +179,8 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         newPackageTour.setCountry(DataSet.selectedCountry);
         newPackageTour.setType(TourType.PACKAGE_TOUR.getCode());
         newPackageTour.setTitle(title);
+        newPackageTour.setLatitude(UiUtil.getDouble(edtLat));
+        newPackageTour.setLongitude(UiUtil.getDouble(edtLng));
 
         // Saving to firebase
         progressDialog.show();
@@ -197,6 +199,9 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
     }
 
     private void initUI() {
+        edtLat = findViewById(R.id.edt_lat);
+        edtLng = findViewById(R.id.edt_lng);
+
         edtTourTitle = findViewById(R.id.edt_name);
 
         View price = findViewById(R.id.price);

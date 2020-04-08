@@ -1,5 +1,6 @@
 package com.schoolproject.traveltour.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -144,6 +145,18 @@ public abstract class MainTourActivity extends BaseSecondActivity {
         Toast.makeText(this,
                 "Fail to remove from bookmark! Try again!",
                 Toast.LENGTH_SHORT).show();
+    }
+
+    void goToMapActivity(String title, double lat, double lng) {
+        if (lat == 0 && lng == 0) {
+            return;
+        }
+
+        Intent i = new Intent(this, MapsActivity.class);
+        i.putExtra(MapsActivity.PARAM_TITLE, title);
+        i.putExtra(MapsActivity.PARAM_LAT, lat);
+        i.putExtra(MapsActivity.PARAM_LNG, lng);
+        startActivity(i);
     }
 
     abstract void goToBookingActivity();

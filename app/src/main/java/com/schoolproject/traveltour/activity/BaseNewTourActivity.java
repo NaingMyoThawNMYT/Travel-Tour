@@ -15,7 +15,7 @@ public abstract class BaseNewTourActivity extends BaseSecondActivity {
 
     public DatabaseReference myRef;
     public ProgressDialog progressDialog;
-    public TextInputEditText edtTourTitle;
+    public TextInputEditText edtTourTitle, edtLat, edtLng;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
