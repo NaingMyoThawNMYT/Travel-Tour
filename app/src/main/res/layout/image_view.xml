@@ -37,50 +37,14 @@
 
     </androidx.cardview.widget.CardView>
 
-    <LinearLayout
+    <TextView
         android:id="@+id/location"
+        style="@style/TextAppearance.MaterialComponents.Subtitle1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/app_name"
-            android:padding="8dp"
-            android:src="@drawable/ic_location_on_black_24dp"
-            android:tint="@color/colorAccent" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_lat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/latitude"
-                android:imeOptions="actionNext"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edt_lng"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/longitude"
-                android:imeOptions="actionNext"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-    </LinearLayout>
+        android:drawableStart="@drawable/ic_location_yellow_24dp"
+        android:drawablePadding="8dp"
+        android:padding="8dp"
+        android:text="@string/add_location_map" />
 
 </LinearLayout>

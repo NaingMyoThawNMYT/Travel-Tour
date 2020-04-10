@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -126,6 +127,12 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
     }
 
     @Override
+    void onLocationMapSelected(LatLng latLng) {
+        optionalTour.setLatitude(latLng.latitude);
+        optionalTour.setLongitude(latLng.longitude);
+    }
+
+    @Override
     void saveNewTour() {
         final String title = UiUtil.getString(edtTourTitle);
         if (TextUtils.isEmpty(title)) {
@@ -146,8 +153,6 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         optionalTour.setTitle(title);
         optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));
         optionalTour.setDescription(UiUtil.getString(edtTourDescription));
-        optionalTour.setLatitude(UiUtil.getDouble(edtLat));
-        optionalTour.setLongitude(UiUtil.getDouble(edtLng));
 
         // Saving to firebase
         progressDialog.show();
@@ -166,9 +171,6 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
     }
 
     private void initUI() {
-        edtLat = findViewById(R.id.edt_lat);
-        edtLng = findViewById(R.id.edt_lng);
-
         View benefits = findViewById(R.id.benefits);
         TextView tvBenefitsTitle = benefits.findViewById(R.id.tv_title);
         layoutBenefits = benefits.findViewById(R.id.layout);
@@ -190,6 +192,24 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         edtTourTitle = findViewById(R.id.edt_tour_name);
         edtTourSubTitle = findViewById(R.id.edt_tour_sub_title);
         edtTourDescription = findViewById(R.id.edt_tour_description);
+
+        initAddMapUI();
+    }
+
+    private void initAddMapUI() {
+        tvAddMap = findViewById(R.id.location);
+        tvAddMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(NewOptionalTourActivity.this, MapsActivity.class);
+                i.putExtra(MapsActivity.PARAM_LAT, optionalTour.getLatitude());
+                i.putExtra(MapsActivity.PARAM_LNG, optionalTour.getLongitude());
+                i.putExtra(MapsActivity.PARAM_SET_LONG_CLICK_LISTENER, true);
+                startActivityForResult(
+                        i,
+                        REQUEST_CODE);
+            }
+        });
     }
 
     private void initListener() {

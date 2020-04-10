@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
@@ -196,6 +197,12 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
     }
 
     @Override
+    void onLocationMapSelected(LatLng latLng) {
+        sightSeeingTour.setLatitude(latLng.latitude);
+        sightSeeingTour.setLongitude(latLng.longitude);
+    }
+
+    @Override
     void saveNewTour() {
         final String title = UiUtil.getString(edtTourTitle);
         if (TextUtils.isEmpty(title)) {
@@ -214,8 +221,6 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         sightSeeingTour.setCountry(DataSet.selectedCountry);
         sightSeeingTour.setType(TourType.SIGHTSEEING_TOUR.getCode());
         sightSeeingTour.setTitle(title);
-        sightSeeingTour.setLatitude(UiUtil.getDouble(edtLat));
-        sightSeeingTour.setLongitude(UiUtil.getDouble(edtLng));
 
         // Saving to firebase
         progressDialog.show();
@@ -234,9 +239,6 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
     }
 
     private void initUI() {
-        edtLat = findViewById(R.id.edt_lat);
-        edtLng = findViewById(R.id.edt_lng);
-
         edtTourTitle = findViewById(R.id.edt_name);
 
         View itinerary = findViewById(R.id.itinerary);
@@ -288,6 +290,24 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         btnAddThingsToNote.setText(R.string.add_things_to_note);
 
         imageView = findViewById(R.id.img_background);
+
+        initAddMapUI();
+    }
+
+    private void initAddMapUI() {
+        tvAddMap = findViewById(R.id.location);
+        tvAddMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(NewSightseeingTourActivity.this, MapsActivity.class);
+                i.putExtra(MapsActivity.PARAM_LAT, sightSeeingTour.getLatitude());
+                i.putExtra(MapsActivity.PARAM_LNG, sightSeeingTour.getLongitude());
+                i.putExtra(MapsActivity.PARAM_SET_LONG_CLICK_LISTENER, true);
+                startActivityForResult(
+                        i,
+                        REQUEST_CODE);
+            }
+        });
     }
 
     private void initListener() {

@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
@@ -161,6 +162,12 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
     }
 
     @Override
+    void onLocationMapSelected(LatLng latLng) {
+        newPackageTour.setLatitude(latLng.latitude);
+        newPackageTour.setLongitude(latLng.longitude);
+    }
+
+    @Override
     void saveNewTour() {
         final String title = UiUtil.getString(edtTourTitle);
         if (TextUtils.isEmpty(title)) {
@@ -179,8 +186,6 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         newPackageTour.setCountry(DataSet.selectedCountry);
         newPackageTour.setType(TourType.PACKAGE_TOUR.getCode());
         newPackageTour.setTitle(title);
-        newPackageTour.setLatitude(UiUtil.getDouble(edtLat));
-        newPackageTour.setLongitude(UiUtil.getDouble(edtLng));
 
         // Saving to firebase
         progressDialog.show();
@@ -199,9 +204,6 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
     }
 
     private void initUI() {
-        edtLat = findViewById(R.id.edt_lat);
-        edtLng = findViewById(R.id.edt_lng);
-
         edtTourTitle = findViewById(R.id.edt_name);
 
         View price = findViewById(R.id.price);
@@ -237,6 +239,24 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         btnAddPackageNotInclude.setText(R.string.add_not_include);
 
         imageView = findViewById(R.id.img_background);
+
+        initAddMapUI();
+    }
+
+    private void initAddMapUI() {
+        tvAddMap = findViewById(R.id.location);
+        tvAddMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(NewPackageTourActivity.this, MapsActivity.class);
+                i.putExtra(MapsActivity.PARAM_LAT, newPackageTour.getLatitude());
+                i.putExtra(MapsActivity.PARAM_LNG, newPackageTour.getLongitude());
+                i.putExtra(MapsActivity.PARAM_SET_LONG_CLICK_LISTENER, true);
+                startActivityForResult(
+                        i,
+                        REQUEST_CODE);
+            }
+        });
     }
 
     private void initListener() {

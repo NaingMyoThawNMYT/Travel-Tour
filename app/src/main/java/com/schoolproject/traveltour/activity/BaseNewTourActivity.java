@@ -4,18 +4,25 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.schoolproject.traveltour.R;
 
 public abstract class BaseNewTourActivity extends BaseSecondActivity {
+    public static final int REQUEST_CODE = 1;
+
     public int padding;
 
     public DatabaseReference myRef;
     public ProgressDialog progressDialog;
-    public TextInputEditText edtTourTitle, edtLat, edtLng;
+    public TextInputEditText edtTourTitle;
+    public TextView tvAddMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +51,23 @@ public abstract class BaseNewTourActivity extends BaseSecondActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK &&
+                requestCode == REQUEST_CODE &&
+                data != null &&
+                data.getExtras() != null) {
+            tvAddMap.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location_yellow_24dp,
+                    0,
+                    R.drawable.ic_check_green_24dp,
+                    0);
+            onLocationMapSelected(
+                    (LatLng) data.getExtras().get(MapsActivity.RESULT_LAT_LNG));
+        }
+    }
+
     public void goToTitleAndDescriptionActivity(String title, boolean showTitle, int requestCode) {
         Intent intent = new Intent(this, TitleAndDescriptionActivity.class);
         intent.putExtra(TitleAndDescriptionActivity.PARAM_ACTIVITY_TITLE, title);
@@ -52,7 +76,9 @@ public abstract class BaseNewTourActivity extends BaseSecondActivity {
     }
 
     public void showErrorToast() {
-        Toast.makeText(this, "Please choose country first!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,
+                "Please choose country first!",
+                Toast.LENGTH_SHORT).show();
     }
 
     public void showFailToSaveToast() {
@@ -60,6 +86,8 @@ public abstract class BaseNewTourActivity extends BaseSecondActivity {
                 "Fail to save! Try again!",
                 Toast.LENGTH_SHORT).show();
     }
+
+    abstract void onLocationMapSelected(LatLng latLng);
 
     abstract void saveNewTour();
 }
