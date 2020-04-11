@@ -128,7 +128,16 @@ public class MainActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showAddOptionsChooserDialog();
+                    showTourTypeChooserDialog();
+                }
+            });
+
+            FloatingActionButton fabCountry = findViewById(R.id.fab_country);
+            fabCountry.setVisibility(View.VISIBLE);
+            fabCountry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, CountryEditActivity.class));
                 }
             });
         }
@@ -141,30 +150,6 @@ public class MainActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
-    }
-
-    private void showAddOptionsChooserDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_add_options_chooser);
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-
-        RadioGroup rdgCountry = dialog.findViewById(R.id.rdg_tour_type);
-        rdgCountry.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                dialog.dismiss();
-                if (checkedId == R.id.rdb_add_new_tour) {
-                    showTourTypeChooserDialog();
-                } else if (checkedId == R.id.rdb_add_new_country) {
-                    startActivity(new Intent(MainActivity.this, CountryEditActivity.class));
-                }
-            }
-        });
-
-        dialog.show();
     }
 
     private void showTourTypeChooserDialog() {
