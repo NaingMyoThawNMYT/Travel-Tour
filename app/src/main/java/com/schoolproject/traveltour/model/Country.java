@@ -1,8 +1,9 @@
 package com.schoolproject.traveltour.model;
 
+import java.io.Serializable;
 import java.util.Map;
 
-public class Country {
+public class Country implements Serializable {
     private String id;
     private String name;
     private String imageBase64;

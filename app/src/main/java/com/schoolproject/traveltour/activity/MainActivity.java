@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
                 if (checkedId == R.id.rdb_add_new_tour) {
                     showTourTypeChooserDialog();
                 } else if (checkedId == R.id.rdb_add_new_country) {
-                    // TODO: 4/11/2020 go to new country editor activity
+                    startActivity(new Intent(MainActivity.this, CountryEditActivity.class));
                 }
             }
         });

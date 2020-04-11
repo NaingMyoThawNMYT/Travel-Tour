@@ -75,4 +75,5 @@
     <string name="add_location_map">Add Location Map</string>
     <string name="add_new_tour">Add New Tour</string>
     <string name="add_new_country">Add New Country</string>
+    <string name="country_editor">Country Editor</string>
 </resources>
