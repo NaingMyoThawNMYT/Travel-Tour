@@ -37,7 +37,10 @@ import java.util.List;
 import java.util.Map;
 
 public class TourListActivity extends AppCompatActivity {
-    public static final String PARAM_TOUR = "param_tour";
+    public static final String PARAM_COUNTRY_ID = "PARAM_COUNTRY_ID";
+    public static final String PARAM_TOUR = "PARAM_TOUR";
+
+    private String countryId;
 
     private AppCompatSpinner tourListSpinner;
     private MenuAdapter menuAdapter;
@@ -48,6 +51,15 @@ public class TourListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Bundle b = getIntent().getExtras();
+        if (b == null || !b.containsKey(PARAM_COUNTRY_ID)) {
+            Toast.makeText(this, "Please select country first", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        countryId = b.getString(PARAM_COUNTRY_ID);
 
         initUI();
         initListener();
@@ -162,8 +174,8 @@ public class TourListActivity extends AppCompatActivity {
 
             if (type != null) {
                 for (Map<String, Object> map : DataSet.tourDataSet) {
-                    // TODO: 4/11/2020 check country too 
-                    if (type.getCode().equals(map.get("type"))) {
+                    if (type.getCode().equals(map.get("type")) &&
+                            countryId.equals(map.get("countryId"))) {
                         Menu tour = TourFactory.createNewTour(type);
                         tour.parse(map);
                         tours.add(tour);

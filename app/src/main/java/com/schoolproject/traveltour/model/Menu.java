@@ -9,13 +9,14 @@ import java.util.Map;
 public class Menu implements Serializable {
     private String imageUrl;
     private String id;
-    private Country country;
+    private String countryId;
     private String type;
     private String title;
     private String description;
     private String base64ImageStr;
     private double latitude;
     private double longitude;
+    private transient Country country;
 
     public Menu() {
     }
@@ -34,12 +35,12 @@ public class Menu implements Serializable {
         this.id = id;
     }
 
-    public Country getCountry() {
-        return country;
+    public String getCountryId() {
+        return countryId;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setCountryId(String countryId) {
+        this.countryId = countryId;
     }
 
     public String getType() {
@@ -98,14 +99,23 @@ public class Menu implements Serializable {
         this.longitude = longitude;
     }
 
+    public Country getCountry() {
+        return country;
+    }
+
+    public void setCountry(Country country) {
+        this.country = country;
+    }
+
     public void parse(Map<String, Object> map) {
         id = (String) map.get("id");
-        country = Country.parse(map);
+        countryId = (String) map.get("countryId");
         title = (String) map.get("title");
         description = (String) map.get("description");
         base64ImageStr = (String) map.get("base64ImageStr");
         latitude = (double) map.get("latitude");
         longitude = (double) map.get("longitude");
+        country = Country.parse(map);
     }
 
     List<TitleAndDescription> convertToTitleAndDescriptionList(List<HashMap<String, String>> list) {
