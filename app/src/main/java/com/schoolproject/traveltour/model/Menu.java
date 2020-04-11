@@ -1,5 +1,7 @@
 package com.schoolproject.traveltour.model;
 
+import android.text.TextUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -113,8 +115,8 @@ public class Menu implements Serializable {
         title = (String) map.get("title");
         description = (String) map.get("description");
         base64ImageStr = (String) map.get("base64ImageStr");
-        latitude = (double) map.get("latitude");
-        longitude = (double) map.get("longitude");
+        latitude = getDouble(map.get("latitude"));
+        longitude = getDouble(map.get("longitude"));
         country = Country.parse(map);
     }
 
@@ -130,5 +132,13 @@ public class Menu implements Serializable {
         }
 
         return resultList;
+    }
+
+    private double getDouble(Object obj) {
+        try {
+            return (double) obj;
+        } catch (ClassCastException e) {
+            return (long) obj;
+        }
     }
 }

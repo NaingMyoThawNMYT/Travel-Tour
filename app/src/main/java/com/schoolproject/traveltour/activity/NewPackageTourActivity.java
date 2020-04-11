@@ -174,8 +174,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         }
 
         newPackageTour.setId(id);
-        // TODO: 4/11/2020 set country id
-//        newPackageTour.setCountry();
+        newPackageTour.setCountryId(selectedCountryId);
         newPackageTour.setType(TourType.PACKAGE_TOUR.getCode());
         newPackageTour.setTitle(title);
 
@@ -196,6 +195,8 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
     }
 
     private void initUI() {
+        spnCountry = findViewById(R.id.spn_country);
+
         edtTourTitle = findViewById(R.id.edt_name);
 
         View price = findViewById(R.id.price);
@@ -295,5 +296,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                         Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
+
+        initSpinnerListener();
     }
 }

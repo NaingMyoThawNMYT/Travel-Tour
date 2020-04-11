@@ -11,9 +11,12 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <include layout="@layout/layout_country_spinner" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edt_tour_name"

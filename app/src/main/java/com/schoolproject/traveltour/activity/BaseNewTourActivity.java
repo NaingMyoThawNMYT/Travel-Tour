@@ -4,25 +4,34 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.adapter.CountryArrayAdapter;
+import com.schoolproject.traveltour.model.Country;
+import com.schoolproject.traveltour.utils.DataSet;
 
 public abstract class BaseNewTourActivity extends BaseSecondActivity {
     public static final int REQUEST_CODE = 1;
 
     public int padding;
+    public String selectedCountryId;
 
     public DatabaseReference myRef;
     public ProgressDialog progressDialog;
     public TextInputEditText edtTourTitle;
     public TextView tvAddMap;
+    public AppCompatSpinner spnCountry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,16 +84,25 @@ public abstract class BaseNewTourActivity extends BaseSecondActivity {
         startActivityForResult(intent, requestCode);
     }
 
-    public void showErrorToast() {
-        Toast.makeText(this,
-                "Please choose country first!",
-                Toast.LENGTH_SHORT).show();
-    }
-
     public void showFailToSaveToast() {
         Toast.makeText(this,
                 "Fail to save! Try again!",
                 Toast.LENGTH_SHORT).show();
+    }
+
+    public void initSpinnerListener() {
+        ArrayAdapter<Country> adapter = new CountryArrayAdapter(this, DataSet.countries);
+        spnCountry.setAdapter(adapter);
+        spnCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCountryId = DataSet.countries.get(position).getId();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
     }
 
     abstract void onLocationMapSelected(LatLng latLng);

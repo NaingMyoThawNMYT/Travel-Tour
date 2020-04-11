@@ -139,8 +139,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         }
 
         optionalTour.setId(id);
-        // TODO: 4/11/2020 set country id
-//        optionalTour.setCountry();
+        optionalTour.setCountryId(selectedCountryId);
         optionalTour.setType(TourType.OPTIONAL_TOUR.getCode());
         optionalTour.setTitle(title);
         optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));
@@ -163,6 +162,8 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
     }
 
     private void initUI() {
+        spnCountry = findViewById(R.id.spn_country);
+
         View benefits = findViewById(R.id.benefits);
         TextView tvBenefitsTitle = benefits.findViewById(R.id.tv_title);
         layoutBenefits = benefits.findViewById(R.id.layout);
@@ -229,5 +230,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                 ImageChooserUtil.showImageChooser(NewOptionalTourActivity.this, Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
+
+        initSpinnerListener();
     }
 }

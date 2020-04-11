@@ -209,8 +209,7 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         }
 
         sightSeeingTour.setId(id);
-        // TODO: 4/11/2020 set country id
-//        sightSeeingTour.setCountry();
+        sightSeeingTour.setCountryId(selectedCountryId);
         sightSeeingTour.setType(TourType.SIGHTSEEING_TOUR.getCode());
         sightSeeingTour.setTitle(title);
 
@@ -231,6 +230,8 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
     }
 
     private void initUI() {
+        spnCountry = findViewById(R.id.spn_country);
+
         edtTourTitle = findViewById(R.id.edt_name);
 
         View itinerary = findViewById(R.id.itinerary);
@@ -363,5 +364,7 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                 ImageChooserUtil.showImageChooser(NewSightseeingTourActivity.this, Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
+
+        initSpinnerListener();
     }
 }
