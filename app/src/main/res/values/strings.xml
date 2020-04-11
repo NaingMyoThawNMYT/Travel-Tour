@@ -73,4 +73,6 @@
     <string name="latitude">Latitude</string>
     <string name="longitude">Longitude</string>
     <string name="add_location_map">Add Location Map</string>
+    <string name="add_new_tour">Add New Tour</string>
+    <string name="add_new_country">Add New Country</string>
 </resources>

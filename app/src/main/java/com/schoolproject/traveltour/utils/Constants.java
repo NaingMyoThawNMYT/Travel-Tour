@@ -12,6 +12,7 @@ public class Constants {
     public static final int REQUEST_CODE_PACKAGE_INCLUDE = 108;
     public static final int REQUEST_CODE_PACKAGE_NOT_INCLUDE = 109;
 
+    public static final String TABLE_NAME_COUNTRY = "table_country";
     public static final String TABLE_NAME_TOUR = "table_tour";
     public static final String TABLE_NAME_BOOKING = "table_booking";
     public static final String TABLE_NAME_WISH_LIST = "table_wish_list";
