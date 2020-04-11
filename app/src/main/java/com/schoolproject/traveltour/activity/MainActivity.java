@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.adapter.CountryRvAdapter;
 import com.schoolproject.traveltour.model.Country;
 import com.schoolproject.traveltour.model.WishList;
 import com.schoolproject.traveltour.utils.Constants;
@@ -43,8 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 DataSet.countries.add(Country.parse((Map<String, Object>) snapshot.getValue()));
             }
 
-            // TODO: 4/11/2020 refresh adapter
-            Toast.makeText(MainActivity.this, DataSet.countries.size() + "", Toast.LENGTH_SHORT).show();
+            adapter.setDataSet(DataSet.countries);
 
             fetchWishList();
         }
@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private ProgressDialog progressDialog;
+    private RecyclerView rv;
+    private CountryRvAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,10 +161,20 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        RecyclerView rv = findViewById(R.id.main_rv);
-        // TODO: 4/11/2020 create new adapter for country
-        // startActivity(new Intent(MainActivity.this, TourListActivity.class));
-        // rv.setAdapter(menuAdapter);
+        adapter = new CountryRvAdapter(new CountryRvAdapter.onListItemClickListener() {
+            @Override
+            public void onClick(Country country) {
+                startActivity(new Intent(MainActivity.this, TourListActivity.class));
+            }
+
+            @Override
+            public void onLongClick(Country country) {
+                // TODO: 4/11/2020 show delete country dialog
+            }
+        });
+
+        rv = findViewById(R.id.main_rv);
+        rv.setAdapter(adapter);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
