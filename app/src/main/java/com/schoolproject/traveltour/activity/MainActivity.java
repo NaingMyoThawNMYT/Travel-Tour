@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.schoolproject.traveltour.R;
+import com.schoolproject.traveltour.model.Country;
 import com.schoolproject.traveltour.model.WishList;
 import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
@@ -32,8 +33,44 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
+    private FirebaseUser currentUser;
+    private FirebaseDatabase database;
+    private ValueEventListener tableCountryEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            DataSet.countries = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                DataSet.countries.add(Country.parse((Map<String, Object>) snapshot.getValue()));
+            }
 
-    private ValueEventListener valueEventListener = new ValueEventListener() {
+            // TODO: 4/11/2020 refresh adapter
+            Toast.makeText(MainActivity.this, DataSet.countries.size() + "", Toast.LENGTH_SHORT).show();
+
+            fetchWishList();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            progressDialog.dismiss();
+        }
+    };
+    private ValueEventListener tableWishListEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            DataSet.wishLists = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                DataSet.wishLists.add(WishList.parse((Map<String, Object>) snapshot.getValue()));
+            }
+
+            fetchTourList();
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            progressDialog.dismiss();
+        }
+    };
+    private ValueEventListener tableTourEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             progressDialog.dismiss();
@@ -59,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
         initUI();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser currentUser = mAuth.getCurrentUser();
+        currentUser = mAuth.getCurrentUser();
 
         if (currentUser == null) {
             Toast.makeText(this, "Please login first!", Toast.LENGTH_SHORT).show();
@@ -67,29 +104,9 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        progressDialog.show();
-        final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        database.getReference(Constants.TABLE_NAME_WISH_LIST)
-                .child(currentUser.getUid())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        DataSet.wishLists = new ArrayList<>();
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            WishList wishList = new WishList();
-                            wishList.parse((Map<String, Object>) snapshot.getValue());
-                            DataSet.wishLists.add(wishList);
-                        }
+        database = FirebaseDatabase.getInstance();
 
-                        database.getReference(Constants.TABLE_NAME_TOUR)
-                                .addValueEventListener(valueEventListener);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        progressDialog.dismiss();
-                    }
-                });
+        fetchCountryList();
     }
 
     @Override
@@ -182,5 +199,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         dialog.show();
+    }
+
+    private void fetchCountryList() {
+        progressDialog.show();
+        database.getReference(Constants.TABLE_NAME_COUNTRY)
+                .addValueEventListener(tableCountryEventListener);
+    }
+
+    private void fetchWishList() {
+        database.getReference(Constants.TABLE_NAME_WISH_LIST)
+                .child(currentUser.getUid())
+                .addValueEventListener(tableWishListEventListener);
+    }
+
+    private void fetchTourList() {
+        database.getReference(Constants.TABLE_NAME_TOUR)
+                .addValueEventListener(tableTourEventListener);
     }
 }

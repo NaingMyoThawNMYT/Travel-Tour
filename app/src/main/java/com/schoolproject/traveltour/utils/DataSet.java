@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.enums.TourType;
+import com.schoolproject.traveltour.model.Country;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.PackageTour;
@@ -27,6 +28,8 @@ public class DataSet {
             TourType.OPTIONAL_TOUR.getName(),
             TourType.SIGHTSEEING_TOUR.getName()
     };
+
+    public static List<Country> countries = null;
 
     public static List<WishList> wishLists = null;
 

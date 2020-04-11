@@ -32,9 +32,11 @@ public class WishList implements Serializable {
         this.tourType = tourType;
     }
 
-    public void parse(Map<String, Object> map) {
-        tourId = (String) map.get("tourId");
-        tourCountry = (String) map.get("tourCountry");
-        tourType = (String) map.get("tourType");
+    public static WishList parse(Map<String, Object> map) {
+        WishList wishList = new WishList();
+        wishList.setTourId((String) map.get("tourId"));
+        wishList.setTourCountry((String) map.get("tourCountry"));
+        wishList.setTourType((String) map.get("tourType"));
+        return wishList;
     }
 }
