@@ -26,7 +26,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.MenuAdapter;
-import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.factory.TourFactory;
 import com.schoolproject.traveltour.model.Menu;
@@ -49,16 +48,6 @@ public class TourListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Bundle b = getIntent().getExtras();
-        Country country = DataSet.getCountryParam(b);
-        if (country == null) {
-            Toast.makeText(this, "There is no selected country!", Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-
-        DataSet.selectedCountry = country.getCode();
 
         initUI();
         initListener();
@@ -173,8 +162,8 @@ public class TourListActivity extends AppCompatActivity {
 
             if (type != null) {
                 for (Map<String, Object> map : DataSet.tourDataSet) {
-                    if (type.getCode().equals(map.get("type")) &&
-                            DataSet.selectedCountry.equals(map.get("country"))) {
+                    // TODO: 4/11/2020 check country too 
+                    if (type.getCode().equals(map.get("type"))) {
                         Menu tour = TourFactory.createNewTour(type);
                         tour.parse(map);
                         tours.add(tour);

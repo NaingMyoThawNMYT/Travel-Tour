@@ -24,9 +24,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.schoolproject.traveltour.R;
-import com.schoolproject.traveltour.adapter.MenuAdapter;
-import com.schoolproject.traveltour.enums.Country;
-import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.WishList;
 import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
@@ -35,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    public static final String PARAM_COUNTRY = "param_country";
 
     private ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
@@ -53,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
             progressDialog.dismiss();
         }
     };
-
-    private Country selectedCountry;
 
     private ProgressDialog progressDialog;
 
@@ -134,74 +128,19 @@ public class MainActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showCountryChooserDialog();
+                    showTourTypeChooserDialog();
                 }
             });
         }
 
         RecyclerView rv = findViewById(R.id.main_rv);
-        MenuAdapter menuAdapter = new MenuAdapter(this, DataSet.getMenuList(), new MenuAdapter.MenuClickListener() {
-            @Override
-            public void onClick(Menu menu) {
-                Intent i = new Intent(MainActivity.this, TourListActivity.class);
-
-                Country country;
-                if (menu.getTitle().equals(DataSet.getMenuList().get(0).getTitle())) {
-                    country = Country.MALDIVES;
-                } else if (menu.getTitle().equals(DataSet.getMenuList().get(1).getTitle())) {
-                    country = Country.VIETNAM;
-                } else if (menu.getTitle().equals(DataSet.getMenuList().get(2).getTitle())) {
-                    country = Country.MYANMAR;
-                } else {
-                    country = Country.HONG_KONG;
-                }
-
-                i.putExtra(PARAM_COUNTRY, country);
-                startActivity(i);
-            }
-
-            @Override
-            public void onLongClick(Menu menu) {
-            }
-        });
-        rv.setAdapter(menuAdapter);
+        // TODO: 4/11/2020 create new adapter for country
+        // startActivity(new Intent(MainActivity.this, TourListActivity.class));
+        // rv.setAdapter(menuAdapter);
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
-    }
-
-    private void showCountryChooserDialog() {
-        selectedCountry = null;
-
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_country_chooser);
-        if (dialog.getWindow() != null) {
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        }
-
-        RadioGroup rdgCountry = dialog.findViewById(R.id.rdg_country);
-        rdgCountry.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (checkedId == R.id.rdb_maldives) {
-                    selectedCountry = Country.MALDIVES;
-                } else if (checkedId == R.id.rdb_vietnam) {
-                    selectedCountry = Country.VIETNAM;
-                } else if (checkedId == R.id.rdb_myanmar) {
-                    selectedCountry = Country.MYANMAR;
-                } else if (checkedId == R.id.rdb_hong_kong) {
-                    selectedCountry = Country.HONG_KONG;
-                }
-
-                showTourTypeChooserDialog();
-
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
     }
 
     private void showTourTypeChooserDialog() {
@@ -229,9 +168,7 @@ public class MainActivity extends AppCompatActivity {
 
                 dialog.dismiss();
 
-                Intent i = new Intent(MainActivity.this, secondClass);
-                i.putExtra(PARAM_COUNTRY, selectedCountry);
-                startActivity(i);
+                startActivity(new Intent(MainActivity.this, secondClass));
             }
         });
 

@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
-import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
@@ -43,14 +42,6 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_package_tour);
         setHomeBackButtonAndToolbarTitle("New Tour");
-
-        Bundle b = getIntent().getExtras();
-        Country country = DataSet.getCountryParam(b);
-        if (country == null) {
-            showErrorToast();
-            finish();
-            return;
-        }
 
         setHomeBackButtonAndToolbarTitle(getString(R.string.add_package_tour));
 
@@ -183,7 +174,8 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         }
 
         newPackageTour.setId(id);
-        newPackageTour.setCountry(DataSet.selectedCountry);
+        // TODO: 4/11/2020 set country id
+//        newPackageTour.setCountry();
         newPackageTour.setType(TourType.PACKAGE_TOUR.getCode());
         newPackageTour.setTitle(title);
 

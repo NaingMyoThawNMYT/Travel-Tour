@@ -7,7 +7,7 @@ public class Booking implements Serializable {
     private String id;
     private String bookingDate;
     private String tourId;
-    private String tourCountry;
+    private String countryId;
     private String tourType;
     private String packageName;
     private String packagePrice;
@@ -41,12 +41,12 @@ public class Booking implements Serializable {
         this.tourId = tourId;
     }
 
-    public String getTourCountry() {
-        return tourCountry;
+    public String getCountryId() {
+        return countryId;
     }
 
-    public void setTourCountry(String tourCountry) {
-        this.tourCountry = tourCountry;
+    public void setCountryId(String countryId) {
+        this.countryId = countryId;
     }
 
     public String getTourType() {
@@ -117,7 +117,7 @@ public class Booking implements Serializable {
         id = (String) map.get("id");
         bookingDate = (String) map.get("bookingDate");
         tourId = (String) map.get("tourId");
-        tourCountry = (String) map.get("tourCountry");
+        countryId = (String) map.get("countryId");
         tourType = (String) map.get("tourType");
         packageName = (String) map.get("packageName");
         packagePrice = (String) map.get("packagePrice");

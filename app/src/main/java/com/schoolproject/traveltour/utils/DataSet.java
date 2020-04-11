@@ -2,7 +2,6 @@ package com.schoolproject.traveltour.utils;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.schoolproject.traveltour.R;
-import com.schoolproject.traveltour.activity.MainActivity;
-import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.model.OptionalTour;
@@ -35,18 +32,7 @@ public class DataSet {
 
     public static List<Map<String, Object>> tourDataSet;
 
-    public static String selectedCountry = null;
-
     public static boolean isAdmin;
-
-    public static List<Menu> getMenuList() {
-        List<Menu> menuList = new ArrayList<>();
-        menuList.add(new Menu("maldives", "Maldives", null));
-        menuList.add(new Menu("vietnam", "Vietnam", null));
-        menuList.add(new Menu("myanmar", "Myanmar", null));
-        menuList.add(new Menu("hongkong", "Hong Kong", null));
-        return menuList;
-    }
 
     public static void setUpListTitleAndDescriptionValuesInParent(Context context,
                                                                   LinearLayout parent,
@@ -171,13 +157,6 @@ public class DataSet {
         }
 
         parent.addView(textView);
-    }
-
-    public static Country getCountryParam(Bundle b) {
-        if (b == null || !b.containsKey(MainActivity.PARAM_COUNTRY)) {
-            return null;
-        }
-        return (Country) b.get(MainActivity.PARAM_COUNTRY);
     }
 
     public interface OnClearClickListener {

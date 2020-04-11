@@ -20,7 +20,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
-import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
@@ -44,14 +43,6 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_optional_tour);
-
-        Bundle b = getIntent().getExtras();
-        Country country = DataSet.getCountryParam(b);
-        if (country == null) {
-            showErrorToast();
-            finish();
-            return;
-        }
 
         setHomeBackButtonAndToolbarTitle(getString(R.string.add_optional_tour));
 
@@ -148,7 +139,8 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         }
 
         optionalTour.setId(id);
-        optionalTour.setCountry(DataSet.selectedCountry);
+        // TODO: 4/11/2020 set country id
+//        optionalTour.setCountry();
         optionalTour.setType(TourType.OPTIONAL_TOUR.getCode());
         optionalTour.setTitle(title);
         optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));

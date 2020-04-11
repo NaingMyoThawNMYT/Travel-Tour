@@ -95,7 +95,8 @@ public class SightseeingTourActivity extends MainTourActivity {
         WishList wishList = new WishList();
         wishList.setTourId(sightSeeingTour.getId());
         wishList.setTourType(TourType.SIGHTSEEING_TOUR.getCode());
-        wishList.setTourCountry(DataSet.selectedCountry);
+        // TODO: 4/11/2020 set country id
+//        wishList.setTourCountry();
 
         callback.saveOrRemoveBookmark(wishList);
     }

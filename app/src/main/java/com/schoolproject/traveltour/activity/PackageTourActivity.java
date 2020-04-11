@@ -138,7 +138,8 @@ public class PackageTourActivity extends MainTourActivity {
         WishList wishList = new WishList();
         wishList.setTourId(packageTour.getId());
         wishList.setTourType(TourType.PACKAGE_TOUR.getCode());
-        wishList.setTourCountry(DataSet.selectedCountry);
+        // TODO: 4/11/2020 set country id
+//        wishList.setTourCountry();
 
         callback.saveOrRemoveBookmark(wishList);
     }

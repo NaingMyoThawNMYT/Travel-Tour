@@ -24,7 +24,6 @@ import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.PackageTour;
 import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.utils.Constants;
-import com.schoolproject.traveltour.utils.DataSet;
 import com.schoolproject.traveltour.utils.UiUtil;
 
 import java.util.Date;
@@ -137,7 +136,8 @@ public class BookingActivity extends BaseSecondActivity {
         booking.setId(id);
         booking.setBookingDate(String.valueOf(new Date().getTime()));
         booking.setTourId(tourId);
-        booking.setTourCountry(DataSet.selectedCountry);
+        // TODO: 4/11/2020 set country id
+//        booking.setCountryId();
         booking.setTourType(tourType);
         booking.setPackageName(packageName);
         booking.setPackagePrice(packagePrice);

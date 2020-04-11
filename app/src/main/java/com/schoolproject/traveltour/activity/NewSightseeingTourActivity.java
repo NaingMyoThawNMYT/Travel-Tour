@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.schoolproject.traveltour.R;
-import com.schoolproject.traveltour.enums.Country;
 import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.model.TitleAndDescription;
@@ -42,14 +41,6 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_sight_seeing_tour);
-
-        Bundle b = getIntent().getExtras();
-        Country country = DataSet.getCountryParam(b);
-        if (country == null) {
-            showErrorToast();
-            finish();
-            return;
-        }
 
         setHomeBackButtonAndToolbarTitle(getString(R.string.add_sightseeing_tour));
 
@@ -218,7 +209,8 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         }
 
         sightSeeingTour.setId(id);
-        sightSeeingTour.setCountry(DataSet.selectedCountry);
+        // TODO: 4/11/2020 set country id
+//        sightSeeingTour.setCountry();
         sightSeeingTour.setType(TourType.SIGHTSEEING_TOUR.getCode());
         sightSeeingTour.setTitle(title);
 
