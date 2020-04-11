@@ -1,14 +1,17 @@
 package com.schoolproject.traveltour.model;
 
-public class Country {
-    private int id;
-    private String name;
+import java.util.Map;
 
-    public int getId() {
+public class Country {
+    private String id;
+    private String name;
+    private String imageBase64;
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -18,5 +21,21 @@ public class Country {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
+    }
+
+    public static Country parse(Map<String, Object> map) {
+        Country country = new Country();
+        country.setId((String) map.get("id"));
+        country.setName((String) map.get("name"));
+        country.setImageBase64((String) map.get("imageBase64"));
+        return country;
     }
 }

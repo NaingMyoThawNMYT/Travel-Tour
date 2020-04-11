@@ -9,7 +9,7 @@ import java.util.Map;
 public class Menu implements Serializable {
     private String imageUrl;
     private String id;
-    private String country;
+    private Country country;
     private String type;
     private String title;
     private String description;
@@ -34,11 +34,11 @@ public class Menu implements Serializable {
         this.id = id;
     }
 
-    public String getCountry() {
+    public Country getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public void setCountry(Country country) {
         this.country = country;
     }
 
@@ -100,6 +100,7 @@ public class Menu implements Serializable {
 
     public void parse(Map<String, Object> map) {
         id = (String) map.get("id");
+        country = Country.parse(map);
         title = (String) map.get("title");
         description = (String) map.get("description");
         base64ImageStr = (String) map.get("base64ImageStr");
