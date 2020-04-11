@@ -164,7 +164,9 @@ public class MainActivity extends AppCompatActivity {
         adapter = new CountryRvAdapter(new CountryRvAdapter.onListItemClickListener() {
             @Override
             public void onClick(Country country) {
-                startActivity(new Intent(MainActivity.this, TourListActivity.class));
+                Intent i = new Intent(MainActivity.this, TourListActivity.class);
+                i.putExtra(TourListActivity.PARAM_COUNTRY_ID, country.getId());
+                startActivity(i);
             }
 
             @Override
