@@ -35,6 +35,7 @@ public class BookingActivity extends BaseSecondActivity {
     private String tourType;
     private String packageName;
     private String packagePrice;
+    private String countryId;
 
     private DatabaseReference myRef;
 
@@ -66,18 +67,21 @@ public class BookingActivity extends BaseSecondActivity {
             tourType = TourType.PACKAGE_TOUR.getCode();
             packageName = packageTour.getTitle();
             packagePrice = packageTour.getPrice().get(0).getDescription();
+            countryId = packageTour.getCountryId();
         } else if (tour instanceof OptionalTour) {
             OptionalTour optionalTour = (OptionalTour) tour;
             tourId = optionalTour.getId();
             tourType = TourType.OPTIONAL_TOUR.getCode();
             packageName = optionalTour.getTitle();
             packagePrice = optionalTour.getPrices().get(0).getDescription();
+            countryId = optionalTour.getCountryId();
         } else if (tour instanceof SightSeeingTour) {
             SightSeeingTour sightSeeingTour = (SightSeeingTour) tour;
             tourId = sightSeeingTour.getId();
             tourType = TourType.SIGHTSEEING_TOUR.getCode();
             packageName = sightSeeingTour.getTitle();
             packagePrice = sightSeeingTour.getPrice().get(0).getDescription();
+            countryId = sightSeeingTour.getCountryId();
         } else {
             showErrorToast();
             return;
@@ -102,14 +106,6 @@ public class BookingActivity extends BaseSecondActivity {
         progressDialog.setCancelable(false);
 
         edtEmail.setText(currentUser.getEmail());
-
-        // TODO: 11-Mar-20 this is simple and will be delete in later
-        findViewById(R.id.btn_book_now).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bookTour();
-            }
-        });
     }
 
     private void initUI() {
@@ -125,7 +121,31 @@ public class BookingActivity extends BaseSecondActivity {
         finish();
     }
 
-    private void bookTour() {
+    public void bookTour(View v) {
+        final String username = UiUtil.getString(edtName);
+        if (TextUtils.isEmpty(username)) {
+            Toast.makeText(this, "Please enter username!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        final String passportNo = UiUtil.getString(edtPassportNo);
+        if (TextUtils.isEmpty(passportNo)) {
+            Toast.makeText(this, "Please enter passport!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        final String phoneNo = UiUtil.getString(edtPhone);
+        if (TextUtils.isEmpty(phoneNo)) {
+            Toast.makeText(this, "Please enter phone!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        final String address = UiUtil.getString(edtAddress);
+        if (TextUtils.isEmpty(address)) {
+            Toast.makeText(this, "Please enter address!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final String id = myRef.push().getKey();
         if (TextUtils.isEmpty(id)) {
             showFailToSaveToast();
@@ -136,16 +156,15 @@ public class BookingActivity extends BaseSecondActivity {
         booking.setId(id);
         booking.setBookingDate(String.valueOf(new Date().getTime()));
         booking.setTourId(tourId);
-        // TODO: 4/11/2020 set country id
-//        booking.setCountryId();
+        booking.setCountryId(countryId);
         booking.setTourType(tourType);
         booking.setPackageName(packageName);
         booking.setPackagePrice(packagePrice);
-        booking.setUsername(UiUtil.getString(edtName));
-        booking.setPassportNo(UiUtil.getString(edtPassportNo));
-        booking.setPhone(UiUtil.getString(edtPhone));
+        booking.setUsername(username);
+        booking.setPassportNo(passportNo);
+        booking.setPhone(phoneNo);
         booking.setEmail(UiUtil.getString(edtEmail));
-        booking.setAddress(UiUtil.getString(edtAddress));
+        booking.setAddress(address);
 
         progressDialog.show();
         myRef.child(id)

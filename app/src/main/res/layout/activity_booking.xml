@@ -103,6 +103,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_btn_bg"
+        android:onClick="bookTour"
         android:text="@string/book_now"
         android:textAllCaps="false"
         android:textColor="@android:color/white"
