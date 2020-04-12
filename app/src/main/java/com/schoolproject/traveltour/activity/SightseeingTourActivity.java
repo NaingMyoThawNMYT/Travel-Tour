@@ -30,7 +30,7 @@ public class SightseeingTourActivity extends MainTourActivity {
 
         setHomeBackButtonAndToolbarTitle("Sightseeing Tour");
 
-        sightSeeingTour = (SightSeeingTour) getParamTourOrFinishActivity();
+        sightSeeingTour = (SightSeeingTour) TourListActivity.selectedTour;
 
         LinearLayout parent = findViewById(R.id.parent);
 

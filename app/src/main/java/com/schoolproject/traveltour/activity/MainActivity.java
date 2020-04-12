@@ -150,6 +150,12 @@ public class MainActivity extends AppCompatActivity {
             fab.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (DataSet.countries == null || DataSet.countries.isEmpty()) {
+                        Toast.makeText(MainActivity.this,
+                                "Please add countries first!",
+                                Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     showTourTypeChooserDialog();
                 }
             });

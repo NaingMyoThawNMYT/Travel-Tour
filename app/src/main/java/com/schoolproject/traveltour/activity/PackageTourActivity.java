@@ -32,7 +32,7 @@ public class PackageTourActivity extends MainTourActivity {
 
         setHomeBackButtonAndToolbarTitle("Package Tour");
 
-        packageTour = (PackageTour) getParamTourOrFinishActivity();
+        packageTour = (PackageTour) TourListActivity.selectedTour;
 
         LinearLayout parent = findViewById(R.id.parent);
 

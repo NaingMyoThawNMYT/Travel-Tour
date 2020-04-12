@@ -93,9 +93,9 @@ public class CountryEditActivity extends BaseSecondActivity {
         if (resultCode == RESULT_OK &&
                 data != null &&
                 requestCode == Constants.REQUEST_CODE_IMAGE_PICKER) {
-            Bitmap bm = ImageChooserUtil.getBitmapFromIntent(
+            Bitmap bm = BitmapUtil.resize(ImageChooserUtil.getBitmapFromIntent(
                     this,
-                    data);
+                    data));
             img.setImageBitmap(bm);
             country.setImageBase64(BitmapUtil.bitmapToBase64String(bm));
         }

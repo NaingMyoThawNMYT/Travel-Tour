@@ -27,6 +27,8 @@ public class WishListActivity extends BaseSecondActivity {
                 new MenuAdapter.MenuClickListener() {
                     @Override
                     public void onClick(Menu menu) {
+                        TourListActivity.selectedTour = menu;
+
                         Class detailsClass;
                         if (menu instanceof OptionalTour) {
                             detailsClass = OptionalTourActivity.class;
@@ -35,7 +37,7 @@ public class WishListActivity extends BaseSecondActivity {
                         } else {
                             detailsClass = PackageTourActivity.class;
                         }
-                        goToTourDetails(detailsClass, menu);
+                        startActivity(new Intent(WishListActivity.this, detailsClass));
                     }
 
                     @Override
@@ -43,11 +45,5 @@ public class WishListActivity extends BaseSecondActivity {
                     }
                 });
         rv.setAdapter(menuAdapter);
-    }
-
-    private void goToTourDetails(Class detailsClass, Menu tour) {
-        Intent i = new Intent(this, detailsClass);
-        i.putExtra(TourListActivity.PARAM_TOUR, tour);
-        startActivity(i);
     }
 }

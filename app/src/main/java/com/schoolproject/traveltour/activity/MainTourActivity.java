@@ -109,28 +109,6 @@ public abstract class MainTourActivity extends BaseSecondActivity {
                 : R.drawable.ic_bookmark_border_white_24dp));
     }
 
-    public com.schoolproject.traveltour.model.Menu getParamTourOrFinishActivity() {
-        Bundle bundle = getIntent().getExtras();
-        if (bundle == null || !bundle.containsKey(TourListActivity.PARAM_TOUR)) {
-            showErrorToastAndFinishActivity();
-            return null;
-        }
-
-        com.schoolproject.traveltour.model.Menu tour =
-                (com.schoolproject.traveltour.model.Menu) bundle.get(TourListActivity.PARAM_TOUR);
-        if (tour == null) {
-            showErrorToastAndFinishActivity();
-            return null;
-        }
-
-        return tour;
-    }
-
-    private void showErrorToastAndFinishActivity() {
-        Toast.makeText(this, "Nothing to show!", Toast.LENGTH_SHORT).show();
-        finish();
-    }
-
     public interface BookMarkCallback {
         void saveOrRemoveBookmark(WishList wishList);
     }

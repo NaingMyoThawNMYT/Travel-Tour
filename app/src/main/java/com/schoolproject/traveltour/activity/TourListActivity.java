@@ -38,7 +38,8 @@ import java.util.Map;
 
 public class TourListActivity extends AppCompatActivity {
     public static final String PARAM_COUNTRY_ID = "PARAM_COUNTRY_ID";
-    public static final String PARAM_TOUR = "PARAM_TOUR";
+
+    public static Menu selectedTour;
 
     private String countryId;
 
@@ -94,6 +95,8 @@ public class TourListActivity extends AppCompatActivity {
         menuAdapter = new MenuAdapter(this, new MenuAdapter.MenuClickListener() {
             @Override
             public void onClick(Menu menu) {
+                selectedTour = menu;
+
                 Class detailsClass;
                 if (tourListSpinner.getSelectedItemPosition() == 1) {
                     detailsClass = OptionalTourActivity.class;
@@ -102,7 +105,7 @@ public class TourListActivity extends AppCompatActivity {
                 } else {
                     detailsClass = PackageTourActivity.class;
                 }
-                goToTourDetails(detailsClass, menu);
+                startActivity(new Intent(TourListActivity.this, detailsClass));
             }
 
             @Override
@@ -145,12 +148,6 @@ public class TourListActivity extends AppCompatActivity {
                 menuAdapter.getFilter().filter(s);
             }
         });
-    }
-
-    private void goToTourDetails(Class detailsClass, Menu tour) {
-        Intent i = new Intent(TourListActivity.this, detailsClass);
-        i.putExtra(PARAM_TOUR, tour);
-        startActivity(i);
     }
 
     private void refreshTourList(int position) {

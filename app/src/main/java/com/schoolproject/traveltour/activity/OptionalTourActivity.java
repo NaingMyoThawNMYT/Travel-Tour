@@ -30,7 +30,7 @@ public class OptionalTourActivity extends MainTourActivity {
 
         setHomeBackButtonAndToolbarTitle("Optional Tour");
 
-        optionalTour = (OptionalTour) getParamTourOrFinishActivity();
+        optionalTour = (OptionalTour) TourListActivity.selectedTour;
 
         LinearLayout parent = findViewById(R.id.parent);
 

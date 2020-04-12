@@ -176,9 +176,9 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                     break;
                 }
                 case Constants.REQUEST_CODE_IMAGE_PICKER: {
-                    Bitmap bm = ImageChooserUtil.getBitmapFromIntent(
+                    Bitmap bm = BitmapUtil.resize(ImageChooserUtil.getBitmapFromIntent(
                             this,
-                            data);
+                            data));
                     imageView.setImageBitmap(bm);
                     sightSeeingTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
                     break;
