@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -17,7 +16,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.utils.UiUtil;
 
-public class SignUpActivity extends AppCompatActivity {
+public class SignUpActivity extends BaseSecondActivity {
     private FirebaseAuth mAuth;
 
     private TextInputEditText edtEmail, edtPassword, edtConfirmPassword;
@@ -28,6 +27,9 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
+        setHomeBackButtonAndToolbarTitle(getString(R.string.sign_up));
+
         initUI();
 
         mAuth = FirebaseAuth.getInstance();
