@@ -3,7 +3,6 @@ package com.schoolproject.traveltour.activity;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.schoolproject.traveltour.R;
@@ -13,12 +12,14 @@ import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.SightSeeingTour;
 import com.schoolproject.traveltour.utils.DataSet;
 
-public class WishListActivity extends AppCompatActivity {
+public class WishListActivity extends BaseSecondActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
+
+        setHomeBackButtonAndToolbarTitle(getString(R.string.wishlist));
 
         RecyclerView rv = findViewById(R.id.rv);
         MenuAdapter menuAdapter = new MenuAdapter(this,
