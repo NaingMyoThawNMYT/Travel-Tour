@@ -174,12 +174,14 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(Country country) {
-                if (DataSet.hasChild(country.getId())) {
-                    Toast.makeText(MainActivity.this,
-                            "Please delete " + country.getName() + "'s tours first!",
-                            Toast.LENGTH_SHORT).show();
-                } else {
-                    showDeleteConfirmDialog(country);
+                if (DataSet.isAdmin) {
+                    if (DataSet.hasChild(country.getId())) {
+                        Toast.makeText(MainActivity.this,
+                                "Please delete " + country.getName() + "'s tours first!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        showDeleteConfirmDialog(country);
+                    }
                 }
             }
         });
