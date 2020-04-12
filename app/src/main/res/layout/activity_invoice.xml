@@ -88,10 +88,26 @@
 
             <TextView
                 style="@style/InvoiceTitleTextTheme"
+                android:text="@string/passport_no" />
+
+            <TextView
+                android:id="@+id/tv_passport_no"
+                style="@style/InvoiceValueTextTheme" />
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
                 android:text="@string/phone" />
 
             <TextView
                 android:id="@+id/tv_phone"
+                style="@style/InvoiceValueTextTheme" />
+
+            <TextView
+                style="@style/InvoiceTitleTextTheme"
+                android:text="@string/email" />
+
+            <TextView
+                android:id="@+id/tv_email"
                 style="@style/InvoiceValueTextTheme" />
 
             <TextView

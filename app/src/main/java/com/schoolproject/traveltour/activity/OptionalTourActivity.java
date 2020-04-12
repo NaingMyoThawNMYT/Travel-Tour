@@ -98,6 +98,7 @@ public class OptionalTourActivity extends MainTourActivity {
     @Override
     void goToBookingActivity() {
         Intent i = new Intent(this, BookingActivity.class);
+        optionalTour.setBase64ImageStr("");
         i.putExtra(BookingActivity.PARAM_SELECTED_TOUR, optionalTour);
         startActivity(i);
     }
@@ -107,8 +108,7 @@ public class OptionalTourActivity extends MainTourActivity {
         WishList wishList = new WishList();
         wishList.setTourId(optionalTour.getId());
         wishList.setTourType(TourType.OPTIONAL_TOUR.getCode());
-        // TODO: 4/11/2020 set country id
-//        wishList.setTourCountry();
+        wishList.setTourCountry(optionalTour.getCountryId());
 
         callback.saveOrRemoveBookmark(wishList);
     }

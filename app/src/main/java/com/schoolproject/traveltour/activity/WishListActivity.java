@@ -22,8 +22,7 @@ public class WishListActivity extends BaseSecondActivity {
         setHomeBackButtonAndToolbarTitle(getString(R.string.wishlist));
 
         RecyclerView rv = findViewById(R.id.rv);
-        MenuAdapter menuAdapter = new MenuAdapter(this,
-                DataSet.getBookmarkedTours(),
+        MenuAdapter menuAdapter = new MenuAdapter(DataSet.getBookmarkedTours(),
                 new MenuAdapter.MenuClickListener() {
                     @Override
                     public void onClick(Menu menu) {

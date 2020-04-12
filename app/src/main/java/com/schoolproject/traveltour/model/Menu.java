@@ -1,7 +1,5 @@
 package com.schoolproject.traveltour.model;
 
-import android.text.TextUtils;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,7 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Menu implements Serializable {
-    private String imageUrl;
     private String id;
     private String countryId;
     private String type;
@@ -21,12 +18,6 @@ public class Menu implements Serializable {
     private transient Country country;
 
     public Menu() {
-    }
-
-    public Menu(String imageUrl, String title, String description) {
-        this.imageUrl = imageUrl;
-        this.title = title;
-        this.description = description;
     }
 
     public String getId() {
@@ -51,14 +42,6 @@ public class Menu implements Serializable {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 
     public String getTitle() {

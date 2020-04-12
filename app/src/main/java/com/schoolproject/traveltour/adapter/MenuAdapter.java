@@ -1,6 +1,5 @@
 package com.schoolproject.traveltour.adapter;
 
-import android.content.Context;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,17 +20,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> implements Filterable {
-    private Context mContext;
     private List<Menu> dataSet;
     private List<Menu> filteredDataSet;
     private MenuClickListener menuClickListener;
 
-    public MenuAdapter(Context mContext, MenuClickListener menuClickListener) {
-        this(mContext, new ArrayList<Menu>(), menuClickListener);
+    public MenuAdapter(MenuClickListener menuClickListener) {
+        this(new ArrayList<Menu>(), menuClickListener);
     }
 
-    public MenuAdapter(Context mContext, List<Menu> dataSet, MenuClickListener menuClickListener) {
-        this.mContext = mContext;
+    public MenuAdapter(List<Menu> dataSet, MenuClickListener menuClickListener) {
         this.dataSet = dataSet;
         this.filteredDataSet = dataSet;
         this.menuClickListener = menuClickListener;
@@ -48,13 +45,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Menu menu = filteredDataSet.get(holder.getAdapterPosition());
 
-        if (!TextUtils.isEmpty(menu.getBase64ImageStr())) {
-            holder.imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(menu.getBase64ImageStr()));
-        } else if (!TextUtils.isEmpty(menu.getImageUrl())) {
-            holder.imageView.setImageResource(mContext.getResources().getIdentifier(menu.getImageUrl(),
-                    "raw",
-                    mContext.getPackageName()));
-        }
+        holder.imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(menu.getBase64ImageStr()));
         holder.title.setText(menu.getTitle());
 
         if (!TextUtils.isEmpty(menu.getDescription())) {

@@ -86,6 +86,7 @@ public class SightseeingTourActivity extends MainTourActivity {
     @Override
     void goToBookingActivity() {
         Intent i = new Intent(this, BookingActivity.class);
+        sightSeeingTour.setBase64ImageStr("");
         i.putExtra(BookingActivity.PARAM_SELECTED_TOUR, sightSeeingTour);
         startActivity(i);
     }
@@ -95,8 +96,7 @@ public class SightseeingTourActivity extends MainTourActivity {
         WishList wishList = new WishList();
         wishList.setTourId(sightSeeingTour.getId());
         wishList.setTourType(TourType.SIGHTSEEING_TOUR.getCode());
-        // TODO: 4/11/2020 set country id
-//        wishList.setTourCountry();
+        wishList.setTourCountry(sightSeeingTour.getCountryId());
 
         callback.saveOrRemoveBookmark(wishList);
     }

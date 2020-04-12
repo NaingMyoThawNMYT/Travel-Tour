@@ -92,7 +92,7 @@ public class TourListActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, DataSet.TOUR_LIST);
         tourListSpinner.setAdapter(adapter);
 
-        menuAdapter = new MenuAdapter(this, new MenuAdapter.MenuClickListener() {
+        menuAdapter = new MenuAdapter(new MenuAdapter.MenuClickListener() {
             @Override
             public void onClick(Menu menu) {
                 selectedTour = menu;
