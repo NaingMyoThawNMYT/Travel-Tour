@@ -45,7 +45,9 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> im
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Menu menu = filteredDataSet.get(holder.getAdapterPosition());
 
-        holder.imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(menu.getBase64ImageStr()));
+        if (menu.getImagesBase64() != null && !menu.getImagesBase64().isEmpty()) {
+            holder.imageView.setImageBitmap(BitmapUtil.base64StringToBitmap(menu.getImagesBase64().get(0)));
+        }
         holder.title.setText(menu.getTitle());
 
         if (!TextUtils.isEmpty(menu.getDescription())) {

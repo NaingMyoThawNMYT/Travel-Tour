@@ -145,7 +145,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
                             this,
                             data));
                     imageView.setImageBitmap(bm);
-                    newPackageTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
+                    newPackageTour.addImageBase64(BitmapUtil.bitmapToBase64String(bm));
                     break;
                 }
             }

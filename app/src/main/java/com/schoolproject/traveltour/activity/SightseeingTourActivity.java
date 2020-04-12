@@ -46,23 +46,24 @@ public class SightseeingTourActivity extends MainTourActivity {
             parent.addView(packageTourTitle);
         }
 
-        if (!TextUtils.isEmpty(sightSeeingTour.getBase64ImageStr())) {
-            View parentViewGroup = LayoutInflater.from(this)
-                    .inflate(R.layout.image_view, parent, false);
-            parentViewGroup.findViewById(R.id.location).setVisibility(View.GONE);
-            ImageView img = parentViewGroup.findViewById(R.id.img_background);
-            img.setImageBitmap(BitmapUtil.base64StringToBitmap(sightSeeingTour.getBase64ImageStr()));
-            img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    goToMapActivity(sightSeeingTour.getTitle(),
-                            sightSeeingTour.getLatitude(),
-                            sightSeeingTour.getLongitude());
-                }
-            });
-            parentViewGroup.findViewById(R.id.img_add).setVisibility(View.GONE);
-            parent.addView(parentViewGroup);
-        }
+// TODO: 4/12/2020 create image array ui
+//        if (!TextUtils.isEmpty(sightSeeingTour.getBase64ImageStr())) {
+//            View parentViewGroup = LayoutInflater.from(this)
+//                    .inflate(R.layout.image_view, parent, false);
+//            parentViewGroup.findViewById(R.id.location).setVisibility(View.GONE);
+//            ImageView img = parentViewGroup.findViewById(R.id.img_background);
+//            img.setImageBitmap(BitmapUtil.base64StringToBitmap(sightSeeingTour.getBase64ImageStr()));
+//            img.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    goToMapActivity(sightSeeingTour.getTitle(),
+//                            sightSeeingTour.getLatitude(),
+//                            sightSeeingTour.getLongitude());
+//                }
+//            });
+//            parentViewGroup.findViewById(R.id.img_add).setVisibility(View.GONE);
+//            parent.addView(parentViewGroup);
+//        }
 
         DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getItinerary(), getString(R.string.itinerary), padding);
         DataSet.setUpListStringValuesInParent(this, parent, sightSeeingTour.getNoteList(), "Note Title", padding, Typeface.ITALIC);
@@ -86,7 +87,7 @@ public class SightseeingTourActivity extends MainTourActivity {
     @Override
     void goToBookingActivity() {
         Intent i = new Intent(this, BookingActivity.class);
-        sightSeeingTour.setBase64ImageStr("");
+        sightSeeingTour.setImagesBase64(null);
         i.putExtra(BookingActivity.PARAM_SELECTED_TOUR, sightSeeingTour);
         startActivity(i);
     }

@@ -6,11 +6,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,7 +15,6 @@ import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.enums.TourType;
 import com.schoolproject.traveltour.model.OptionalTour;
 import com.schoolproject.traveltour.model.WishList;
-import com.schoolproject.traveltour.utils.BitmapUtil;
 import com.schoolproject.traveltour.utils.DataSet;
 
 public class OptionalTourActivity extends MainTourActivity {
@@ -55,23 +51,24 @@ public class OptionalTourActivity extends MainTourActivity {
             parent.addView(titleNote);
         }
 
-        if (!TextUtils.isEmpty(optionalTour.getBase64ImageStr())) {
-            View parentViewGroup = LayoutInflater.from(this)
-                    .inflate(R.layout.image_view, parent, false);
-            parentViewGroup.findViewById(R.id.location).setVisibility(View.GONE);
-            ImageView img = parentViewGroup.findViewById(R.id.img_background);
-            img.setImageBitmap(BitmapUtil.base64StringToBitmap(optionalTour.getBase64ImageStr()));
-            img.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    goToMapActivity(optionalTour.getTitle(),
-                            optionalTour.getLatitude(),
-                            optionalTour.getLongitude());
-                }
-            });
-            parentViewGroup.findViewById(R.id.img_add).setVisibility(View.GONE);
-            parent.addView(parentViewGroup);
-        }
+// TODO: 4/12/2020 create image array ui
+//        if (!TextUtils.isEmpty(optionalTour.getBase64ImageStr())) {
+//            View parentViewGroup = LayoutInflater.from(this)
+//                    .inflate(R.layout.image_view, parent, false);
+//            parentViewGroup.findViewById(R.id.location).setVisibility(View.GONE);
+//            ImageView img = parentViewGroup.findViewById(R.id.img_background);
+//            img.setImageBitmap(BitmapUtil.base64StringToBitmap(optionalTour.getBase64ImageStr()));
+//            img.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    goToMapActivity(optionalTour.getTitle(),
+//                            optionalTour.getLatitude(),
+//                            optionalTour.getLongitude());
+//                }
+//            });
+//            parentViewGroup.findViewById(R.id.img_add).setVisibility(View.GONE);
+//            parent.addView(parentViewGroup);
+//        }
 
         if (!TextUtils.isEmpty(optionalTour.getDescription())) {
             TextView description = new TextView(this);
@@ -98,7 +95,7 @@ public class OptionalTourActivity extends MainTourActivity {
     @Override
     void goToBookingActivity() {
         Intent i = new Intent(this, BookingActivity.class);
-        optionalTour.setBase64ImageStr("");
+        optionalTour.setImagesBase64(null);
         i.putExtra(BookingActivity.PARAM_SELECTED_TOUR, optionalTour);
         startActivity(i);
     }

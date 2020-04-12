@@ -12,7 +12,7 @@ public class Menu implements Serializable {
     private String type;
     private String title;
     private String description;
-    private String base64ImageStr;
+    private List<String> imagesBase64;
     private double latitude;
     private double longitude;
     private transient Country country;
@@ -60,12 +60,24 @@ public class Menu implements Serializable {
         this.description = description;
     }
 
-    public String getBase64ImageStr() {
-        return base64ImageStr;
+    public List<String> getImagesBase64() {
+        return imagesBase64;
     }
 
-    public void setBase64ImageStr(String base64ImageStr) {
-        this.base64ImageStr = base64ImageStr;
+    public void setImagesBase64(List<String> imagesBase64) {
+        this.imagesBase64 = imagesBase64;
+    }
+
+    public void addImageBase64(String imageBase64) {
+        if (imagesBase64 == null) {
+            imagesBase64 = new ArrayList<>();
+        }
+
+        if (imagesBase64.size() <= 4) {
+            imagesBase64.add(imageBase64);
+        } else {
+            imagesBase64.add(3, imageBase64);
+        }
     }
 
     public double getLatitude() {
@@ -97,7 +109,7 @@ public class Menu implements Serializable {
         countryId = (String) map.get("countryId");
         title = (String) map.get("title");
         description = (String) map.get("description");
-        base64ImageStr = (String) map.get("base64ImageStr");
+        imagesBase64 = (List<String>) map.get("imagesBase64");
         latitude = getDouble(map.get("latitude"));
         longitude = getDouble(map.get("longitude"));
         country = Country.parse(map);

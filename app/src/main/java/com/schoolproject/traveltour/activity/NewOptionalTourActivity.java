@@ -110,7 +110,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                             this,
                             data));
                     imageView.setImageBitmap(bm);
-                    optionalTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
+                    optionalTour.addImageBase64(BitmapUtil.bitmapToBase64String(bm));
                     break;
                 }
             }

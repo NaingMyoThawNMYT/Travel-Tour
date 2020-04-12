@@ -180,7 +180,7 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             this,
                             data));
                     imageView.setImageBitmap(bm);
-                    sightSeeingTour.setBase64ImageStr(BitmapUtil.bitmapToBase64String(bm));
+                    sightSeeingTour.addImageBase64(BitmapUtil.bitmapToBase64String(bm));
                     break;
                 }
             }
