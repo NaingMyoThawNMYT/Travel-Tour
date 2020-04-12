@@ -213,4 +213,13 @@ public class DataSet {
 
         return tours;
     }
+
+    public static boolean hasChild(String countryId) {
+        for (Map<String, Object> map : DataSet.tourDataSet) {
+            if (countryId.equals(map.get("countryId"))) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

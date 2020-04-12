@@ -1,7 +1,9 @@
 package com.schoolproject.traveltour.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +18,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -88,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private ProgressDialog progressDialog;
-    private RecyclerView rv;
     private CountryRvAdapter adapter;
 
     @Override
@@ -171,11 +174,17 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onLongClick(Country country) {
-                // TODO: 4/11/2020 show delete country dialog
+                if (DataSet.hasChild(country.getId())) {
+                    Toast.makeText(MainActivity.this,
+                            "Please delete " + country.getName() + "'s tours first!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    showDeleteConfirmDialog(country);
+                }
             }
         });
 
-        rv = findViewById(R.id.main_rv);
+        RecyclerView rv = findViewById(R.id.main_rv);
         rv.setAdapter(adapter);
 
         progressDialog = new ProgressDialog(this);
@@ -230,5 +239,47 @@ public class MainActivity extends AppCompatActivity {
     private void fetchTourList() {
         database.getReference(Constants.TABLE_NAME_TOUR)
                 .addValueEventListener(tableTourEventListener);
+    }
+
+    private void showDeleteConfirmDialog(final Country country) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Are you sure?")
+                .setMessage("Delete " + country.getName())
+                .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteCountry(country);
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .create()
+                .show();
+    }
+
+    private void deleteCountry(Country country) {
+        progressDialog.show();
+        database.getReference(Constants.TABLE_NAME_COUNTRY)
+                .child(country.getId())
+                .removeValue()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        progressDialog.dismiss();
+                        if (task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this,
+                                    "Deleted successfully",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(MainActivity.this,
+                                    "Failed to delete! Try again!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
