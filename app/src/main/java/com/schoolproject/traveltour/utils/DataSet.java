@@ -139,7 +139,7 @@ public class DataSet {
                                                  final OnClearClickListener onRemoveListener) {
         final TextView textView = new TextView(context);
         textView.setPadding(padding * 3, padding, 0, 0);
-        textView.setText(String.format("*  %s", string));
+        textView.setText(string);
         if (textStyle != 0) {
             textView.setTypeface(Typeface.defaultFromStyle(textStyle));
         }

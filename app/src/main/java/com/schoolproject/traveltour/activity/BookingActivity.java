@@ -47,7 +47,7 @@ public class BookingActivity extends BaseSecondActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_booking);
 
-        setHomeBackButtonAndToolbarTitle("Booking");
+        hideToolbar();
 
         Bundle b = getIntent().getExtras();
         if (b == null || !b.containsKey(PARAM_SELECTED_TOUR)) {

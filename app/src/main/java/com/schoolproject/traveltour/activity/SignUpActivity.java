@@ -28,7 +28,7 @@ public class SignUpActivity extends BaseSecondActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        setHomeBackButtonAndToolbarTitle(getString(R.string.sign_up));
+        hideToolbar();
 
         initUI();
 

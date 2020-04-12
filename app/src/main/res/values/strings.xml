@@ -74,4 +74,5 @@
     <string name="longitude">Longitude</string>
     <string name="add_location_map">Add Location Map</string>
     <string name="country_editor">Country Editor</string>
+    <string name="booking">Booking</string>
 </resources>
