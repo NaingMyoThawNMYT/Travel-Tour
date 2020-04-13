@@ -81,6 +81,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 useCurrentLocation = true;
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+                Toast.makeText(this,
+                        "Getting current location. Wait a sec!",
+                        Toast.LENGTH_SHORT).show();
             } else {
                 location = new LatLng(16.798625, 96.149513);
             }
@@ -106,8 +110,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        this.location = new LatLng(location.getLatitude(), location.getLongitude());
-        showLocationOnMap();
+        if (this.location == null) {
+            this.location = new LatLng(location.getLatitude(), location.getLongitude());
+            showLocationOnMap();
+        }
     }
 
     @Override
