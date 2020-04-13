@@ -44,13 +44,22 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
 
         setHomeBackButtonAndToolbarTitle(getString(R.string.add_optional_tour));
 
-        newOptionalTour = new OptionalTour();
+        Bundle b = getIntent().getExtras();
+        if (b != null && b.getBoolean(PARAM_TOUR)) {
+            newOptionalTour = (OptionalTour) TourListActivity.selectedTour;
+        } else {
+            newOptionalTour = new OptionalTour();
+        }
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference(Constants.TABLE_NAME_TOUR);
 
         initUI();
         initListener();
+
+        if (!TextUtils.isEmpty(newOptionalTour.getId())) {
+            fillForms();
+        }
     }
 
     @Override
@@ -145,13 +154,15 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
             return;
         }
 
-        final String id = myRef.push().getKey();
-        if (TextUtils.isEmpty(id)) {
-            showFailToSaveToast();
-            return;
+        if (TextUtils.isEmpty(newOptionalTour.getId())) {
+            final String id = myRef.push().getKey();
+            if (TextUtils.isEmpty(id)) {
+                showFailToSaveToast();
+                return;
+            }
+            newOptionalTour.setId(id);
         }
 
-        newOptionalTour.setId(id);
         newOptionalTour.setCountryId(selectedCountryId);
         newOptionalTour.setType(TourType.OPTIONAL_TOUR.getCode());
         newOptionalTour.setTitle(title);
@@ -247,5 +258,51 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         });
 
         initSpinnerListener();
+    }
+
+    private void fillForms() {
+        setSelectedCountry(newOptionalTour.getCountryId());
+
+        edtTourTitle.setText(newOptionalTour.getTitle());
+        edtTourSubTitle.setText(newOptionalTour.getSubTitle());
+
+        setupImageViews(newOptionalTour.getImagesBase64());
+
+        if (newOptionalTour.getLatitude() != 0 || newOptionalTour.getLongitude() != 0) {
+            checkLocationPicker();
+        }
+
+        if (newOptionalTour.getBenefits() != null) {
+            for (int i = 0; i < newOptionalTour.getBenefits().size(); i++) {
+                final String description = newOptionalTour.getBenefits().get(i);
+                DataSet.setUpStringValuesInParent(this,
+                        layoutBenefits,
+                        description,
+                        padding,
+                        0,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newOptionalTour.getBenefits().remove(description);
+                            }
+                        });
+            }
+        }
+
+        if (newOptionalTour.getPrices() != null) {
+            for (int i = 0; i < newOptionalTour.getPrices().size(); i++) {
+                final TitleAndDescription titleAndDescription = newOptionalTour.getPrices().get(i);
+                DataSet.setUpTitleAndDescriptionValuesInParent(this,
+                        layoutPrice,
+                        titleAndDescription,
+                        padding,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newOptionalTour.getPrices().remove(titleAndDescription);
+                            }
+                        });
+            }
+        }
     }
 }

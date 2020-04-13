@@ -86,7 +86,7 @@ public class CountryEditActivity extends BaseSecondActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
-            addOrUpdateCountry();
+            saveCountry();
             return true;
         }
 
@@ -108,28 +108,6 @@ public class CountryEditActivity extends BaseSecondActivity {
         }
     }
 
-    private void addOrUpdateCountry() {
-        if (TextUtils.isEmpty(country.getId())) {
-            // new
-            saveNewCountry();
-        } else {
-            // update
-            saveCountry();
-        }
-    }
-
-    private void saveNewCountry() {
-        final String id = myRef.push().getKey();
-        if (TextUtils.isEmpty(id)) {
-            showFailToSaveToast();
-            return;
-        }
-
-        country.setId(id);
-
-        saveCountry();
-    }
-
     private void saveCountry() {
         String countryName = edtCountryName.getText().toString().trim();
         if (TextUtils.isEmpty(countryName)) {
@@ -140,6 +118,15 @@ public class CountryEditActivity extends BaseSecondActivity {
         if (TextUtils.isEmpty(country.getImageBase64())) {
             Toast.makeText(this, "Please choose photo!", Toast.LENGTH_SHORT).show();
             return;
+        }
+
+        if (TextUtils.isEmpty(country.getId())) {
+            final String id = myRef.push().getKey();
+            if (TextUtils.isEmpty(id)) {
+                showFailToSaveToast();
+                return;
+            }
+            country.setId(id);
         }
 
         country.setName(countryName);

@@ -222,4 +222,13 @@ public class DataSet {
         }
         return false;
     }
+
+    public static int getCountryIndex(String countryId) {
+        for (int i = 0; i < countries.size(); i++) {
+            if (countries.get(i).getId().equals(countryId)) {
+                return i;
+            }
+        }
+        return 0;
+    }
 }

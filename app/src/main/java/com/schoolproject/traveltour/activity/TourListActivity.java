@@ -31,6 +31,7 @@ import com.schoolproject.traveltour.factory.TourFactory;
 import com.schoolproject.traveltour.model.Menu;
 import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
+import com.schoolproject.traveltour.utils.DialogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,22 +97,27 @@ public class TourListActivity extends AppCompatActivity {
             @Override
             public void onClick(Menu menu) {
                 selectedTour = menu;
-
-                Class detailsClass;
-                if (tourListSpinner.getSelectedItemPosition() == 1) {
-                    detailsClass = OptionalTourActivity.class;
-                } else if (tourListSpinner.getSelectedItemPosition() == 2) {
-                    detailsClass = SightseeingTourActivity.class;
-                } else {
-                    detailsClass = PackageTourActivity.class;
-                }
-                startActivity(new Intent(TourListActivity.this, detailsClass));
+                startActivity(new Intent(TourListActivity.this, getDetailsClass()));
             }
 
             @Override
-            public void onLongClick(Menu menu) {
+            public void onLongClick(final Menu menu) {
                 if (DataSet.isAdmin) {
-                    showDeleteConfirmDialog(TourListActivity.this, menu);
+                    DialogUtil.showEditOrDeleteOptionDialog(TourListActivity.this,
+                            new DialogUtil.EditOrDeleteCallback() {
+                                @Override
+                                public void edit() {
+                                    selectedTour = menu;
+                                    Intent i = new Intent(TourListActivity.this, getEditClass());
+                                    i.putExtra(BaseNewTourActivity.PARAM_TOUR, true);
+                                    startActivity(i);
+                                }
+
+                                @Override
+                                public void delete() {
+                                    showDeleteConfirmDialog(TourListActivity.this, menu);
+                                }
+                            });
                 }
             }
         });
@@ -225,5 +231,25 @@ public class TourListActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private Class getDetailsClass() {
+        if (tourListSpinner.getSelectedItemPosition() == 1) {
+            return OptionalTourActivity.class;
+        } else if (tourListSpinner.getSelectedItemPosition() == 2) {
+            return SightseeingTourActivity.class;
+        } else {
+            return PackageTourActivity.class;
+        }
+    }
+
+    private Class getEditClass() {
+        if (tourListSpinner.getSelectedItemPosition() == 1) {
+            return NewOptionalTourActivity.class;
+        } else if (tourListSpinner.getSelectedItemPosition() == 2) {
+            return NewSightseeingTourActivity.class;
+        } else {
+            return NewPackageTourActivity.class;
+        }
     }
 }

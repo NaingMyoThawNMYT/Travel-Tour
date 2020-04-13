@@ -26,8 +26,11 @@ import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
 import com.schoolproject.traveltour.utils.ImageChooserUtil;
 
+import java.util.List;
+
 public abstract class BaseNewTourActivity extends BaseSecondActivity {
     public static final int REQUEST_CODE = 1;
+    public static final String PARAM_TOUR = "PARAM_TOUR";
 
     public int padding;
     public String selectedCountryId;
@@ -76,10 +79,7 @@ public abstract class BaseNewTourActivity extends BaseSecondActivity {
                     if (data.getExtras() == null) {
                         break;
                     }
-                    tvAddMap.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location_yellow_24dp,
-                            0,
-                            R.drawable.ic_check_green_24dp,
-                            0);
+                    checkLocationPicker();
                     onLocationMapSelected(
                             (LatLng) data.getExtras().get(MapsActivity.RESULT_LAT_LNG));
                     break;
@@ -161,6 +161,42 @@ public abstract class BaseNewTourActivity extends BaseSecondActivity {
                 ImageChooserUtil.showImageChooser(BaseNewTourActivity.this, Constants.REQUEST_CODE_IMAGE_PICKER_3);
             }
         });
+    }
+
+    void checkLocationPicker() {
+        tvAddMap.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_location_yellow_24dp,
+                0,
+                R.drawable.ic_check_green_24dp,
+                0);
+    }
+
+    void setupImageViews(List<String> imagesBase64) {
+        if (imagesBase64 == null || imagesBase64.isEmpty()) {
+            return;
+        }
+
+        displayImage(imagesBase64.get(0), R.id.img_background);
+
+        if (imagesBase64.size() > 1) {
+            displayImage(imagesBase64.get(1), R.id.img1);
+        }
+
+        if (imagesBase64.size() > 2) {
+            displayImage(imagesBase64.get(2), R.id.img2);
+        }
+
+        if (imagesBase64.size() > 3) {
+            displayImage(imagesBase64.get(3), R.id.img3);
+        }
+    }
+
+    void displayImage(String imageBase64, int imageViewId) {
+        ImageView img = findViewById(imageViewId);
+        img.setImageBitmap(BitmapUtil.base64StringToBitmap(imageBase64));
+    }
+
+    void setSelectedCountry(String countryId) {
+        spnCountry.setSelection(DataSet.getCountryIndex(countryId));
     }
 
     abstract void addImageBase64(String string);
