@@ -40,6 +40,8 @@ public class CountryEditActivity extends BaseSecondActivity {
 
         setHomeBackButtonAndToolbarTitle(getString(R.string.country_editor));
 
+        findViewById(R.id.extra_images).setVisibility(View.GONE);
+
         edtCountryName = findViewById(R.id.edt_country_name);
         img = findViewById(R.id.img_background);
 

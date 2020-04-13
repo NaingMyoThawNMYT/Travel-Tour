@@ -170,6 +170,16 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             return;
         }
 
+        if (newPackageTour.getImagesBase64() == null || newPackageTour.getImagesBase64().isEmpty()) {
+            Toast.makeText(this, "Please add at least one photo", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (newPackageTour.getPrice() == null || newPackageTour.getPrice().isEmpty()) {
+            Toast.makeText(this, "Please add at least one price", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final String id = myRef.push().getKey();
         if (TextUtils.isEmpty(id)) {
             showFailToSaveToast();

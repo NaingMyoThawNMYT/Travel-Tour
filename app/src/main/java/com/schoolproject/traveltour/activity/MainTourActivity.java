@@ -174,6 +174,8 @@ public abstract class MainTourActivity extends BaseSecondActivity {
                     R.id.cv1,
                     R.id.img1,
                     R.id.img_add_1);
+        } else {
+            parentViewGroup.findViewById(R.id.extra_images).setVisibility(View.GONE);
         }
 
         if (imagesBase64.size() > 2) {

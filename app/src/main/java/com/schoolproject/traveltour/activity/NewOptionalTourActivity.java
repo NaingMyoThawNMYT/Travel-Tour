@@ -31,7 +31,7 @@ import com.schoolproject.traveltour.utils.UiUtil;
 import java.util.ArrayList;
 
 public class NewOptionalTourActivity extends BaseNewTourActivity {
-    private OptionalTour optionalTour;
+    private OptionalTour newOptionalTour;
 
     private LinearLayout layoutBenefits, layoutPrice;
     private Button btnAddBenefits, btnAddPrice;
@@ -44,7 +44,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
 
         setHomeBackButtonAndToolbarTitle(getString(R.string.add_optional_tour));
 
-        optionalTour = new OptionalTour();
+        newOptionalTour = new OptionalTour();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference(Constants.TABLE_NAME_TOUR);
@@ -68,10 +68,10 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
 
             switch (requestCode) {
                 case Constants.REQUEST_CODE_BENEFITS: {
-                    if (optionalTour.getBenefits() == null) {
-                        optionalTour.setBenefits(new ArrayList<String>());
+                    if (newOptionalTour.getBenefits() == null) {
+                        newOptionalTour.setBenefits(new ArrayList<String>());
                     }
-                    optionalTour.getBenefits().add(description);
+                    newOptionalTour.getBenefits().add(description);
                     DataSet.setUpStringValuesInParent(this,
                             layoutBenefits,
                             description,
@@ -80,17 +80,17 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                             new DataSet.OnClearClickListener() {
                                 @Override
                                 public void onClear() {
-                                    optionalTour.getBenefits().remove(description);
+                                    newOptionalTour.getBenefits().remove(description);
                                 }
                             });
                     break;
                 }
                 case Constants.REQUEST_CODE_PRICE: {
-                    if (optionalTour.getPrices() == null) {
-                        optionalTour.setPrices(new ArrayList<TitleAndDescription>());
+                    if (newOptionalTour.getPrices() == null) {
+                        newOptionalTour.setPrices(new ArrayList<TitleAndDescription>());
                     }
                     final TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
-                    optionalTour.getPrices().add(titleAndDescription);
+                    newOptionalTour.getPrices().add(titleAndDescription);
                     DataSet.setUpTitleAndDescriptionValuesInParent(this,
                             layoutPrice,
                             titleAndDescription,
@@ -98,7 +98,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                             new DataSet.OnClearClickListener() {
                                 @Override
                                 public void onClear() {
-                                    optionalTour.getPrices().remove(titleAndDescription);
+                                    newOptionalTour.getPrices().remove(titleAndDescription);
                                 }
                             });
                     break;
@@ -108,7 +108,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                             this,
                             data));
                     imageView.setImageBitmap(bm);
-                    optionalTour.addImageBase64(BitmapUtil.bitmapToBase64String(bm));
+                    newOptionalTour.addImageBase64(BitmapUtil.bitmapToBase64String(bm));
                     break;
                 }
             }
@@ -117,13 +117,13 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
 
     @Override
     void addImageBase64(String string) {
-        optionalTour.addImageBase64(string);
+        newOptionalTour.addImageBase64(string);
     }
 
     @Override
     void onLocationMapSelected(LatLng latLng) {
-        optionalTour.setLatitude(latLng.latitude);
-        optionalTour.setLongitude(latLng.longitude);
+        newOptionalTour.setLatitude(latLng.latitude);
+        newOptionalTour.setLongitude(latLng.longitude);
     }
 
     @Override
@@ -135,23 +135,33 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
             return;
         }
 
+        if (newOptionalTour.getImagesBase64() == null || newOptionalTour.getImagesBase64().isEmpty()) {
+            Toast.makeText(this, "Please add at least one photo", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (newOptionalTour.getPrices() == null || newOptionalTour.getPrices().isEmpty()) {
+            Toast.makeText(this, "Please add at least one price", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final String id = myRef.push().getKey();
         if (TextUtils.isEmpty(id)) {
             showFailToSaveToast();
             return;
         }
 
-        optionalTour.setId(id);
-        optionalTour.setCountryId(selectedCountryId);
-        optionalTour.setType(TourType.OPTIONAL_TOUR.getCode());
-        optionalTour.setTitle(title);
-        optionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));
-        optionalTour.setDescription(UiUtil.getString(edtTourDescription));
+        newOptionalTour.setId(id);
+        newOptionalTour.setCountryId(selectedCountryId);
+        newOptionalTour.setType(TourType.OPTIONAL_TOUR.getCode());
+        newOptionalTour.setTitle(title);
+        newOptionalTour.setSubTitle(UiUtil.getString(edtTourSubTitle));
+        newOptionalTour.setDescription(UiUtil.getString(edtTourDescription));
 
         // Saving to firebase
         progressDialog.show();
-        myRef.child(optionalTour.getId())
-                .setValue(optionalTour).addOnCompleteListener(new OnCompleteListener<Void>() {
+        myRef.child(newOptionalTour.getId())
+                .setValue(newOptionalTour).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 progressDialog.dismiss();
@@ -200,8 +210,8 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(NewOptionalTourActivity.this, MapsActivity.class);
-                i.putExtra(MapsActivity.PARAM_LAT, optionalTour.getLatitude());
-                i.putExtra(MapsActivity.PARAM_LNG, optionalTour.getLongitude());
+                i.putExtra(MapsActivity.PARAM_LAT, newOptionalTour.getLatitude());
+                i.putExtra(MapsActivity.PARAM_LNG, newOptionalTour.getLongitude());
                 i.putExtra(MapsActivity.PARAM_SET_LONG_CLICK_LISTENER, true);
                 startActivityForResult(
                         i,

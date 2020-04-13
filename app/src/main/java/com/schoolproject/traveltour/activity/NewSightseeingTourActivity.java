@@ -30,7 +30,7 @@ import com.schoolproject.traveltour.utils.UiUtil;
 import java.util.ArrayList;
 
 public class NewSightseeingTourActivity extends BaseNewTourActivity {
-    private SightSeeingTour sightSeeingTour;
+    private SightSeeingTour newSightSeeingTour;
 
     private LinearLayout layoutItinerary, layoutNote, layoutPrice, layoutServices, layoutExcludes, layoutThingsToNote;
     private Button btnAddItinerary, btnAddNote, btnAddPrice, btnAddServices, btnAddExcludes, btnAddThingsToNote;
@@ -42,7 +42,7 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
 
         setHomeBackButtonAndToolbarTitle(getString(R.string.add_sightseeing_tour));
 
-        sightSeeingTour = new SightSeeingTour();
+        newSightSeeingTour = new SightSeeingTour();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference(Constants.TABLE_NAME_TOUR);
@@ -66,10 +66,10 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
 
             switch (requestCode) {
                 case Constants.REQUEST_CODE_ITINERARY: {
-                    if (sightSeeingTour.getItinerary() == null) {
-                        sightSeeingTour.setItinerary(new ArrayList<String>());
+                    if (newSightSeeingTour.getItinerary() == null) {
+                        newSightSeeingTour.setItinerary(new ArrayList<String>());
                     }
-                    sightSeeingTour.getItinerary().add(description);
+                    newSightSeeingTour.getItinerary().add(description);
                     DataSet.setUpStringValuesInParent(this,
                             layoutItinerary,
                             description,
@@ -78,16 +78,16 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             new DataSet.OnClearClickListener() {
                                 @Override
                                 public void onClear() {
-                                    sightSeeingTour.getItinerary().remove(description);
+                                    newSightSeeingTour.getItinerary().remove(description);
                                 }
                             });
                     break;
                 }
                 case Constants.REQUEST_CODE_NOTE: {
-                    if (sightSeeingTour.getNoteList() == null) {
-                        sightSeeingTour.setNoteList(new ArrayList<String>());
+                    if (newSightSeeingTour.getNoteList() == null) {
+                        newSightSeeingTour.setNoteList(new ArrayList<String>());
                     }
-                    sightSeeingTour.getNoteList().add(description);
+                    newSightSeeingTour.getNoteList().add(description);
                     DataSet.setUpStringValuesInParent(this,
                             layoutNote,
                             description,
@@ -96,17 +96,17 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             new DataSet.OnClearClickListener() {
                                 @Override
                                 public void onClear() {
-                                    sightSeeingTour.getNoteList().remove(description);
+                                    newSightSeeingTour.getNoteList().remove(description);
                                 }
                             });
                     break;
                 }
                 case Constants.REQUEST_CODE_PRICE: {
-                    if (sightSeeingTour.getPrice() == null) {
-                        sightSeeingTour.setPrice(new ArrayList<TitleAndDescription>());
+                    if (newSightSeeingTour.getPrice() == null) {
+                        newSightSeeingTour.setPrice(new ArrayList<TitleAndDescription>());
                     }
                     final TitleAndDescription titleAndDescription = new TitleAndDescription(title, description);
-                    sightSeeingTour.getPrice().add(titleAndDescription);
+                    newSightSeeingTour.getPrice().add(titleAndDescription);
                     DataSet.setUpTitleAndDescriptionValuesInParent(this,
                             layoutPrice,
                             titleAndDescription,
@@ -114,16 +114,16 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             new DataSet.OnClearClickListener() {
                                 @Override
                                 public void onClear() {
-                                    sightSeeingTour.getPrice().remove(titleAndDescription);
+                                    newSightSeeingTour.getPrice().remove(titleAndDescription);
                                 }
                             });
                     break;
                 }
                 case Constants.REQUEST_CODE_SERVICES: {
-                    if (sightSeeingTour.getInclude() == null) {
-                        sightSeeingTour.setInclude(new ArrayList<String>());
+                    if (newSightSeeingTour.getInclude() == null) {
+                        newSightSeeingTour.setInclude(new ArrayList<String>());
                     }
-                    sightSeeingTour.getInclude().add(description);
+                    newSightSeeingTour.getInclude().add(description);
                     DataSet.setUpStringValuesInParent(this,
                             layoutServices,
                             description,
@@ -132,16 +132,16 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             new DataSet.OnClearClickListener() {
                                 @Override
                                 public void onClear() {
-                                    sightSeeingTour.getInclude().remove(description);
+                                    newSightSeeingTour.getInclude().remove(description);
                                 }
                             });
                     break;
                 }
                 case Constants.REQUEST_CODE_EXCLUDES: {
-                    if (sightSeeingTour.getExclude() == null) {
-                        sightSeeingTour.setExclude(new ArrayList<String>());
+                    if (newSightSeeingTour.getExclude() == null) {
+                        newSightSeeingTour.setExclude(new ArrayList<String>());
                     }
-                    sightSeeingTour.getExclude().add(description);
+                    newSightSeeingTour.getExclude().add(description);
                     DataSet.setUpStringValuesInParent(this,
                             layoutExcludes,
                             description,
@@ -150,16 +150,16 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             new DataSet.OnClearClickListener() {
                                 @Override
                                 public void onClear() {
-                                    sightSeeingTour.getExclude().remove(description);
+                                    newSightSeeingTour.getExclude().remove(description);
                                 }
                             });
                     break;
                 }
                 case Constants.REQUEST_CODE_THINGS_TO_NOTE: {
-                    if (sightSeeingTour.getThingsToNote() == null) {
-                        sightSeeingTour.setThingsToNote(new ArrayList<String>());
+                    if (newSightSeeingTour.getThingsToNote() == null) {
+                        newSightSeeingTour.setThingsToNote(new ArrayList<String>());
                     }
-                    sightSeeingTour.getThingsToNote().add(description);
+                    newSightSeeingTour.getThingsToNote().add(description);
                     DataSet.setUpStringValuesInParent(this,
                             layoutThingsToNote,
                             description,
@@ -168,7 +168,7 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             new DataSet.OnClearClickListener() {
                                 @Override
                                 public void onClear() {
-                                    sightSeeingTour.getThingsToNote().remove(description);
+                                    newSightSeeingTour.getThingsToNote().remove(description);
                                 }
                             });
                     break;
@@ -178,7 +178,7 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                             this,
                             data));
                     imageView.setImageBitmap(bm);
-                    sightSeeingTour.addImageBase64(BitmapUtil.bitmapToBase64String(bm));
+                    newSightSeeingTour.addImageBase64(BitmapUtil.bitmapToBase64String(bm));
                     break;
                 }
             }
@@ -187,13 +187,13 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
 
     @Override
     void addImageBase64(String string) {
-        sightSeeingTour.addImageBase64(string);
+        newSightSeeingTour.addImageBase64(string);
     }
 
     @Override
     void onLocationMapSelected(LatLng latLng) {
-        sightSeeingTour.setLatitude(latLng.latitude);
-        sightSeeingTour.setLongitude(latLng.longitude);
+        newSightSeeingTour.setLatitude(latLng.latitude);
+        newSightSeeingTour.setLongitude(latLng.longitude);
     }
 
     @Override
@@ -205,21 +205,31 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
             return;
         }
 
+        if (newSightSeeingTour.getImagesBase64() == null || newSightSeeingTour.getImagesBase64().isEmpty()) {
+            Toast.makeText(this, "Please add at least one photo", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (newSightSeeingTour.getPrice() == null || newSightSeeingTour.getPrice().isEmpty()) {
+            Toast.makeText(this, "Please add at least one price", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         final String id = myRef.push().getKey();
         if (TextUtils.isEmpty(id)) {
             showFailToSaveToast();
             return;
         }
 
-        sightSeeingTour.setId(id);
-        sightSeeingTour.setCountryId(selectedCountryId);
-        sightSeeingTour.setType(TourType.SIGHTSEEING_TOUR.getCode());
-        sightSeeingTour.setTitle(title);
+        newSightSeeingTour.setId(id);
+        newSightSeeingTour.setCountryId(selectedCountryId);
+        newSightSeeingTour.setType(TourType.SIGHTSEEING_TOUR.getCode());
+        newSightSeeingTour.setTitle(title);
 
         // Saving to firebase
         progressDialog.show();
-        myRef.child(sightSeeingTour.getId())
-                .setValue(sightSeeingTour).addOnCompleteListener(new OnCompleteListener<Void>() {
+        myRef.child(newSightSeeingTour.getId())
+                .setValue(newSightSeeingTour).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 progressDialog.dismiss();
@@ -298,8 +308,8 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(NewSightseeingTourActivity.this, MapsActivity.class);
-                i.putExtra(MapsActivity.PARAM_LAT, sightSeeingTour.getLatitude());
-                i.putExtra(MapsActivity.PARAM_LNG, sightSeeingTour.getLongitude());
+                i.putExtra(MapsActivity.PARAM_LAT, newSightSeeingTour.getLatitude());
+                i.putExtra(MapsActivity.PARAM_LNG, newSightSeeingTour.getLongitude());
                 i.putExtra(MapsActivity.PARAM_SET_LONG_CLICK_LISTENER, true);
                 startActivityForResult(
                         i,
