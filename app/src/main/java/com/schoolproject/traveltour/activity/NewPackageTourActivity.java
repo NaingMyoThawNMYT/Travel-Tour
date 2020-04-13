@@ -43,13 +43,22 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
 
         setHomeBackButtonAndToolbarTitle(getString(R.string.add_package_tour));
 
-        newPackageTour = new PackageTour();
+        Bundle b = getIntent().getExtras();
+        if (b != null && b.getBoolean(PARAM_TOUR)) {
+            newPackageTour = (PackageTour) TourListActivity.selectedTour;
+        } else {
+            newPackageTour = new PackageTour();
+        }
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference(Constants.TABLE_NAME_TOUR);
 
         initUI();
         initListener();
+
+        if (!TextUtils.isEmpty(newPackageTour.getId())) {
+            fillForms();
+        }
     }
 
     @Override
@@ -313,5 +322,83 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
         });
 
         initSpinnerListener();
+    }
+
+    private void fillForms() {
+        setSelectedCountry(newPackageTour.getCountryId());
+
+        edtTourTitle.setText(newPackageTour.getTitle());
+
+        setupImageViews(newPackageTour.getImagesBase64());
+
+        if (newPackageTour.getLatitude() != 0 || newPackageTour.getLongitude() != 0) {
+            checkLocationPicker();
+        }
+
+        if (newPackageTour.getPrice() != null) {
+            for (int i = 0; i < newPackageTour.getPrice().size(); i++) {
+                final TitleAndDescription titleAndDescription = newPackageTour.getPrice().get(i);
+                DataSet.setUpTitleAndDescriptionValuesInParent(this,
+                        layoutPrice,
+                        titleAndDescription,
+                        padding,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newPackageTour.getPrice().remove(titleAndDescription);
+                            }
+                        });
+            }
+        }
+
+        if (newPackageTour.getBrief() != null) {
+            for (int i = 0; i < newPackageTour.getBrief().size(); i++) {
+                final TitleAndDescription titleAndDescription = newPackageTour.getBrief().get(i);
+                DataSet.setUpTitleAndDescriptionValuesInParent(this,
+                        layoutItinerary,
+                        titleAndDescription,
+                        padding,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newPackageTour.getBrief().remove(titleAndDescription);
+                            }
+                        });
+            }
+        }
+
+        if (newPackageTour.getInclude() != null) {
+            for (int i = 0; i < newPackageTour.getInclude().size(); i++) {
+                final String description = newPackageTour.getInclude().get(i);
+                DataSet.setUpStringValuesInParent(this,
+                        layoutPackageInclude,
+                        description,
+                        padding,
+                        0,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newPackageTour.getInclude().remove(description);
+                            }
+                        });
+            }
+        }
+
+        if (newPackageTour.getNotInclude() != null) {
+            for (int i = 0; i < newPackageTour.getNotInclude().size(); i++) {
+                final String description = newPackageTour.getNotInclude().get(i);
+                DataSet.setUpStringValuesInParent(this,
+                        layoutPackageNotInclude,
+                        description,
+                        padding,
+                        0,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newPackageTour.getNotInclude().remove(description);
+                            }
+                        });
+            }
+        }
     }
 }

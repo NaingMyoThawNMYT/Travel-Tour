@@ -42,13 +42,22 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
 
         setHomeBackButtonAndToolbarTitle(getString(R.string.add_sightseeing_tour));
 
-        newSightSeeingTour = new SightSeeingTour();
+        Bundle b = getIntent().getExtras();
+        if (b != null && b.getBoolean(PARAM_TOUR)) {
+            newSightSeeingTour = (SightSeeingTour) TourListActivity.selectedTour;
+        } else {
+            newSightSeeingTour = new SightSeeingTour();
+        }
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         myRef = database.getReference(Constants.TABLE_NAME_TOUR);
 
         initUI();
         initListener();
+
+        if (!TextUtils.isEmpty(newSightSeeingTour.getId())) {
+            fillForms();
+        }
     }
 
     @Override
@@ -381,5 +390,118 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         });
 
         initSpinnerListener();
+    }
+
+    private void fillForms() {
+        setSelectedCountry(newSightSeeingTour.getCountryId());
+
+        edtTourTitle.setText(newSightSeeingTour.getTitle());
+
+        setupImageViews(newSightSeeingTour.getImagesBase64());
+
+        if (newSightSeeingTour.getLatitude() != 0 || newSightSeeingTour.getLongitude() != 0) {
+            checkLocationPicker();
+        }
+
+        if (newSightSeeingTour.getItinerary() != null) {
+            for (int i = 0; i < newSightSeeingTour.getItinerary().size(); i++) {
+                final String description = newSightSeeingTour.getItinerary().get(i);
+                DataSet.setUpStringValuesInParent(this,
+                        layoutItinerary,
+                        description,
+                        padding,
+                        0,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newSightSeeingTour.getItinerary().remove(description);
+                            }
+                        });
+            }
+        }
+
+        if (newSightSeeingTour.getNoteList() != null) {
+            for (int i = 0; i < newSightSeeingTour.getNoteList().size(); i++) {
+                final String description = newSightSeeingTour.getNoteList().get(i);
+                DataSet.setUpStringValuesInParent(this,
+                        layoutNote,
+                        description,
+                        padding,
+                        0,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newSightSeeingTour.getNoteList().remove(description);
+                            }
+                        });
+            }
+        }
+
+        if (newSightSeeingTour.getPrice() != null) {
+            for (int i = 0; i < newSightSeeingTour.getPrice().size(); i++) {
+                final TitleAndDescription titleAndDescription = newSightSeeingTour.getPrice().get(i);
+                DataSet.setUpTitleAndDescriptionValuesInParent(this,
+                        layoutPrice,
+                        titleAndDescription,
+                        padding,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newSightSeeingTour.getPrice().remove(titleAndDescription);
+                            }
+                        });
+            }
+        }
+
+        if (newSightSeeingTour.getInclude() != null) {
+            for (int i = 0; i < newSightSeeingTour.getInclude().size(); i++) {
+                final String description = newSightSeeingTour.getInclude().get(i);
+                DataSet.setUpStringValuesInParent(this,
+                        layoutServices,
+                        description,
+                        padding,
+                        0,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newSightSeeingTour.getInclude().remove(description);
+                            }
+                        });
+            }
+        }
+
+        if (newSightSeeingTour.getExclude() != null) {
+            for (int i = 0; i < newSightSeeingTour.getExclude().size(); i++) {
+                final String description = newSightSeeingTour.getExclude().get(i);
+                DataSet.setUpStringValuesInParent(this,
+                        layoutExcludes,
+                        description,
+                        padding,
+                        0,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newSightSeeingTour.getExclude().remove(description);
+                            }
+                        });
+            }
+        }
+
+        if (newSightSeeingTour.getThingsToNote() != null) {
+            for (int i = 0; i < newSightSeeingTour.getThingsToNote().size(); i++) {
+                final String description = newSightSeeingTour.getThingsToNote().get(i);
+                DataSet.setUpStringValuesInParent(this,
+                        layoutThingsToNote,
+                        description,
+                        padding,
+                        0,
+                        new DataSet.OnClearClickListener() {
+                            @Override
+                            public void onClear() {
+                                newSightSeeingTour.getThingsToNote().remove(description);
+                            }
+                        });
+            }
+        }
     }
 }
