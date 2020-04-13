@@ -33,6 +33,7 @@ import com.schoolproject.traveltour.model.Country;
 import com.schoolproject.traveltour.model.WishList;
 import com.schoolproject.traveltour.utils.Constants;
 import com.schoolproject.traveltour.utils.DataSet;
+import com.schoolproject.traveltour.utils.DialogUtil;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -179,15 +180,26 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onLongClick(Country country) {
+            public void onLongClick(final Country country) {
                 if (DataSet.isAdmin) {
-                    if (DataSet.hasChild(country.getId())) {
-                        Toast.makeText(MainActivity.this,
-                                "Please delete " + country.getName() + "'s tours first!",
-                                Toast.LENGTH_SHORT).show();
-                    } else {
-                        showDeleteConfirmDialog(country);
-                    }
+                    DialogUtil.showEditOrDeleteOptionDialog(MainActivity.this,
+                            new DialogUtil.EditOrDeleteCallback() {
+                                @Override
+                                public void edit() {
+                                    // TODO: 4/13/2020 go to editor page
+                                }
+
+                                @Override
+                                public void delete() {
+                                    if (DataSet.hasChild(country.getId())) {
+                                        Toast.makeText(MainActivity.this,
+                                                "Please delete " + country.getName() + "'s tours first!",
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        showDeleteConfirmDialog(country);
+                                    }
+                                }
+                            });
                 }
             }
         });
