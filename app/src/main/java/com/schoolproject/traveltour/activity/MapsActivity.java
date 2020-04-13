@@ -1,8 +1,15 @@
 package com.schoolproject.traveltour.activity;
 
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -14,7 +21,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.schoolproject.traveltour.R;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
+        LocationListener {
     public static final String PARAM_LAT = "PARAM_LAT";
     public static final String PARAM_LNG = "PARAM_LNG";
     public static final String PARAM_TITLE = "PARAM_TITLE";
@@ -24,6 +32,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private double lat, lng;
     private String title;
     private boolean setLongClickListener;
+    private LatLng location;
+    private float zoom;
+
+    private GoogleMap googleMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +64,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng location;
-        float zoom;
+        this.googleMap = googleMap;
+
+        boolean useCurrentLocation = false;
+
         if (lat != 0 && lng != 0) {
             // Add a marker in location and move the camera with zoom in animation
             location = new LatLng(lat, lng);
@@ -61,15 +75,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             // Add a default marker in location(Shwe Dagon Pagoda)
             // and move the camera with zoom in animation
-            location = new LatLng(16.798625, 96.149513);
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (locationManager != null &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                useCurrentLocation = true;
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            } else {
+                location = new LatLng(16.798625, 96.149513);
+            }
             zoom = 12.0f;
         }
 
-        googleMap.addMarker(new MarkerOptions().position(location).title(title));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoom));
+        if (!useCurrentLocation) {
+            showLocationOnMap();
+        }
 
         if (setLongClickListener) {
-            googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            this.googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
                 @Override
                 public void onMapLongClick(LatLng latLng) {
                     Intent i = new Intent();
@@ -79,5 +102,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        this.location = new LatLng(location.getLatitude(), location.getLongitude());
+        showLocationOnMap();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
+    }
+
+    private void showLocationOnMap() {
+        this.googleMap.addMarker(new MarkerOptions().position(location).title(title));
+        this.googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, zoom));
     }
 }
