@@ -29,6 +29,8 @@ public class CountryEditActivity extends BaseSecondActivity {
 
     private Country country;
 
+    private DatabaseReference myRef;
+
     private EditText edtCountryName;
     private ImageView img;
     private ProgressDialog progressDialog;
@@ -70,6 +72,9 @@ public class CountryEditActivity extends BaseSecondActivity {
                         Constants.REQUEST_CODE_IMAGE_PICKER);
             }
         });
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        myRef = database.getReference(Constants.TABLE_NAME_COUNTRY);
     }
 
     @Override
@@ -81,7 +86,7 @@ public class CountryEditActivity extends BaseSecondActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_save) {
-            saveCountry();
+            addOrUpdateCountry();
             return true;
         }
 
@@ -103,6 +108,28 @@ public class CountryEditActivity extends BaseSecondActivity {
         }
     }
 
+    private void addOrUpdateCountry() {
+        if (TextUtils.isEmpty(country.getId())) {
+            // new
+            saveNewCountry();
+        } else {
+            // update
+            saveCountry();
+        }
+    }
+
+    private void saveNewCountry() {
+        final String id = myRef.push().getKey();
+        if (TextUtils.isEmpty(id)) {
+            showFailToSaveToast();
+            return;
+        }
+
+        country.setId(id);
+
+        saveCountry();
+    }
+
     private void saveCountry() {
         String countryName = edtCountryName.getText().toString().trim();
         if (TextUtils.isEmpty(countryName)) {
@@ -115,16 +142,6 @@ public class CountryEditActivity extends BaseSecondActivity {
             return;
         }
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference(Constants.TABLE_NAME_COUNTRY);
-
-        final String id = myRef.push().getKey();
-        if (TextUtils.isEmpty(id)) {
-            showFailToSaveToast();
-            return;
-        }
-
-        country.setId(id);
         country.setName(countryName);
 
         progressDialog.show();

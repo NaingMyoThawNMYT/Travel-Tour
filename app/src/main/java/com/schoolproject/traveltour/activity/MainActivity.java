@@ -186,7 +186,9 @@ public class MainActivity extends AppCompatActivity {
                             new DialogUtil.EditOrDeleteCallback() {
                                 @Override
                                 public void edit() {
-                                    // TODO: 4/13/2020 go to editor page
+                                    Intent i = new Intent(MainActivity.this, CountryEditActivity.class);
+                                    i.putExtra(CountryEditActivity.PARAM_COUNTRY, country);
+                                    startActivity(i);
                                 }
 
                                 @Override
