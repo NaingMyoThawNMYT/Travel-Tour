@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +34,6 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
 
     private LinearLayout layoutItinerary, layoutNote, layoutPrice, layoutServices, layoutExcludes, layoutThingsToNote;
     private Button btnAddItinerary, btnAddNote, btnAddPrice, btnAddServices, btnAddExcludes, btnAddThingsToNote;
-    private ImageView imageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,6 +186,11 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
     }
 
     @Override
+    void addImageBase64(String string) {
+        sightSeeingTour.addImageBase64(string);
+    }
+
+    @Override
     void onLocationMapSelected(LatLng latLng) {
         sightSeeingTour.setLatitude(latLng.latitude);
         sightSeeingTour.setLongitude(latLng.longitude);
@@ -285,6 +288,8 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
         imageView = findViewById(R.id.img_background);
 
         initAddMapUI();
+
+        initImagePickers();
     }
 
     private void initAddMapUI() {

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,7 +35,6 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
 
     private LinearLayout layoutBenefits, layoutPrice;
     private Button btnAddBenefits, btnAddPrice;
-    private ImageView imageView;
     private TextInputEditText edtTourSubTitle, edtTourDescription;
 
     @Override
@@ -118,6 +116,11 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
     }
 
     @Override
+    void addImageBase64(String string) {
+        optionalTour.addImageBase64(string);
+    }
+
+    @Override
     void onLocationMapSelected(LatLng latLng) {
         optionalTour.setLatitude(latLng.latitude);
         optionalTour.setLongitude(latLng.longitude);
@@ -187,6 +190,8 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
         edtTourDescription = findViewById(R.id.edt_tour_description);
 
         initAddMapUI();
+
+        initImagePickers();
     }
 
     private void initAddMapUI() {

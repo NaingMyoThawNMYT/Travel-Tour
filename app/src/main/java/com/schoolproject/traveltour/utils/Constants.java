@@ -11,6 +11,9 @@ public class Constants {
     public static final int REQUEST_CODE_THINGS_TO_NOTE = 107;
     public static final int REQUEST_CODE_PACKAGE_INCLUDE = 108;
     public static final int REQUEST_CODE_PACKAGE_NOT_INCLUDE = 109;
+    public static final int REQUEST_CODE_IMAGE_PICKER_1 = 110;
+    public static final int REQUEST_CODE_IMAGE_PICKER_2 = 111;
+    public static final int REQUEST_CODE_IMAGE_PICKER_3 = 112;
 
     public static final String TABLE_NAME_COUNTRY = "table_country";
     public static final String TABLE_NAME_TOUR = "table_tour";
