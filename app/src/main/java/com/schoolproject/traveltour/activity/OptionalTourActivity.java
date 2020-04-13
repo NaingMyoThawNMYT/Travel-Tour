@@ -51,24 +51,11 @@ public class OptionalTourActivity extends MainTourActivity {
             parent.addView(titleNote);
         }
 
-// TODO: 4/12/2020 create image array ui
-//        if (!TextUtils.isEmpty(optionalTour.getBase64ImageStr())) {
-//            View parentViewGroup = LayoutInflater.from(this)
-//                    .inflate(R.layout.image_view, parent, false);
-//            parentViewGroup.findViewById(R.id.location).setVisibility(View.GONE);
-//            ImageView img = parentViewGroup.findViewById(R.id.img_background);
-//            img.setImageBitmap(BitmapUtil.base64StringToBitmap(optionalTour.getBase64ImageStr()));
-//            img.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    goToMapActivity(optionalTour.getTitle(),
-//                            optionalTour.getLatitude(),
-//                            optionalTour.getLongitude());
-//                }
-//            });
-//            parentViewGroup.findViewById(R.id.img_add).setVisibility(View.GONE);
-//            parent.addView(parentViewGroup);
-//        }
+        setupImageViews(parent,
+                optionalTour.getImagesBase64(),
+                optionalTour.getTitle(),
+                optionalTour.getLatitude(),
+                optionalTour.getLongitude());
 
         if (!TextUtils.isEmpty(optionalTour.getDescription())) {
             TextView description = new TextView(this);
