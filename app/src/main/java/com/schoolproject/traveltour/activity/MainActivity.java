@@ -118,9 +118,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-        if (DataSet.isAdmin) {
-            menu.findItem(R.id.action_invoice).setVisible(true);
-        }
         return true;
     }
 

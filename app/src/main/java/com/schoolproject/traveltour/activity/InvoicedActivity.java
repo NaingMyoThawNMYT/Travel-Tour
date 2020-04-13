@@ -13,6 +13,8 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -22,6 +24,7 @@ import com.schoolproject.traveltour.R;
 import com.schoolproject.traveltour.adapter.InvoicedAdapter;
 import com.schoolproject.traveltour.model.Booking;
 import com.schoolproject.traveltour.utils.Constants;
+import com.schoolproject.traveltour.utils.DataSet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +34,42 @@ public class InvoicedActivity extends BaseSecondActivity {
     private DatabaseReference myRef;
 
     private ProgressDialog progressDialog;
+
+    private ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            progressDialog.dismiss();
+
+            final List<Booking> invoicedList = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Booking invoiced = new Booking();
+                invoiced.parse((Map<String, Object>) snapshot.getValue());
+                invoicedList.add(invoiced);
+            }
+
+            RecyclerView rv = findViewById(R.id.rv);
+            InvoicedAdapter adapter = new InvoicedAdapter(invoicedList,
+                    new InvoicedAdapter.OnClickListener() {
+                        @Override
+                        public void onClick(Booking booking) {
+                            showInvoiceDetails(booking);
+                        }
+
+                        @Override
+                        public void onLongClick(Booking booking) {
+                            if (DataSet.isAdmin) {
+                                showDeleteConfirmDialog(InvoicedActivity.this, booking);
+                            }
+                        }
+                    });
+            rv.setAdapter(adapter);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+            progressDialog.dismiss();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,39 +86,22 @@ public class InvoicedActivity extends BaseSecondActivity {
                 .getReference(Constants.TABLE_NAME_BOOKING);
 
         progressDialog.show();
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                progressDialog.dismiss();
+        if (DataSet.isAdmin) {
+            myRef.addValueEventListener(valueEventListener);
+        } else {
+            FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser currentUser = mAuth.getCurrentUser();
 
-                final List<Booking> invoicedList = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Booking invoiced = new Booking();
-                    invoiced.parse((Map<String, Object>) snapshot.getValue());
-                    invoicedList.add(invoiced);
-                }
-
-                RecyclerView rv = findViewById(R.id.rv);
-                InvoicedAdapter adapter = new InvoicedAdapter(invoicedList,
-                        new InvoicedAdapter.OnClickListener() {
-                            @Override
-                            public void onClick(Booking booking) {
-                                showInvoiceDetails(booking);
-                            }
-
-                            @Override
-                            public void onLongClick(Booking booking) {
-                                showDeleteConfirmDialog(InvoicedActivity.this, booking);
-                            }
-                        });
-                rv.setAdapter(adapter);
+            if (currentUser == null) {
+                Toast.makeText(this, "Please sign in first", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
             }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                progressDialog.dismiss();
-            }
-        });
+            myRef.orderByChild("email")
+                    .equalTo(currentUser.getEmail())
+                    .addValueEventListener(valueEventListener);
+        }
     }
 
     private void showInvoiceDetails(Booking booking) {
