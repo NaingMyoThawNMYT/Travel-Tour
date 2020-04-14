@@ -123,7 +123,7 @@ public class Menu implements Serializable {
         }
 
         for (HashMap<String, String> map : list) {
-            resultList.add(new TitleAndDescription(map.get("title"), map.get("title")));
+            resultList.add(new TitleAndDescription(map.get("title"), map.get("description")));
         }
 
         return resultList;
