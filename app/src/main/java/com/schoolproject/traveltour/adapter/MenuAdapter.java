@@ -101,6 +101,12 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.ViewHolder> im
         };
     }
 
+    public void removeItem(Menu menu) {
+        dataSet.remove(menu);
+        filteredDataSet.remove(menu);
+        notifyDataSetChanged();
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
         private TextView title;

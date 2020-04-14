@@ -66,11 +66,31 @@ public class DataSet {
                                                               TitleAndDescription titleAndDescription,
                                                               int padding,
                                                               final OnClearClickListener onRemoveListener) {
+        boolean addedCloseBtn = false;
+
         final TextView title = new TextView(context);
         if (!TextUtils.isEmpty(titleAndDescription.getTitle())) {
             title.setPadding(padding, padding, 0, 0);
             title.setText(titleAndDescription.getTitle());
             title.setTypeface(Typeface.DEFAULT_BOLD);
+
+            if (onRemoveListener != null) {
+                addedCloseBtn = true;
+                title.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
+                        null,
+                        context.getResources().getDrawable(R.drawable.ic_close_gray_24dp),
+                        null);
+                title.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        parent.removeView(title);
+                        parent.removeView(v);
+
+                        onRemoveListener.onClear();
+                    }
+                });
+            }
+
             parent.addView(title);
         }
 
@@ -79,7 +99,7 @@ public class DataSet {
             description.setPadding(padding * 3, padding, 0, 0);
             description.setText(titleAndDescription.getDescription());
 
-            if (onRemoveListener != null) {
+            if (onRemoveListener != null && !addedCloseBtn) {
                 description.setCompoundDrawablesRelativeWithIntrinsicBounds(null,
                         null,
                         context.getResources().getDrawable(R.drawable.ic_close_gray_24dp),

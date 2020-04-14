@@ -210,7 +210,7 @@ public class TourListActivity extends AppCompatActivity {
                 .show();
     }
 
-    private void deleteMenu(Menu menu) {
+    private void deleteMenu(final Menu menu) {
         progressDialog.show();
         FirebaseDatabase.getInstance()
                 .getReference(Constants.TABLE_NAME_TOUR)
@@ -221,6 +221,7 @@ public class TourListActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         progressDialog.dismiss();
                         if (task.isSuccessful()) {
+                            menuAdapter.removeItem(menu);
                             Toast.makeText(TourListActivity.this,
                                     "Deleted successfully",
                                     Toast.LENGTH_SHORT).show();
