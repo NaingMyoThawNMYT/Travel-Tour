@@ -71,6 +71,7 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
             final String description = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_DESCRIPTION);
 
             if (requestCode != Constants.REQUEST_CODE_IMAGE_PICKER &&
+                    TextUtils.isEmpty(title) &&
                     TextUtils.isEmpty(description)) {
                 return;
             }

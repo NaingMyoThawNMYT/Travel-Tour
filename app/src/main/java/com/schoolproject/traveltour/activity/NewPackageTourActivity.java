@@ -70,6 +70,7 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             final String description = data.getStringExtra(TitleAndDescriptionActivity.EDIT_TEXT_DESCRIPTION);
 
             if (requestCode != Constants.REQUEST_CODE_IMAGE_PICKER &&
+                    TextUtils.isEmpty(title) &&
                     TextUtils.isEmpty(description)) {
                 return;
             }
@@ -189,13 +190,15 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
             return;
         }
 
-        final String id = myRef.push().getKey();
-        if (TextUtils.isEmpty(id)) {
-            showFailToSaveToast();
-            return;
+        if (TextUtils.isEmpty(newPackageTour.getId())) {
+            final String id = myRef.push().getKey();
+            if (TextUtils.isEmpty(id)) {
+                showFailToSaveToast();
+                return;
+            }
+            newPackageTour.setId(id);
         }
 
-        newPackageTour.setId(id);
         newPackageTour.setCountryId(selectedCountryId);
         newPackageTour.setType(TourType.PACKAGE_TOUR.getCode());
         newPackageTour.setTitle(title);
