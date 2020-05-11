@@ -77,6 +77,9 @@ public class NewPackageTourActivity extends BaseNewTourActivity {
 
             switch (requestCode) {
                 case Constants.REQUEST_CODE_PRICE: {
+                    if (TextUtils.isEmpty(description)) {
+                        return;
+                    }
                     if (newPackageTour.getPrice() == null) {
                         newPackageTour.setPrice(new ArrayList<TitleAndDescription>());
                     }

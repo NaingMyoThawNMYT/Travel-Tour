@@ -96,6 +96,9 @@ public class NewOptionalTourActivity extends BaseNewTourActivity {
                     break;
                 }
                 case Constants.REQUEST_CODE_PRICE: {
+                    if (TextUtils.isEmpty(description)) {
+                        return;
+                    }
                     if (newOptionalTour.getPrices() == null) {
                         newOptionalTour.setPrices(new ArrayList<TitleAndDescription>());
                     }

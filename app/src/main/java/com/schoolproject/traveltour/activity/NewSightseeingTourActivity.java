@@ -112,6 +112,9 @@ public class NewSightseeingTourActivity extends BaseNewTourActivity {
                     break;
                 }
                 case Constants.REQUEST_CODE_PRICE: {
+                    if (TextUtils.isEmpty(description)) {
+                        return;
+                    }
                     if (newSightSeeingTour.getPrice() == null) {
                         newSightSeeingTour.setPrice(new ArrayList<TitleAndDescription>());
                     }
