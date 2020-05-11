@@ -69,6 +69,7 @@ public class DataSet {
         boolean addedCloseBtn = false;
 
         final TextView title = new TextView(context);
+        final TextView description = new TextView(context);
         if (!TextUtils.isEmpty(titleAndDescription.getTitle())) {
             title.setPadding(padding, padding, 0, 0);
             title.setText(titleAndDescription.getTitle());
@@ -84,6 +85,7 @@ public class DataSet {
                     @Override
                     public void onClick(View v) {
                         parent.removeView(title);
+                        parent.removeView(description);
                         parent.removeView(v);
 
                         onRemoveListener.onClear();
@@ -95,7 +97,6 @@ public class DataSet {
         }
 
         if (!TextUtils.isEmpty(titleAndDescription.getDescription())) {
-            TextView description = new TextView(context);
             description.setPadding(padding * 3, padding, 0, 0);
             description.setText(titleAndDescription.getDescription());
 
